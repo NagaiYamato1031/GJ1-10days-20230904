@@ -4,6 +4,7 @@
 
 #include "GlobalConfigs.h"
 
+#include "SceneTitle.h"
 
 GameScene::GameScene() {}
 
@@ -15,9 +16,19 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	configs_ = GlobalConfigs::GetInstance();
+
+	// 一度すべてのシーンを取得する
+	sceneList_.clear();
+	// タイトル
+	sceneList_.emplace_back(new SceneTitle());
+
+
+	// タイトルを今のシーンに設定する
+	currentScene_ = sceneList_[Scene::kTitle].get();
+	currentScene_->Initialize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() { currentScene_->Update(); }
 
 void GameScene::Draw() {
 
@@ -31,6 +42,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	currentScene_->DrawBackdrop();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -45,6 +57,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	currentScene_->Draw3D();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -57,6 +70,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	currentScene_->DrawOverlay();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

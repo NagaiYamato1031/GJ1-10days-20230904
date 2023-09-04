@@ -19,8 +19,8 @@ void IObject::Initialize() {
 	const char* groupName = "Base";
 	configs->CreateGroup(groupName);
 
-	configs->AddItem(groupName, "sphereSize", kSphereSize);
-
+	
+	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
 	for (WorldTransform& wt : worldTransforms_) {
@@ -43,7 +43,7 @@ void IObject::AddlyAllGlobalConfigs() {
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Base";
 
-	kSphereSize = configs->GetFloatValue(groupName, "sphereSize");
+	// オーバーライドされた関数を呼び出す
 	AddlyGlobalConfigs();
 }
 

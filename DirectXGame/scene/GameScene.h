@@ -9,11 +9,27 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include <optional>
+
 #pragma region 前方宣言
 
 class GlobalConfigs;
+class IScene;
 
 #pragma endregion
+
+#pragma region Scene切り替え
+
+enum Scene {
+	kTitle, // タイトル
+	kPlay,	// プレイ
+	kEnd,	// エンド
+
+	kSceneCount,	// カウント用
+};
+
+#pragma endregion
+
 
 /// <summary>
 /// ゲームシーン
@@ -57,4 +73,12 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	
+	std::vector<std::unique_ptr<IScene>> sceneList_;
+
+	IScene* currentScene_ = nullptr;
+
+	std::optional<Scene> nextScene_ = std::nullopt;
+
+
 };

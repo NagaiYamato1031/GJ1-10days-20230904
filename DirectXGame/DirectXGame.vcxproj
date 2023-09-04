@@ -111,8 +111,10 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="GlobalConfigs.cpp" />
     <ClCompile Include="IObject.cpp" />
+    <ClCompile Include="IScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
+    <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
@@ -143,12 +145,14 @@
     <ClInclude Include="GlobalConfigs.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="IObject.h" />
+    <ClInclude Include="IScene.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="MyConst.h" />
     <ClInclude Include="Mymath.h" />
+    <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>

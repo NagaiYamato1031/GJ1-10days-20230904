@@ -7,19 +7,23 @@
 
 class GameScene;
 
+// 仮想クラス
 class IObject {
 public:
 	// 仮想関数
 	IObject();
 	virtual ~IObject();
 
-
+	// 仮想初期化関数
 	virtual void Initialize();
 
+	// 仮想更新関数
 	virtual void Update();
 
+	// 仮想描画関数
 	virtual void Draw();
 
+	// 仮想衝突検知関数
 	virtual void OnCollision();
 
 	/// <summary>
@@ -29,30 +33,34 @@ public:
 	virtual void AddlyAllGlobalConfigs();
 
 public: // ゲッターセッター
-	/// <summary>
-	/// 親となるワールドトランスフォームをセット
-	/// </summary>
-	/// <param name="parent">親となるワールドトランスフォーム</param>
+
+	// 親となるワールドトランスフォームをセット
 	void SetParent(const WorldTransform* parent) { worldTransformBase_.parent_ = parent; }
 
+	// WorldTransform を取得
 	const WorldTransform& GetWorldTransform() const { return worldTransformBase_; }
 
+	// ワールド座標を取得
 	Vector3 GetWorldPosition() const;
 
+	// ビュープロジェクションを設定
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
 	}
 
+	// ゲームシーンを設定
 	void SetGameScene(GameScene* scene);
 
 protected:
-	float kSphereSize = 1.0f;
-
+	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
 
-	std::vector<WorldTransform> worldTransforms_;
-
+	// 基点となる WorldTransform
 	WorldTransform worldTransformBase_;
 
-	const ViewProjection* viewProjection_;
+	// モデルなどを動かすための WorldTransform
+	std::vector<WorldTransform> worldTransforms_;
+
+	// カメラ
+	const ViewProjection* viewProjection_ = nullptr;
 };
