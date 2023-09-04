@@ -90,26 +90,26 @@
     <ClCompile Include="2d\ImGuiManager.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalConfigs.cpp">
-      <Filter>ソース ファイル\Config</Filter>
-    </ClCompile>
     <ClCompile Include="Mymath.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
     <ClCompile Include="WorldTransformEx.cpp">
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
-    <ClCompile Include="IObject.cpp">
+    <ClCompile Include="Config\GlobalConfigs.cpp">
+      <Filter>ソース ファイル\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\IObject.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="IScene.cpp">
+    <ClCompile Include="Objects\ObjectManager.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\IScene.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="SceneTitle.cpp">
+    <ClCompile Include="Scenes\SceneTitle.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,26 +200,26 @@
     <ClInclude Include="base\StringUtility.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalConfigs.h">
-      <Filter>ヘッダー ファイル\Config</Filter>
-    </ClInclude>
     <ClInclude Include="Mymath.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="MyConst.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
-    <ClInclude Include="IObject.h">
+    <ClInclude Include="Config\GlobalConfigs.h">
+      <Filter>ヘッダー ファイル\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\IObject.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-    <ClInclude Include="IScene.h">
+    <ClInclude Include="Objects\ObjectManager.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\IScene.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="SceneTitle.h">
+    <ClInclude Include="Scenes\SceneTitle.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

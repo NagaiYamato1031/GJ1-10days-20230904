@@ -109,13 +109,13 @@
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="GlobalConfigs.cpp" />
-    <ClCompile Include="IObject.cpp" />
-    <ClCompile Include="IScene.cpp" />
+    <ClCompile Include="Config\GlobalConfigs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="SceneTitle.cpp" />
+    <ClCompile Include="Objects\IObject.cpp" />
+    <ClCompile Include="Objects\ObjectManager.cpp" />
+    <ClCompile Include="Scenes\IScene.cpp" />
+    <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
   </ItemGroup>
@@ -143,18 +143,18 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="GlobalConfigs.h" />
+    <ClInclude Include="Config\GlobalConfigs.h" />
     <ClInclude Include="input\Input.h" />
-    <ClInclude Include="IObject.h" />
-    <ClInclude Include="IScene.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="MyConst.h" />
     <ClInclude Include="Mymath.h" />
-    <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="Objects\IObject.h" />
+    <ClInclude Include="Objects\ObjectManager.h" />
+    <ClInclude Include="Scenes\IScene.h" />
+    <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
