@@ -1,6 +1,8 @@
 #pragma once
 #include "IScene.h"
 
+#include "ObjectManager.h"
+
 class SceneTitle : public IScene {
 public:
 
@@ -17,7 +19,5 @@ public:
 
 private:
 	// シーン内の変数
-
-
 
 };

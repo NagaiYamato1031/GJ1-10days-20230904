@@ -1,4 +1,11 @@
 #pragma once
+
+#include <list>
+#include <memory>
+
+#include "ObjectManager.h"
+
+
 class IScene {
 public:
 	// 仮想関数
@@ -18,4 +25,10 @@ public:
 	virtual void Draw3D() = 0;
 	// 前景スプライト
 	virtual void DrawOverlay() = 0;
+
+protected:
+
+	// オブジェクト管理
+	ObjectManager* objectManager_ = nullptr;
+
 };

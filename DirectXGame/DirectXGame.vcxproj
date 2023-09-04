@@ -114,6 +114,7 @@
     <ClCompile Include="IScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="MyConst.h" />
     <ClInclude Include="Mymath.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>

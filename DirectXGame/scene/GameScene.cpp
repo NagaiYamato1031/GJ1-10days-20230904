@@ -16,11 +16,26 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	configs_ = GlobalConfigs::GetInstance();
+	
+	// ゲームシーン内で初期化
+	ObjectManager* objectManager = 	ObjectManager::GetInstance();
+	objectManager->Initialize();
+
+	// スプライト読み込み
+	// 名前 ： パス
+	objectManager->LoadTexture("white1x1", "white1x1.png");
+
 
 	// 一度すべてのシーンを取得する
 	sceneList_.clear();
+
 	// タイトル
 	sceneList_.emplace_back(new SceneTitle());
+	// プレイ
+	//sceneList_.emplace_back(new ScenePlay());
+	// エンド
+	//sceneList_.emplace_back(new SceneEnd());
+
 
 
 	// タイトルを今のシーンに設定する
