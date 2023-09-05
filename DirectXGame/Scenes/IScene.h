@@ -3,7 +3,7 @@
 #include <list>
 #include <memory>
 
-#include "ObjectManager.h"
+#include "./Objects/ObjectManager.h"
 
 
 class IScene {

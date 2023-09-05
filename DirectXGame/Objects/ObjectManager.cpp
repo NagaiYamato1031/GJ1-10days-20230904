@@ -15,7 +15,7 @@ void ObjectManager::Initialize() {
 
 	spriteDatas_.clear();
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚Ş
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚€
 	//AddTexture("white1x1.png", "white1x1.png");
 }
 
@@ -58,10 +58,10 @@ void ObjectManager::LoadTexture(const std::string& name, const std::string& path
 	if (name == "" || path == "") {
 		return;
 	}
-	// –¼‘O‚ğ“o˜^
+	// åå‰ã‚’ç™»éŒ²
 	textureDatas_[name] = path;
 
-	// ƒXƒvƒ‰ƒCƒg‚à“o˜^
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚‚ç™»éŒ²
 	uint32_t textureHandle = TextureManager::Load(path);
 	spriteDatas_[name].reset(Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
 }
@@ -75,7 +75,7 @@ void ObjectManager::SetSpritePosition(const std::string& name, const Vector2& po
 
 Sprite* const ObjectManager::GetSprite(const std::string& name) {
 	if (!textureDatas_.contains(name)) {
-		return;
+		return nullptr;
 	}
 	return spriteDatas_[textureDatas_[name]].get();
 }

@@ -2,9 +2,9 @@
 #include "TextureManager.h"
 #include <cassert>
 
-#include "GlobalConfigs.h"
+#include "./Config/GlobalConfigs.h"
 
-#include "SceneTitle.h"
+#include "./Scenes/SceneTitle.h"
 
 GameScene::GameScene() {}
 

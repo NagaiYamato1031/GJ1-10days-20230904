@@ -1,7 +1,7 @@
 #pragma once
 #include "IScene.h"
 
-#include "ObjectManager.h"
+#include "./Objects/ObjectManager.h"
 
 class SceneTitle : public IScene {
 public:

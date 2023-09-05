@@ -1,7 +1,7 @@
 #include "IObject.h"
 #include "GameScene.h"
 
-#include "GlobalConfigs.h"
+#include "./Config/GlobalConfigs.h"
 #include "Mymath.h"
 
 IObject::IObject() {
@@ -42,6 +42,11 @@ void IObject::OnCollision() {}
 void IObject::AddlyAllGlobalConfigs() {
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Base";
+
+	// オブジェクト内で共通する設定を読み込む
+	configs;
+	groupName;
+
 
 	// オーバーライドされた関数を呼び出す
 	AddlyGlobalConfigs();

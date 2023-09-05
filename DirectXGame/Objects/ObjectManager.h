@@ -3,7 +3,7 @@
 #include <map>
 #include <memory>
 
-#include "IObject.h"
+#include "./Objects/IObject.h"
 #include "Sprite.h"
 
 #pragma region ObjType
