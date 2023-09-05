@@ -14,6 +14,7 @@ IObject::~IObject() {}
 void IObject::Initialize() {
 	worldTransformBase_.Initialize();
 	worldTransforms_.clear();
+	textureName_.clear();
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Base";
@@ -65,3 +66,5 @@ Vector3 IObject::GetWorldPosition() const {
 }
 
 void IObject::SetGameScene(GameScene* scene) { gameScene_ = scene; }
+
+void IObject::SetTextureName(const std::string& name) { textureName_.push_back(name); }

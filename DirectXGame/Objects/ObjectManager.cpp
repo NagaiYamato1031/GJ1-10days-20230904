@@ -16,7 +16,7 @@ void ObjectManager::Initialize() {
 	spriteDatas_.clear();
 
 	// テクスチャを読み込む
-	//AddTexture("white1x1.png", "white1x1.png");
+	// AddTexture("white1x1.png", "white1x1.png");
 }
 
 void ObjectManager::Update() {
@@ -39,11 +39,11 @@ void ObjectManager::DrawSprite(const std::string& name) {
 	if (!textureDatas_.contains(name)) {
 		return;
 	}
-	spriteDatas_[textureDatas_[name]]->Draw();
+	spriteDatas_[name]->Draw();
 }
 
 void ObjectManager::AddObject(OBJType type, IObject* object) {
-	if (!objDatas_.contains(type)) {
+	if (objDatas_.contains(type)) {
 		objDatas_[type].emplace_back(object);
 	}
 }
@@ -66,16 +66,35 @@ void ObjectManager::LoadTexture(const std::string& name, const std::string& path
 	spriteDatas_[name].reset(Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
 }
 
+void ObjectManager::LoadTexture(const std::string& name, const std::string& path, OBJType type) {
+	if (name == "" || path == "") {
+		return;
+	}
+	if (!objDatas_.contains(type)) {
+		return;
+	}
+
+	// 名前を登録
+	textureDatas_[name] = path;
+
+	// スプライトも登録
+	uint32_t textureHandle = TextureManager::Load(path);
+	spriteDatas_[name].reset(Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+	for (auto& object : objDatas_[type]) {
+		object->SetTextureName(name);
+	}
+}
+
 void ObjectManager::SetSpritePosition(const std::string& name, const Vector2& position) {
 	if (!textureDatas_.contains(name)) {
 		return;
 	}
-	spriteDatas_[textureDatas_[name]]->SetPosition(position);
+	spriteDatas_[name]->SetPosition(position);
 }
 
 Sprite* const ObjectManager::GetSprite(const std::string& name) {
 	if (!textureDatas_.contains(name)) {
 		return nullptr;
 	}
-	return spriteDatas_[textureDatas_[name]].get();
+	return spriteDatas_[name].get();
 }

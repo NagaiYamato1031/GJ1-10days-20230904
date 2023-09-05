@@ -3,7 +3,7 @@
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include <vector>
-
+#include <string>
 
 class GameScene;
 
@@ -33,7 +33,6 @@ public:
 	virtual void AddlyAllGlobalConfigs();
 
 public: // ゲッターセッター
-
 	// 親となるワールドトランスフォームをセット
 	void SetParent(const WorldTransform* parent) { worldTransformBase_.parent_ = parent; }
 
@@ -51,6 +50,10 @@ public: // ゲッターセッター
 	// ゲームシーンを設定
 	void SetGameScene(GameScene* scene);
 
+	// テクスチャ登録
+	void SetTextureName(const std::string& name);
+
+
 protected:
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
@@ -60,6 +63,10 @@ protected:
 
 	// モデルなどを動かすための WorldTransform
 	std::vector<WorldTransform> worldTransforms_;
+
+	// 使う画像の名前を保存
+	std::vector<std::string> textureName_;
+
 
 	// カメラ
 	const ViewProjection* viewProjection_ = nullptr;

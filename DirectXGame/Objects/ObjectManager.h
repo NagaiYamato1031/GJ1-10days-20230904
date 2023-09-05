@@ -43,9 +43,9 @@ public:
 
 	void AddObject(OBJType type, IObject* object);
 
-
 	// 名前とパスの登録
 	void LoadTexture(const std::string& name, const std::string& path);
+	void LoadTexture(const std::string& name, const std::string& path, OBJType type);
 	// スプライトの場所の変更
 	void SetSpritePosition(const std::string& name, const Vector2& position);
 
@@ -61,7 +61,6 @@ private:
 	~ObjectManager() = default;
 	ObjectManager(const ObjectManager& obj) = delete;
 	const ObjectManager& operator=(const ObjectManager& obj) = delete;
-
 
 private:
 	// オブジェクトのデータ
