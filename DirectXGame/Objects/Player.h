@@ -25,7 +25,6 @@ struct SubDivision {
 
 #pragma endregion
 
-
 // Plyaerクラス
 class Player : public IObject {
 public:
@@ -51,12 +50,11 @@ public:
 	void AddlyGlobalConfigs() override;
 
 private:
-	// 操作関数
-	void ControlLineUpdate();
+	//// 操作関数
+	// void ControlLineUpdate();
 
-
-	// 線を描画
-	void DrawLine();
+	//// 線を描画
+	// void DrawLine();
 
 private:
 	// シングルトン
@@ -69,29 +67,37 @@ private:
 	// プレイヤーにかかる重力
 	float kGravity_ = 0.98f;
 
-	// 線のサイズ
-	int32_t kLineSize_ = 8;
-	// 線を区切る点の数
-	int32_t kDivideLine_ = 10;
-	// 現在の区切り数
-	int32_t dividing_ = 0;
-
-	// 線の残量
-	float kDirectLeft_ = 10.0f;
-	float directLeft_ = 10.0f;
-
-	// マウスを押しているか
-	bool isPressed_ = false;
-
-	// 点 + 次の点までの長さ を保存して線を作り出す
-	std::vector<SubDivision> interpPoints_;
-
-	// 今クリックしている場所
-	Vector2 clickPosition_ = {0, 0};
+#pragma region 大砲で撃つ
 
 
-	// 線を描画する時間
-	int32_t kDrawTimeLine_ = 300;
-	int32_t drawTimeLine_ = 0;
 
+#pragma endregion
+
+#pragma region 線を書いて誘導するための変数
+
+	//// 線のサイズ
+	// int32_t kLineSize_ = 8;
+	//// 線を区切る点の数
+	// int32_t kDivideLine_ = 10;
+	//// 現在の区切り数
+	// int32_t dividing_ = 0;
+
+	//// 線の残量
+	// float kDirectLeft_ = 10.0f;
+	// float directLeft_ = 10.0f;
+
+	//// マウスを押しているか
+	// bool isPressed_ = false;
+
+	//// 点 + 次の点までの長さ を保存して線を作り出す
+	// std::vector<SubDivision> interpPoints_;
+
+	//// 今クリックしている場所
+	// Vector2 clickPosition_ = {0, 0};
+
+	//// 線を描画する時間
+	// int32_t kDrawTimeLine_ = 300;
+	// int32_t drawTimeLine_ = 0;
+
+#pragma endregion
 };
