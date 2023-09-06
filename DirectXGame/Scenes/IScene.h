@@ -5,6 +5,8 @@
 
 #include "./Objects/ObjectManager.h"
 
+class GameScnee;
+
 
 class IScene {
 public:
@@ -16,7 +18,7 @@ public:
 	virtual void Initialize() = 0;
 
 	// 純粋仮想更新関数
-	virtual void Update() = 0;
+	virtual void Update(GameScene* gameScene) = 0;
 
 	// 純粋仮想描画関数
 	// 背景スプライト
