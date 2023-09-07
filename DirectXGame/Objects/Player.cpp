@@ -50,7 +50,8 @@ void Player::Initialize() {
 void Player::Update() {
 	// ControlLineUpdate();
 
-	ControlCanonMouse();
+	// ControlCanonMouse();
+	ControlCanonKeyBoard();
 
 	worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
 
@@ -136,7 +137,7 @@ void Player::ControlCanonMouse() {
 		}
 		// 右クリックの挙動
 		if (input_->IsTriggerMouse(1)) {
-			ChangeCanonType();
+			ChangeCanonType(true);
 		}
 	} else {
 		canonPosition_ = mousePosition_;
@@ -144,41 +145,81 @@ void Player::ControlCanonMouse() {
 			isLockedCanon_ = true;
 		}
 		if (input_->IsTriggerMouse(1)) {
-			ChangeCanonType();
+			ChangeCanonType(true);
 		}
 	}
 }
 
 void Player::ControlCanonKeyBoard() {
 
-	// 大砲がロックされている時
-	if (isLockedCanon_) {
-		// 左クリックの挙動
-		if (input_->TriggerKey(DIK_SPACE)) {
-			Vector2 velocity = {std::cosf(canonRotate_), std::sinf(canonRotate_)};
-			velocity *= kCanonPower_;
-			movementVelocity_ = velocity;
-			isLockedCanon_ = false;
+	float kCanonMoveSpeed = 3.0f;
+	// 大砲の移動
+	if (input_->PushKey(DIK_W)) {
+		canonPosition_.y -= kCanonMoveSpeed;
+	}
+	if (input_->PushKey(DIK_S)) {
+		canonPosition_.y += kCanonMoveSpeed;
+	}
+	if (input_->PushKey(DIK_A)) {
+		canonPosition_.x -= kCanonMoveSpeed;
+	}
+	if (input_->PushKey(DIK_D)) {
+		canonPosition_.x += kCanonMoveSpeed;
+	}
+
+	// 上方向
+	///float upTheta = static_cast<float>(-std::numbers::pi) / 2.0f;
+	// 大砲の回転方向調整
+	/*if (input_->TriggerKey(DIK_LEFT)) {
+		if (canonRotate_ <= 0) {
+			canonDirection_ = 1;
+		} else {
+			canonDirection_ = -1;
 		}
-		// 右クリックの挙動
-		if (input_->IsTriggerMouse(DIK_UP)) {
-			ChangeCanonType();
+	}
+	if (input_->TriggerKey(DIK_RIGHT)) {
+		if(canonRotate_ <= 0) {
+			canonDirection_ = 1;
+		} else {
+			canonDirection_ = -1;
 		}
-	} else {
-		canonPosition_ = mousePosition_;
-		if (input_->IsTriggerMouse(0)) {
-			isLockedCanon_ = true;
-		}
-		if (input_->IsTriggerMouse(1)) {
-			ChangeCanonType();
-		}
+	}*/
+	if (input_->PushKey(DIK_LEFT)) {
+		canonRotate_ -= kCanonRotateSpeed_ * canonDirection_;
+	}
+	if (input_->PushKey(DIK_RIGHT)) {
+		canonRotate_ += kCanonRotateSpeed_ * canonDirection_;
+	}
+
+	// 一回転したときの挙動
+	canonRotate_ = std::fmodf(canonRotate_, static_cast<float>(std::numbers::pi) * 2);
+
+	// 射出の挙動
+	if (input_->TriggerKey(DIK_Q)) {
+		Vector2 velocity = {std::cosf(canonRotate_), std::sinf(canonRotate_)};
+		velocity *= kCanonPower_;
+		movementVelocity_ = velocity;
+		isLockedCanon_ = false;
+	}
+	// タイプ変更の挙動
+	if (input_->TriggerKey(DIK_UP)) {
+		ChangeCanonType(true);
+	} else if (input_->TriggerKey(DIK_DOWN)) {
+		ChangeCanonType(false);
 	}
 }
 
-void Player::ChangeCanonType() {
-	canonType_ = static_cast<CanonType>(canonType_ + 1);
-	if (canonType_ == kCountofCanonType) {
-		canonType_ = kCanonNormal;
+void Player::ChangeCanonType(bool isUp) {
+	if (isUp) {
+		canonType_ = static_cast<CanonType>(canonType_ + 1);
+		if (canonType_ == kCountofCanonType) {
+			canonType_ = kCanonLow;
+		}
+	} else {
+		canonType_ = static_cast<CanonType>(canonType_ - 1);
+		if (canonType_ == -1) {
+			canonType_ = kCanonHigh;
+		}
 	}
 }
 
@@ -190,6 +231,13 @@ void Player::DrawCanon() {
 	buff->SetRotation(canonRotate_);
 	way = canonPosition_ + way * 0.5f;
 	buff->SetPosition(way);
+
+	buff->Draw();
+
+	buff = objectManager_->GetSprite("canon");
+	buff->SetPosition(canonPosition_);
+	buff->SetRotation(canonRotate_);
+	buff->SetSize({100, 100});
 
 	buff->Draw();
 }

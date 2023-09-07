@@ -25,8 +25,8 @@ struct SubDivision {
 };
 
 enum CanonType {
-	kCanonNormal,
 	kCanonLow,
+	kCanonNormal,
 	kCanonHigh,
 
 	kCountofCanonType,
@@ -67,7 +67,7 @@ private:
 	void ControlCanonKeyBoard();
 
 	// 大砲のタイプを切り替える
-	void ChangeCanonType();
+	void ChangeCanonType(bool isUp);
 
 	// 大砲の描画
 	void DrawCanon();
@@ -97,6 +97,11 @@ private:
 
 	// 大砲が固定されているかどうか
 	bool isLockedCanon_ = false;
+
+	// 大砲の回転方向
+	int32_t canonDirection_ = 1;
+	// 回転速度
+	float kCanonRotateSpeed_ = 0.07f;
 
 	// 大砲の位置
 	Vector2 canonPosition_ = {0, 0};
