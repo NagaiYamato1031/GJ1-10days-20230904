@@ -75,6 +75,8 @@ public:
 	// フレーム終了時に実行
 	void DrawReset();
 
+	IObject* GetOneObject(OBJType type);
+
 private:
 	// コピー禁止
 	ObjectManager() = default;

@@ -27,9 +27,10 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	objectManager_->LoadTexture("1x1", "white1x1.png");
 	objectManager_->LoadTexture("canon", "Sausage/canon.png", kPlayer);
   
-	objectManager_->GetSprite("Line")->SetPosition({-10, -10});
-	objectManager_->GetSprite("PlayerTop")->SetPosition({640, 360});
-	objectManager_->GetSprite("1x1")->SetPosition({64, 64});
+
+	//objectManager_->GetSprite("Line")->SetPosition({-10, -10});
+	//objectManager_->GetSprite("PlayerTop")->SetPosition({640, 360});
+	//objectManager_->GetSprite("1x1")->SetPosition({64, 64});
 
 	
 

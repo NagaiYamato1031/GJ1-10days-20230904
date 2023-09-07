@@ -79,3 +79,5 @@ Vector2 IObject::GetPosition() const {
 void IObject::SetGameScene(GameScene* scene) { gameScene_ = scene; }
 
 void IObject::SetTextureName(const std::string& name) { textureName_.push_back(name); }
+
+std::vector<SpriteData>& IObject::GetSpriteData() { return kUseSpriteData_; }

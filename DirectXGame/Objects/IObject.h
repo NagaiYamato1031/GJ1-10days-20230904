@@ -10,6 +10,11 @@
 
 class GameScene;
 
+struct SpriteData {
+	std::string name_;
+	int32_t max_;
+};
+
 // 仮想クラス
 class IObject {
 public:
@@ -46,6 +51,9 @@ public: // ゲッターセッター
 	Vector3 GetWorldPosition() const;
 	Vector2 GetPosition() const;
 
+	// 作成するスプライトの数を取得する
+	std::vector<SpriteData>& GetSpriteData();
+
 	// ビュープロジェクションを設定
 	void SetViewProjection(const ViewProjection* viewProjection) {
 		viewProjection_ = viewProjection;
@@ -70,7 +78,7 @@ protected:
 	// 使う画像の名前を保存
 	std::vector<std::string> textureName_;
 
-	int32_t kUseSpriteMax_ = 1;
+	std::vector<SpriteData> kUseSpriteData_;
 
 	// カメラ
 	const ViewProjection* viewProjection_ = nullptr;

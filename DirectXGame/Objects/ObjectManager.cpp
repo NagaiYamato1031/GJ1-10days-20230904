@@ -161,7 +161,19 @@ void ObjectManager::LoadTexture(const std::string& name, const std::string& path
 	// spriteDatas_[name].push_back(buffer);
 	for (auto& object : objDatas_[type]) {
 		object->SetTextureName(name);
+		SpriteData data = {
+		    .name_{name},
+		    .max_{1},
+		};
+		object->GetSpriteData().push_back(data);
 	}
+}
+
+IObject* ObjectManager::GetOneObject(OBJType type) {
+	if (!objDatas_.contains(type)) {
+		return nullptr;
+	}
+	return objDatas_[type].begin()->get();
 }
 
 // void ObjectManager::SetSpritePosition(const std::string& name, const Vector2& position) {

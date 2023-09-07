@@ -27,7 +27,7 @@ void Player::Initialize() {
 	kPlayerSize_ = {1, 1, 1};
 	// kGravity_ = 0.98f;
 	isLockedCanon_ = false;
-	kUseSpriteMax_ = kCountofPlayerTexture;
+	//kUseSpriteMax_ = kCountofPlayerTexture;
 
 	worldTransformBase_.translation_ = {640, 500, 0};
 
@@ -39,7 +39,7 @@ void Player::Initialize() {
 	// configs->AddItem(groupName, "kGravity", kGravity_);
 	configs->AddItem(groupName, "kCanonPower", kCanonPower_);
 	configs->AddItem(groupName, "kCanonRotateLimit", kCanonRotateLimit_);
-	configs->AddItem(groupName, "kUseSpriteMax", kUseSpriteMax_);
+	//configs->AddItem(groupName, "kUseSpriteMax", kUseSpriteMax_);
 
 	// 使うテクスチャの数だけ WorldTransform を作る
 	for (size_t i = 0; i < kCountofPlayerTexture; i++) {
@@ -110,7 +110,7 @@ void Player::AddlyGlobalConfigs() {
 	// kGravity_ = configs->GetFloatValue(groupName, "kGravity");
 	kCanonPower_ = configs->GetFloatValue(groupName, "kCanonPower");
 	kCanonRotateLimit_ = configs->GetFloatValue(groupName, "kCanonRotateLimit");
-	kUseSpriteMax_ = configs->GetIntValue(groupName, "kUseSpriteMax");
+	//kUseSpriteMax_ = configs->GetIntValue(groupName, "kUseSpriteMax");
 }
 
 void Player::ControlCanonMouse() {
