@@ -44,12 +44,12 @@ void GameScene::Initialize() {
 
 	// タイトルを今のシーンに設定する
 	currentScene_ = sceneList_[Scene::kTitle].get();
-	currentScene_->Initialize();
+	currentScene_->Initialize(this);
 	
 }
 
 void GameScene::Update() { 
-	currentScene_->Update(this);
+	currentScene_->Update();
 	
 }
 

@@ -1,10 +1,6 @@
 #pragma once
 #include "IScene.h"
 
-#include "Input.h"
-
-#include "./Objects/ObjectManager.h"
-
 class SceneTitle : public IScene {
 public:
 

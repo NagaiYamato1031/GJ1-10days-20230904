@@ -4,9 +4,9 @@
 #include <memory>
 
 #include "./Objects/ObjectManager.h"
+#include "Input.h"
 
 class GameScnee;
-class Input;
 
 class IScene {
 public:

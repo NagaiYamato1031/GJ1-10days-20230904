@@ -4,6 +4,9 @@
 #include "Objects/Block.h"
 #include "GameScene.h"
 
+#include "./Objects/ObjectManager.h"
+
+
 
 SceneTitle::~SceneTitle() {}
 

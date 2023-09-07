@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Input.h"
-
 #include "Scenes/IScene.h"
-
 
 class ScenePlay : public IScene {
 public:
@@ -27,8 +24,5 @@ public:
 	// 前景スプライト
 	void DrawOverlay() override;
 
-protected:
-
-	Input* input_ = nullptr;
-
+private:
 };
