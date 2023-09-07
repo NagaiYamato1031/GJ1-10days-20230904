@@ -22,10 +22,10 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	objectManager_->AddObject(kPlayer, player_);
 
 	// プレイヤーのテクスチャ
-	objectManager_->LoadTexture("Line", "Sausage/line.png");
+	objectManager_->LoadTexture("Line", "Sausage/line.png",kPlayer);
 	objectManager_->LoadTexture("PlayerTop", "Sausage/sausage.png", kPlayer);
 	objectManager_->LoadTexture("1x1", "white1x1.png");
-	objectManager_->LoadTexture("uv", "uvChecker.png", kPlayer);
+	objectManager_->LoadTexture("canon", "Sausage/canon.png", kPlayer);
   
 	objectManager_->GetSprite("Line")->SetPosition({-10, -10});
 	objectManager_->GetSprite("PlayerTop")->SetPosition({640, 360});
