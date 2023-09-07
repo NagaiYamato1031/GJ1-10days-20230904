@@ -1,8 +1,38 @@
 #pragma once
 
 #include "IObject.h"
+#include "Input.h"
+
+#include <numbers>
+#include <vector>
 
 class ObjectManager;
+
+#pragma region 読み込んだテクスチャ
+
+enum PlayerTexture {
+	kPlayerLine,
+	kPlayerTop,
+};
+
+#pragma endregion
+
+#pragma region 構造体やenum
+
+struct SubDivision {
+	Vector2 point_;
+	float length_;
+};
+
+enum CanonType {
+	kCanonNormal,
+	kCanonLow,
+	kCanonHigh,
+
+	kCountofCanonType,
+};
+
+#pragma endregion
 
 // Plyaerクラス
 class Player : public IObject {
@@ -30,5 +60,56 @@ public:
 
 private:
 
+	// 大砲の操作
+	// マウス
+	void ControlCanonMouse();
+	// キーボード
+	void ControlCanonKeyBoard();
+
+	// 大砲のタイプを切り替える
+	void ChangeCanonType();
+
+	// 大砲の描画
+	void DrawCanon();
+
+
+private:
+	// シングルトン
+	Input* input_ = nullptr;
 	ObjectManager* objectManager_ = nullptr;
+
+	// プレイヤーの当たり判定
+	Vector3 kPlayerSize_ = {1, 1, 1};
+
+	// プレイヤーにかかる重力
+	//float kGravity_ = 0.98f;
+
+#pragma region 大砲で撃つ
+
+	// プレイヤーの速度
+	Vector2 movementVelocity_ = {0, 0};
+
+	// 大砲のタイプを決める
+	CanonType canonType_ = kCanonNormal;
+
+	// 大砲で撃った時の速度
+	float kCanonPower_ = 5.0f;
+
+	// 大砲が固定されているかどうか
+	bool isLockedCanon_ = false;
+
+	// 大砲の位置
+	Vector2 canonPosition_ = {0, 0};
+
+	// マウスの位置として記録
+	Vector2 mousePosition_ = {0, 0};
+
+	// 大砲の角度
+	float canonRotate_ = 0.0f;
+
+	// 大砲の角度制限(上方向から左右に広がる)
+	float kCanonRotateLimit_ = static_cast<float>(std::numbers::pi) / 3.0f;
+
+#pragma endregion
+
 };

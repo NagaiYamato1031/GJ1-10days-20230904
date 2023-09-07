@@ -10,7 +10,7 @@
 
 enum OBJType {
 	kPlayer, // プレイヤー
-	kEnemy,  // 敵
+	kBlock,  // ブロック
 	kEffect, // エフェクト
 
 	kCountOBJType, // カウント
