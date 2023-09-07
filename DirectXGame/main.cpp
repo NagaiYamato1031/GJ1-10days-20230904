@@ -7,6 +7,8 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 
+#include "Config/GlobalConfigs.h"
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win = nullptr;
@@ -17,6 +19,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
+
+	GlobalConfigs* configs = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -61,6 +65,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
+	configs = GlobalConfigs::GetInstance();
+
 	// メインループ
 	while (true) {
 		// メッセージ処理
@@ -74,6 +80,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input->Update();
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
+
+		// コンフィグの更新
+		configs->Update();
+
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了

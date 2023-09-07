@@ -10,7 +10,7 @@ ObjectManager* ObjectManager::GetInstance() {
 void ObjectManager::Initialize() {
 	objDatas_.clear();
 	objDatas_[OBJType::kPlayer];
-	objDatas_[OBJType::kEnemy];
+	objDatas_[OBJType::kBlock];
 	objDatas_[OBJType::kEffect];
 
 	spriteDatas_.clear();

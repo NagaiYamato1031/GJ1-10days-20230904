@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 	currentScene_->Initialize();
 }
 
-void GameScene::Update() { currentScene_->Update(); }
+void GameScene::Update() { currentScene_->Update();}
 
 void GameScene::Draw() {
 

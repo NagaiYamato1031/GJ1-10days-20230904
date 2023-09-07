@@ -2,7 +2,12 @@
 
 #include <Windows.h>
 #include <fstream>
+#ifdef _DEBUG
+
 #include <imgui.h>
+
+#endif
+
 #include <json.hpp>
 
 GlobalConfigs* GlobalConfigs::GetInstance() {
@@ -11,6 +16,9 @@ GlobalConfigs* GlobalConfigs::GetInstance() {
 }
 
 void GlobalConfigs::Update() {
+#ifdef _DEBUG
+
+
 	if (!ImGui::Begin("Global Configs", nullptr, ImGuiWindowFlags_MenuBar)) {
 		ImGui::End();
 		return;
@@ -69,6 +77,8 @@ void GlobalConfigs::Update() {
 
 	ImGui::EndMenuBar();
 	ImGui::End();
+
+#endif // _DEBUG
 }
 
 void GlobalConfigs::CreateGroup(const std::string& groupName) {
