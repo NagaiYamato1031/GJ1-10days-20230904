@@ -103,7 +103,7 @@ void GameScene::Draw() {
 
 void GameScene::SetScene(Scene nextScene) { 
 	currentScene_ = sceneList_[nextScene].get();
-	currentScene_->Initialize();
+	currentScene_->Initialize(this);
 	
 }
 
