@@ -14,11 +14,11 @@ void SceneTitle::Initialize() {
 	// プレイヤーのテクスチャ
 	objectManager_->LoadTexture("Line", "Sausage/line.png");
 	objectManager_->LoadTexture("PlayerTop", "Sausage/sausage.png", kPlayer);
-	objectManager_->LoadTexture("uv", "white1x1.png");
+	objectManager_->LoadTexture("1x1", "white1x1.png");
 
 	objectManager_->GetSprite("Line")->SetPosition({-10, -10});
 	objectManager_->GetSprite("PlayerTop")->SetPosition({640, 360});
-	objectManager_->GetSprite("uv")->SetPosition({64, 64});
+	objectManager_->GetSprite("1x1")->SetPosition({64, 64});
 }
 
 void SceneTitle::Update() { objectManager_->Update(); }

@@ -3,6 +3,7 @@
 #include "IObject.h"
 #include "Input.h"
 
+#include <numbers>
 #include <vector>
 
 class ObjectManager;
@@ -16,11 +17,19 @@ enum PlayerTexture {
 
 #pragma endregion
 
-#pragma region 構造体
+#pragma region 構造体やenum
 
 struct SubDivision {
 	Vector2 point_;
 	float length_;
+};
+
+enum CanonType {
+	kCanonNormal,
+	kCanonLow,
+	kCanonHigh,
+
+	kCountofCanonType,
 };
 
 #pragma endregion
@@ -50,11 +59,19 @@ public:
 	void AddlyGlobalConfigs() override;
 
 private:
-	//// 操作関数
-	// void ControlLineUpdate();
 
-	//// 線を描画
-	// void DrawLine();
+	// 大砲の操作
+	// マウス
+	void ControlCanonMouse();
+	// キーボード
+	void ControlCanonKeyBoard();
+
+	// 大砲のタイプを切り替える
+	void ChangeCanonType();
+
+	// 大砲の描画
+	void DrawCanon();
+
 
 private:
 	// シングルトン
@@ -65,39 +82,34 @@ private:
 	Vector3 kPlayerSize_ = {1, 1, 1};
 
 	// プレイヤーにかかる重力
-	float kGravity_ = 0.98f;
+	//float kGravity_ = 0.98f;
 
 #pragma region 大砲で撃つ
 
+	// プレイヤーの速度
+	Vector2 movementVelocity_ = {0, 0};
 
+	// 大砲のタイプを決める
+	CanonType canonType_ = kCanonNormal;
 
-#pragma endregion
+	// 大砲で撃った時の速度
+	float kCanonPower_ = 5.0f;
 
-#pragma region 線を書いて誘導するための変数
+	// 大砲が固定されているかどうか
+	bool isLockedCanon_ = false;
 
-	//// 線のサイズ
-	// int32_t kLineSize_ = 8;
-	//// 線を区切る点の数
-	// int32_t kDivideLine_ = 10;
-	//// 現在の区切り数
-	// int32_t dividing_ = 0;
+	// 大砲の位置
+	Vector2 canonPosition_ = {0, 0};
 
-	//// 線の残量
-	// float kDirectLeft_ = 10.0f;
-	// float directLeft_ = 10.0f;
+	// マウスの位置として記録
+	Vector2 mousePosition_ = {0, 0};
 
-	//// マウスを押しているか
-	// bool isPressed_ = false;
+	// 大砲の角度
+	float canonRotate_ = 0.0f;
 
-	//// 点 + 次の点までの長さ を保存して線を作り出す
-	// std::vector<SubDivision> interpPoints_;
-
-	//// 今クリックしている場所
-	// Vector2 clickPosition_ = {0, 0};
-
-	//// 線を描画する時間
-	// int32_t kDrawTimeLine_ = 300;
-	// int32_t drawTimeLine_ = 0;
+	// 大砲の角度制限(上方向から左右に広がる)
+	float kCanonRotateLimit_ = static_cast<float>(std::numbers::pi) / 3.0f;
 
 #pragma endregion
+
 };
