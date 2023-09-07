@@ -112,6 +112,7 @@
     <ClCompile Include="Config\GlobalConfigs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
+    <ClCompile Include="Objects\Block.cpp" />
     <ClCompile Include="Objects\IObject.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="MyConst.h" />
     <ClInclude Include="Mymath.h" />
+    <ClInclude Include="Objects\Block.h" />
     <ClInclude Include="Objects\IObject.h" />
     <ClInclude Include="Objects\ObjectManager.h" />
     <ClInclude Include="Objects\Player.h" />

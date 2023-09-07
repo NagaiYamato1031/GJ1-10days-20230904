@@ -1,8 +1,9 @@
 #include "SceneTitle.h"
 
 #include "Objects/Player.h"
+#include "Objects/Block.h"
 #include "GameScene.h"
-#include "ScenePlay.h"
+
 
 SceneTitle::~SceneTitle() {
 
@@ -24,14 +25,15 @@ void SceneTitle::Initialize() {
 
 	
 
-
 }
 
 void SceneTitle::Update(GameScene* gameScene) { 
  	objectManager_->Update(); 
 	
 	if (input_->PushKey(DIK_SPACE)) {
+		objectManager_->Clear();
 		gameScene->SetScene(Scene::kPlay);
+		
 	}
 
 }

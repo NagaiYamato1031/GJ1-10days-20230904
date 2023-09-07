@@ -120,6 +120,9 @@
     <ClCompile Include="Scenes\SceneResult.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Block.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="Scenes\SceneResult.h">
       <Filter>ヘッダー ファイル\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Block.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
