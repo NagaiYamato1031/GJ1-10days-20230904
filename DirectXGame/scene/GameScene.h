@@ -37,6 +37,7 @@ enum Scene {
 class GameScene {
 
 public: // メンバ関数
+	static GameScene* GetInstance();
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -61,6 +62,8 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	void SetScene(Scene nextScene);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

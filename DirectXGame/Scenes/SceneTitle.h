@@ -1,6 +1,8 @@
 #pragma once
 #include "IScene.h"
 
+#include "Input.h"
+
 #include "./Objects/ObjectManager.h"
 
 class SceneTitle : public IScene {
@@ -11,7 +13,7 @@ public:
 	// 初期化
 	void Initialize() override;
 	// 更新
-	void Update() override;
+	void Update(GameScene* gameScene) override;
 	// 描画
 	void DrawBackdrop() override;
 	void Draw3D() override;
@@ -19,5 +21,7 @@ public:
 
 private:
 	// シーン内の変数
+	Input* input_ = nullptr;
 
+	
 };

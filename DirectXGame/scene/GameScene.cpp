@@ -5,6 +5,12 @@
 #include "./Config/GlobalConfigs.h"
 
 #include "./Scenes/SceneTitle.h"
+#include "Scenes/ScenePlay.h"
+
+GameScene* GameScene::GetInstance() {
+	static GameScene instance;
+	return &instance;
+}
 
 GameScene::GameScene() {}
 
@@ -32,18 +38,20 @@ void GameScene::Initialize() {
 	// タイトル
 	sceneList_.emplace_back(new SceneTitle());
 	// プレイ
-	//sceneList_.emplace_back(new ScenePlay());
+	sceneList_.emplace_back(new ScenePlay());
 	// エンド
 	//sceneList_.emplace_back(new SceneEnd());
-
-
 
 	// タイトルを今のシーンに設定する
 	currentScene_ = sceneList_[Scene::kTitle].get();
 	currentScene_->Initialize();
+	
 }
 
-void GameScene::Update() { currentScene_->Update();}
+void GameScene::Update() { 
+	currentScene_->Update(this);
+	
+}
 
 void GameScene::Draw() {
 
@@ -92,3 +100,11 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+
+void GameScene::SetScene(Scene nextScene) { 
+	currentScene_ = sceneList_[nextScene].get();
+	currentScene_->Initialize();
+	
+}
+
+

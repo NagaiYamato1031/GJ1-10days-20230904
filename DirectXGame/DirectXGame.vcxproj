@@ -112,10 +112,13 @@
     <ClCompile Include="Config\GlobalConfigs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
+    <ClCompile Include="Objects\Block.cpp" />
     <ClCompile Include="Objects\IObject.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Scenes\IScene.cpp" />
+    <ClCompile Include="Scenes\ScenePlay.cpp" />
+    <ClCompile Include="Scenes\SceneResult.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
@@ -152,10 +155,13 @@
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="MyConst.h" />
     <ClInclude Include="Mymath.h" />
+    <ClInclude Include="Objects\Block.h" />
     <ClInclude Include="Objects\IObject.h" />
     <ClInclude Include="Objects\ObjectManager.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Scenes\IScene.h" />
+    <ClInclude Include="Scenes\ScenePlay.h" />
+    <ClInclude Include="Scenes\SceneResult.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>
