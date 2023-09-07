@@ -23,10 +23,10 @@ void ScenePlay::Initialize() {
 			block_->Initialize();
 			block_->SetPosition({16.0f * float(x), 16.0f * float(y)});
 
-			objectManager_->AddObject(kEnemy, block_);
+			objectManager_->AddObject(kBlock, block_);
 
 			// プレイヤーのテクスチャ
-			objectManager_->LoadTexture("block", "block.png", kEnemy);
+			objectManager_->LoadTexture("block", "block.png", kBlock);
 		}
 	
 	}

@@ -41,8 +41,6 @@ void SceneTitle::Update(GameScene* gameScene) {
 	}
 }
 
-void SceneTitle::Update() { objectManager_->Update(); }
-
 void SceneTitle::DrawBackdrop() {}
 void SceneTitle::Draw3D() {}
 void SceneTitle::DrawOverlay() { objectManager_->Draw(); }

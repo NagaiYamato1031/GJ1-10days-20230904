@@ -13,7 +13,7 @@ enum OBJType {
 	kBlock,  // ブロック
 	kEffect, // エフェクト
 
-	kCountOBJType, // カウント
+	kCountofOBJType, // カウント
 };
 
 #pragma endregion
