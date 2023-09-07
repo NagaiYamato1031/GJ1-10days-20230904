@@ -1,9 +1,12 @@
 #pragma once
 
-#include "WorldTransform.h"
 #include "ViewProjection.h"
-#include <vector>
+#include "WorldTransform.h"
 #include <string>
+#include <vector>
+#include <memory>
+
+#include "Vector2.h"
 
 class GameScene;
 
@@ -41,6 +44,7 @@ public: // ゲッターセッター
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition() const;
+	Vector2 GetPosition() const;
 
 	// ビュープロジェクションを設定
 	void SetViewProjection(const ViewProjection* viewProjection) {
@@ -53,7 +57,6 @@ public: // ゲッターセッター
 	// テクスチャ登録
 	void SetTextureName(const std::string& name);
 
-
 protected:
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
@@ -62,11 +65,12 @@ protected:
 	WorldTransform worldTransformBase_;
 
 	// モデルなどを動かすための WorldTransform
-	std::vector<WorldTransform> worldTransforms_;
-
+	std::vector<std::unique_ptr<WorldTransform>> worldTransforms_;
+	
 	// 使う画像の名前を保存
 	std::vector<std::string> textureName_;
 
+	int32_t kUseSpriteMax_ = 1;
 
 	// カメラ
 	const ViewProjection* viewProjection_ = nullptr;

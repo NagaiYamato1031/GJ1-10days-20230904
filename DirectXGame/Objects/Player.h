@@ -13,16 +13,15 @@ class ObjectManager;
 enum PlayerTexture {
 	kPlayerLine,
 	kPlayerTop,
+	kPlayerBody,
+	kPlayerCanon,
+
+	kCountofPlayerTexture,
 };
 
 #pragma endregion
 
 #pragma region 構造体やenum
-
-struct SubDivision {
-	Vector2 point_;
-	float length_;
-};
 
 enum CanonType {
 	kCanonLow,

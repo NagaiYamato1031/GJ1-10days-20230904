@@ -21,8 +21,8 @@ void Block::Initialize() {
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
-	for (WorldTransform& wt : worldTransforms_) {
-		wt.UpdateMatrix();
+	for (auto& wt : worldTransforms_) {
+		wt->UpdateMatrix();
 	}
 
 	position_ = {0.0f, 0.0f};
@@ -30,8 +30,8 @@ void Block::Initialize() {
 
 void Block::Update() {
 	worldTransformBase_.UpdateMatrix();
-	for (WorldTransform& worldTransform : worldTransforms_) {
-		worldTransform.UpdateMatrix();
+	for (auto& worldTransform : worldTransforms_) {
+		worldTransform->UpdateMatrix();
 	}
 }
 

@@ -13,8 +13,10 @@ void ObjectManager::Initialize() {
 	objDatas_[OBJType::kBlock];
 	objDatas_[OBJType::kEffect];
 
+	spriteBaseDatas_.clear();
 	spriteDatas_.clear();
 
+	textureDatas_.clear();
 	// テクスチャを読み込む
 	// AddTexture("white1x1.png", "white1x1.png");
 }
@@ -39,7 +41,63 @@ void ObjectManager::DrawSprite(const std::string& name) {
 	if (!textureDatas_.contains(name)) {
 		return;
 	}
-	spriteDatas_[name]->Draw();
+	for (SpriteEx& buffer : spriteDatas_[name]) {
+		// 使われていたら
+		if (buffer.isActive_) {
+			continue;
+		}
+		// 使われていないなら描画
+		buffer.data_->Draw();
+		buffer.isActive_ = true;
+	}
+}
+
+void ObjectManager::DrawSprite(const std::string& name, const WorldTransform& wr) {
+	if (!textureDatas_.contains(name)) {
+		return;
+	}
+	for (SpriteEx& buffer : spriteDatas_[name]) {
+		// 使われていたら
+		if (buffer.isActive_) {
+			continue;
+		}
+		buffer.data_->SetSize({wr.scale_.x, wr.scale_.y});
+		buffer.data_->SetRotation(wr.rotation_.z);
+		buffer.data_->SetPosition({wr.translation_.x, wr.translation_.y});
+		// 使われていないなら描画
+		buffer.data_->Draw();
+		buffer.isActive_ = true;
+	}
+}
+void ObjectManager::DrawSprite(const std::string& name, const WorldTransform* wr) {
+	if (!textureDatas_.contains(name)) {
+		return;
+	}
+	for (SpriteEx& buffer : spriteDatas_[name]) {
+		// 使われていたら
+		if (buffer.isActive_) {
+			continue;
+		}
+		buffer.data_->SetSize({wr->scale_.x, wr->scale_.y});
+		buffer.data_->SetRotation(wr->rotation_.z);
+		buffer.data_->SetPosition({wr->translation_.x, wr->translation_.y});
+		// 使われていないなら描画
+		buffer.data_->Draw();
+		buffer.isActive_ = true;
+	}
+}
+
+void ObjectManager::CreateSprite(const std::string& name, int num) {
+	if (!textureDatas_.contains(name)) {
+		return;
+	}
+	for (size_t i = 0; i < num; i++) {
+		SpriteEx buff;
+		memcpy(
+		    buff.data_.get(), spriteBaseDatas_[name].begin()->get(),
+		    sizeof(spriteBaseDatas_[name].begin()->get()));
+		buff.isActive_ = false;
+	}
 }
 
 void ObjectManager::AddObject(OBJType type, IObject* object) {
@@ -54,6 +112,14 @@ void ObjectManager::Clear() {
 	}
 }
 
+void ObjectManager::DrawReset() {
+	for (auto& data : spriteDatas_) {
+		for (auto& buffer : data.second) {
+			buffer.isActive_ = false;
+		}
+	}
+}
+
 void ObjectManager::LoadTexture(const std::string& name, const std::string& path) {
 	if (name == "" || path == "") {
 		return;
@@ -63,7 +129,14 @@ void ObjectManager::LoadTexture(const std::string& name, const std::string& path
 
 	// スプライトも登録
 	uint32_t textureHandle = TextureManager::Load(path);
-	spriteDatas_[name].reset(Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+
+	spriteBaseDatas_[name].emplace_back(
+	    Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+
+	/*SpriteEx buffer;
+	buffer.isActive_ = false;
+	buffer.data_.reset(Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+	spriteDatas_[name].push_back(buffer);*/
 }
 
 void ObjectManager::LoadTexture(const std::string& name, const std::string& path, OBJType type) {
@@ -73,28 +146,39 @@ void ObjectManager::LoadTexture(const std::string& name, const std::string& path
 	if (!objDatas_.contains(type)) {
 		return;
 	}
-
 	// 名前を登録
 	textureDatas_[name] = path;
 
 	// スプライトも登録
 	uint32_t textureHandle = TextureManager::Load(path);
-	spriteDatas_[name].reset(Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+
+	spriteBaseDatas_[name].emplace_back(
+	    Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+
+	// SpriteEx buffer;
+	// buffer.isActive_ = false;
+	// buffer.data_.reset(Sprite::Create(textureHandle, {0, 0}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+	// spriteDatas_[name].push_back(buffer);
 	for (auto& object : objDatas_[type]) {
 		object->SetTextureName(name);
 	}
 }
 
-void ObjectManager::SetSpritePosition(const std::string& name, const Vector2& position) {
-	if (!textureDatas_.contains(name)) {
-		return;
-	}
-	spriteDatas_[name]->SetPosition(position);
-}
-
-Sprite* const ObjectManager::GetSprite(const std::string& name) {
-	if (!textureDatas_.contains(name)) {
-		return nullptr;
-	}
-	return spriteDatas_[name].get();
-}
+// void ObjectManager::SetSpritePosition(const std::string& name, const Vector2& position) {
+//	if (!textureDatas_.contains(name)) {
+//		return;
+//	}
+//	//spriteDatas_[name]->SetPosition(position);
+// }
+//
+// Sprite* const ObjectManager::GetSprite(const std::string& name) {
+//	if (!textureDatas_.contains(name)) {
+//		return nullptr;
+//	}
+//	for (auto& buffer : spriteDatas_[name]) {
+//		if (!buffer.isActive_) {
+//			return buffer.data_.get();
+//		}
+//	}
+//	return nullptr;
+// }
