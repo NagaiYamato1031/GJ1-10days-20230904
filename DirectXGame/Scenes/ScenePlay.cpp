@@ -8,9 +8,10 @@ ScenePlay::ScenePlay() {}
 
 ScenePlay::~ScenePlay() {}
 
-void ScenePlay::Initialize() { 
+void ScenePlay::Initialize(GameScene* gameScene) { 
 	objectManager_ = ObjectManager::GetInstance();
 
+	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 
 	/*std::vector<std::unique_ptr<Block>> blocks;
@@ -36,11 +37,11 @@ void ScenePlay::Initialize() {
 
 }
 
-void ScenePlay::Update(GameScene* gameScene) { 
+void ScenePlay::Update() { 
 	
 	if (input_->PushKey(DIK_E)) {
 		objectManager_->Clear();
-		gameScene->SetScene(Scene::kTitle);
+		gameScene_->SetScene(Scene::kTitle);
 	}
 }
 

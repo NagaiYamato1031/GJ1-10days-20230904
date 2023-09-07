@@ -7,9 +7,10 @@
 
 SceneTitle::~SceneTitle() {}
 
-void SceneTitle::Initialize() {
+void SceneTitle::Initialize(GameScene* gameScene) {
 	objectManager_ = ObjectManager::GetInstance();
 
+	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 	
 	Player* player_ = new Player();
@@ -31,12 +32,12 @@ void SceneTitle::Initialize() {
 
 }
 
-void SceneTitle::Update(GameScene* gameScene) { 
+void SceneTitle::Update() { 
  	objectManager_->Update(); 
 	
 	if (input_->PushKey(DIK_SPACE)) {
 		objectManager_->Clear();
-		gameScene->SetScene(Scene::kPlay);
+		gameScene_->SetScene(Scene::kPlay);
 		
 	}
 }
