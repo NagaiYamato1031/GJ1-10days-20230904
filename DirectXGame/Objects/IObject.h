@@ -80,6 +80,9 @@ public: // ゲッターセッター
 	// テクスチャ登録
 	//void SetTextureName(const std::string& name);
 
+	// スプライトの登録
+	void SetSprite(int index, const std::string& path);
+
 protected:
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;

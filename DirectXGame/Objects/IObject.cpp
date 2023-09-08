@@ -13,8 +13,7 @@ IObject::~IObject() {}
 
 void IObject::Initialize() {
 	worldTransformBase_.Initialize();
-	worldTransforms_.clear();
-	textureName_.clear();
+	sprites_.clear();
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Base";
@@ -23,16 +22,10 @@ void IObject::Initialize() {
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
-	for (auto& wt : worldTransforms_) {
-		wt->UpdateMatrix();
-	}
 }
 
 void IObject::Update() {
 	worldTransformBase_.UpdateMatrix();
-	for (auto& worldTransform : worldTransforms_) {
-		worldTransform->UpdateMatrix();
-	}
 }
 
 void IObject::Draw() {}
@@ -75,3 +68,14 @@ Vector2 IObject::GetPosition() const {
 }
 
 void IObject::SetGameScene(GameScene* scene) { gameScene_ = scene; }
+
+void IObject::SetSprite(int index, const std::string& path) {
+	Vector2 pos{0, 0};
+	Vector4 color{1, 1, 1, 1};
+	Vector2 ancher{0.5f, 0.5f};
+	// ハンドル
+	uint32_t handle = TextureManager::Load(path);
+	// スプライト
+	Sprite* sprite = Sprite::Create(handle, pos, color, ancher);
+	sprites_[index].emplace_back(sprite);
+}
