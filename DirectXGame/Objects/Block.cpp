@@ -8,8 +8,7 @@ Block::~Block() {}
 
 void Block::Initialize() {
 	worldTransformBase_.Initialize();
-	worldTransforms_.clear();
-
+	sprites_.clear();
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Block";
@@ -18,18 +17,18 @@ void Block::Initialize() {
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
-	for (auto& wt : worldTransforms_) {
-		wt->UpdateMatrix();
-	}
+	//for (auto& wt : worldTransforms_) {
+	//	wt->UpdateMatrix();
+	//}
 
 	position_ = {0.0f, 0.0f};
 }
 
 void Block::Update() {
-	worldTransformBase_.UpdateMatrix();
-	for (auto& worldTransform : worldTransforms_) {
-		worldTransform->UpdateMatrix();
-	}
+	worldTransformBase_.UpdateMatrix(); /*
+	 for (auto& worldTransform : worldTransforms_) {
+	     worldTransform->UpdateMatrix();
+	 }*/
 }
 
 void Block::Draw() { 

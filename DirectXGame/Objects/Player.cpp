@@ -20,8 +20,7 @@ void Player::Initialize() {
 	input_ = Input::GetInstance();
 
 	worldTransformBase_.Initialize();
-	worldTransforms_.clear();
-	kUseSpriteData_.clear();
+	sprites_.clear();
 
 	kPlayerSize_ = {1, 1, 1};
 	// kGravity_ = 0.98f;
@@ -48,19 +47,19 @@ void Player::Initialize() {
 	configs->AddItem(groupName, "kCanonRotateLimit", kCanonRotateLimit_);
 	//configs->AddItem(groupName, "kUseSpriteMax", kUseSpriteMax_);
 
-	// 使うテクスチャの数だけ WorldTransform を作る
-	for (size_t i = 0; i < kCountofPlayerTexture; i++) {
-		WorldTransform* wr = new WorldTransform();
-		wr->Initialize();
-		worldTransforms_.emplace_back(wr);
-	}
+	//// 使うテクスチャの数だけ WorldTransform を作る
+	//for (size_t i = 0; i < kCountofPlayerTexture; i++) {
+	//	WorldTransform* wr = new WorldTransform();
+	//	wr->Initialize();
+	//	worldTransforms_.emplace_back(wr);
+	//}
 
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
-	for (auto& wt : worldTransforms_) {
-		wt->UpdateMatrix();
-	}
+	//for (auto& wt : worldTransforms_) {
+	//	wt->UpdateMatrix();
+	//}
 }
 
 void Player::Update() {
@@ -72,16 +71,16 @@ void Player::Update() {
 	worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
 
 	float rotate = std::atan2(movementVelocity_.y, movementVelocity_.x);
-	worldTransforms_[kPlayerTop]->rotation_.z = rotate;
+	/*worldTransforms_[kPlayerTop]->rotation_.z = rotate;
 	worldTransforms_[kPlayerTop]->translation_ = worldTransformBase_.translation_;
-	// objectManager_->GetSprite("PlayerTop")->SetRotation(rotate);
+	*/// objectManager_->GetSprite("PlayerTop")->SetRotation(rotate);
 	// objectManager_->GetSprite("PlayerTop")->SetPosition({worldTransformBase_.translation_.x,
 	// worldTransformBase_.translation_.y});
 
 	worldTransformBase_.UpdateMatrix();
-	for (auto& worldTransform : worldTransforms_) {
+	/*for (auto& worldTransform : worldTransforms_) {
 		worldTransform->UpdateMatrix();
-	}
+	}*/
 
 #ifdef _DEBUG
 
@@ -245,13 +244,13 @@ void Player::ChangeCanonType(bool isUp) {
 void Player::DrawCanon() {
 	//// 試しに描画
 	Vector2 way = mousePosition_ - canonPosition_;
-	worldTransforms_[kPlayerLine]->scale_.x = Mymath::Length(way);
+	/*worldTransforms_[kPlayerLine]->scale_.x = Mymath::Length(way);
 	worldTransforms_[kPlayerLine]->scale_.y = 5.0f;
 	worldTransforms_[kPlayerLine]->rotation_.z = canonRotate_;
 	way = canonPosition_ + way * 0.5f;
 	worldTransforms_[kPlayerLine]->translation_.x = way.x;
 	worldTransforms_[kPlayerLine]->translation_.y = way.y;
-	//objectManager_->DrawSprite("Line", worldTransforms_[kPlayerLine].get());
+	*///objectManager_->DrawSprite("Line", worldTransforms_[kPlayerLine].get());
 	// Sprite* buff = objectManager_->GetSprite("1x1");
 	// buff->SetSize({Mymath::Length(way), 5.0f});
 	// buff->SetRotation(canonRotate_);
@@ -260,13 +259,13 @@ void Player::DrawCanon() {
 
 	// buff->Draw();
 
-	worldTransforms_[kPlayerCanon]->translation_.x = canonPosition_.x;
-	worldTransforms_[kPlayerCanon]->translation_.y = canonPosition_.y;
-	worldTransforms_[kPlayerCanon]->rotation_.z = canonRotate_;
-	worldTransforms_[kPlayerCanon]->scale_.x = 100;
-	worldTransforms_[kPlayerCanon]->scale_.y = 100;
-	//objectManager_->DrawSprite("Canon", worldTransforms_[kPlayerCanon].get());
-	// buff = objectManager_->GetSprite("canon");
+	//worldTransforms_[kPlayerCanon]->translation_.x = canonPosition_.x;
+	//worldTransforms_[kPlayerCanon]->translation_.y = canonPosition_.y;
+	//worldTransforms_[kPlayerCanon]->rotation_.z = canonRotate_;
+	//worldTransforms_[kPlayerCanon]->scale_.x = 100;
+	//worldTransforms_[kPlayerCanon]->scale_.y = 100;
+	////objectManager_->DrawSprite("Canon", worldTransforms_[kPlayerCanon].get());
+	//// buff = objectManager_->GetSprite("canon");
 	// buff->SetPosition(canonPosition_);
 	// buff->SetRotation(canonRotate_);
 	// buff->SetSize({100, 100});

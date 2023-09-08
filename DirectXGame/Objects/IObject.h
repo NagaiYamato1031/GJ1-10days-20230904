@@ -1,18 +1,29 @@
 #pragma once
 
-#include "ViewProjection.h"
-#include "WorldTransform.h"
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
+
+#include "Sprite.h"
+#include "ViewProjection.h"
+#include "WorldTransform.h"
 
 #include "Vector2.h"
 
 class GameScene;
 
+struct Transform2D {
+	int16_t isUse_;
+	Vector2 scale_;
+	float rotate_;
+	Vector2 position_;
+};
+
+using UniqueSprite = std::unique_ptr<Sprite>;
+
 struct SpriteData {
-	std::string name_;
-	int32_t max_;
+	Transform2D transform_;
+	UniqueSprite sprite_;
 };
 
 // 仮想クラス
@@ -73,14 +84,13 @@ protected:
 	WorldTransform worldTransformBase_;
 
 	// モデルなどを動かすための WorldTransform
-	std::vector<std::unique_ptr<WorldTransform>> worldTransforms_;
-	
+	// std::vector<std::unique_ptr<WorldTransform>> worldTransforms_;
+
 	// 使う画像の名前を保存
-	// kUseSpriteData に統合済み
 	std::vector<std::string> textureName_;
 
-	// 画像の名前と、使用最大数を保存
-	std::vector<SpriteData> kUseSpriteData_;
+	// 画像の名前と、スプライトの Transform とデータを保存
+	std::map<std::string, std::vector<SpriteData>> sprites_;
 
 	// カメラ
 	const ViewProjection* viewProjection_ = nullptr;

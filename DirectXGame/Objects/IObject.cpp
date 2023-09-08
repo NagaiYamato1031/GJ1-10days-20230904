@@ -80,4 +80,4 @@ void IObject::SetGameScene(GameScene* scene) { gameScene_ = scene; }
 
 void IObject::SetTextureName(const std::string& name) { textureName_.push_back(name); }
 
-std::vector<SpriteData>& IObject::GetSpriteData() { return kUseSpriteData_; }
+std::vector<SpriteData>& IObject::GetSpriteData() { return sprites_; }
