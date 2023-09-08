@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Sprite.h"
+#include "TextureManager.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
@@ -86,11 +87,8 @@ protected:
 	// モデルなどを動かすための WorldTransform
 	// std::vector<std::unique_ptr<WorldTransform>> worldTransforms_;
 
-	// 使う画像の名前を保存
-	std::vector<std::string> textureName_;
-
-	// 画像の名前と、スプライトの Transform とデータを保存
-	std::map<std::string, std::vector<SpriteData>> sprites_;
+	// 画像の添え字( enum希望 )と、スプライトの Transform とデータを保存
+	std::map<int, std::vector<SpriteData>> sprites_;
 
 	// カメラ
 	const ViewProjection* viewProjection_ = nullptr;
