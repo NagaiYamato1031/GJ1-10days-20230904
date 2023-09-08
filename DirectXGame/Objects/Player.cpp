@@ -36,6 +36,12 @@ void Player::Initialize() {
 	//kUseSpriteData_[kPlayerBody].max_ = 1;
 	//kUseSpriteData_[kPlayerCanon].max_ = 1;
 
+	SetSprite(kPlayerLine, "Sausage/line.png");
+	SetSprite(kPlayerTop, "Sausage/sausage.png");
+	SetSprite(kPlayerBody, "Sausage/sausage.png");
+	SetSprite(kPlayerCanon, "Sausage/canon.png");
+
+
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Player";

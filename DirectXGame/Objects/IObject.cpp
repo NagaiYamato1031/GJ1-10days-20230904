@@ -21,12 +21,9 @@ void IObject::Initialize() {
 
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
-
 }
 
-void IObject::Update() {
-	worldTransformBase_.UpdateMatrix();
-}
+void IObject::Update() { worldTransformBase_.UpdateMatrix(); }
 
 void IObject::Draw() {}
 
@@ -77,5 +74,12 @@ void IObject::SetSprite(int index, const std::string& path) {
 	uint32_t handle = TextureManager::Load(path);
 	// スプライト
 	Sprite* sprite = Sprite::Create(handle, pos, color, ancher);
-	sprites_[index].emplace_back(sprite);
+	// トランスフォーム
+	Transform2D transform{
+	    .isUse_{0},
+	    .scale_{1, 1},
+	    .rotate_{0},
+	    .position_{0, 0},
+	};
+	sprites_[index].emplace_back(SpriteData(transform, std::make_unique<Sprite>(sprite)));
 }
