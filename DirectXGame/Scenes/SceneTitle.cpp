@@ -34,3 +34,5 @@ void SceneTitle::Update() {
 void SceneTitle::DrawBackdrop() {}
 void SceneTitle::Draw3D() {}
 void SceneTitle::DrawOverlay() {}
+
+void SceneTitle::CheckAllCollision() {}

@@ -24,5 +24,8 @@ public:
 	// 前景スプライト
 	void DrawOverlay() override;
 
+	// 衝突判定
+	void CheckAllCollision() override;
+
 private:
 };

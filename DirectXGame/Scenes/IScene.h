@@ -27,6 +27,9 @@ public:
 	// 前景スプライト
 	virtual void DrawOverlay() = 0;
 
+	// シーン内の当たり判定を取る
+	virtual void CheckAllCollision();
+
 protected:
 
 	// ゲームシーン
