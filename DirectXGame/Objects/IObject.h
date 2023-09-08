@@ -16,6 +16,7 @@ class GameScene;
 
 struct Transform2D {
 	int16_t isUse_;
+	Vector2 size_;
 	Vector2 scale_;
 	float rotate_;
 	Vector2 position_;
@@ -83,6 +84,12 @@ public: // ゲッターセッター
 
 	// スプライトの登録
 	void SetSprite(int index, const std::string& path);
+
+	// スプライトの更新
+	void SpriteUpdate();
+
+	// データを一度トランスフォームに入れる
+	void FetchSpriteData();
 
 protected:
 	// ゲームシーン

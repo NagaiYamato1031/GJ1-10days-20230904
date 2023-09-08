@@ -1,7 +1,5 @@
 #include "SceneTitle.h"
 
-#include "Objects/Player.h"
-#include "Objects/Block.h"
 #include "GameScene.h"
 
 
@@ -11,7 +9,7 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 	
-	Player* player_ = new Player();
+	player_.reset(new Player);
 	player_->Initialize();
 
 	// プレイヤーのテクスチャ
@@ -25,6 +23,8 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 
 void SceneTitle::Update() {  
 	
+	player_->Update();
+
 	if (input_->PushKey(DIK_SPACE)) {
 		gameScene_->SetScene(Scene::kPlay);
 		
@@ -33,6 +33,6 @@ void SceneTitle::Update() {
 
 void SceneTitle::DrawBackdrop() {}
 void SceneTitle::Draw3D() {}
-void SceneTitle::DrawOverlay() {}
+void SceneTitle::DrawOverlay() { player_->Draw(); }
 
 void SceneTitle::CheckAllCollision() {}

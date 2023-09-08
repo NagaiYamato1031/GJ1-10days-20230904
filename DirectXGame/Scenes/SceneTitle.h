@@ -1,6 +1,11 @@
 #pragma once
 #include "IScene.h"
 
+#include <memory>
+
+#include "Objects/Player.h"
+#include "Objects/Block.h"
+
 class SceneTitle : public IScene {
 public:
 
@@ -20,4 +25,5 @@ public:
 
 private:
 	
+	std::unique_ptr<Player> player_;
 };

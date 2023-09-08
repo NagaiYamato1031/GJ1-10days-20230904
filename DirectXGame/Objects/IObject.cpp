@@ -23,7 +23,10 @@ void IObject::Initialize() {
 	worldTransformBase_.UpdateMatrix();
 }
 
-void IObject::Update() { worldTransformBase_.UpdateMatrix(); }
+void IObject::Update() {
+	worldTransformBase_.UpdateMatrix();
+	SpriteUpdate();
+}
 
 void IObject::Draw() {}
 
@@ -78,12 +81,37 @@ void IObject::SetSprite(int index, const std::string& path) {
 	// トランスフォーム
 	Transform2D transform{
 	    .isUse_{0},
+	    .size_{sprite->GetSize()},
 	    .scale_{1, 1},
 	    .rotate_{0},
 	    .position_{0, 0},
 	};
-	SpriteData data;
-	data.transform_ = transform;
-	data.sprite_.reset(Sprite::Create(handle, pos, color, ancher));
-	sprites_[index].emplace_back(&data);
+	SpriteData* data = new SpriteData;
+	data->transform_ = transform;
+	data->sprite_.reset(Sprite::Create(handle, pos, color, ancher));
+	sprites_[index].emplace_back(data);
+}
+void IObject::SpriteUpdate() {
+	for (int i = 0; i < sprites_.size(); i++) {
+		for (auto& data : sprites_[i]) {
+			if (data->transform_.isUse_) {
+				Vector2 size;
+				size.x = data->transform_.size_.x * data->transform_.scale_.x;
+				size.y = data->transform_.size_.y * data->transform_.scale_.y;
+				data->sprite_->SetSize(size);
+				data->sprite_->SetPosition(data->transform_.position_);
+				data->sprite_->SetRotation(data->transform_.rotate_);
+			}
+		}
+	}
+}
+
+void IObject::FetchSpriteData() {
+	for (int i = 0; i < sprites_.size(); i++) {
+		for (auto& data : sprites_[i]) {
+			data->transform_.position_ = data->sprite_->GetPosition();
+			data->transform_.rotate_ = data->sprite_->GetRotation();
+			data->transform_.size_ = data->sprite_->GetSize();
+		}
+	}
 }
