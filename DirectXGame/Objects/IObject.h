@@ -52,6 +52,9 @@ public:
 	virtual void AddlyGlobalConfigs() = 0;
 	virtual void AddlyAllGlobalConfigs();
 
+	// 描画後にスプライトの描画状態リセット
+	//virtual void DrawReset();
+
 public: // ゲッターセッター
 	// 親となるワールドトランスフォームをセット
 	void SetParent(const WorldTransform* parent) { worldTransformBase_.parent_ = parent; }
@@ -64,7 +67,7 @@ public: // ゲッターセッター
 	Vector2 GetPosition() const;
 
 	// 作成するスプライトの数を取得する
-	std::vector<SpriteData>& GetSpriteData();
+	//std::vector<SpriteData>& GetSpriteData();
 
 	// ビュープロジェクションを設定
 	void SetViewProjection(const ViewProjection* viewProjection) {
@@ -75,7 +78,7 @@ public: // ゲッターセッター
 	void SetGameScene(GameScene* scene);
 
 	// テクスチャ登録
-	void SetTextureName(const std::string& name);
+	//void SetTextureName(const std::string& name);
 
 protected:
 	// ゲームシーン

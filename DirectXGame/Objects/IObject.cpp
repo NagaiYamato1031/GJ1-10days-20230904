@@ -20,7 +20,6 @@ void IObject::Initialize() {
 	const char* groupName = "Base";
 	configs->CreateGroup(groupName);
 
-	
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
@@ -47,7 +46,6 @@ void IObject::AddlyAllGlobalConfigs() {
 	// オブジェクト内で共通する設定を読み込む
 	configs;
 	groupName;
-
 
 	// オーバーライドされた関数を呼び出す
 	AddlyGlobalConfigs();
@@ -77,7 +75,3 @@ Vector2 IObject::GetPosition() const {
 }
 
 void IObject::SetGameScene(GameScene* scene) { gameScene_ = scene; }
-
-void IObject::SetTextureName(const std::string& name) { textureName_.push_back(name); }
-
-std::vector<SpriteData>& IObject::GetSpriteData() { return sprites_; }
