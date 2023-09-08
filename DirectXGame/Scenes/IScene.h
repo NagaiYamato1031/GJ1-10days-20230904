@@ -3,10 +3,9 @@
 #include <list>
 #include <memory>
 
-#include "./Objects/ObjectManager.h"
+#include "Input.h"
 
-class GameScnee;
-
+class GameScene;
 
 class IScene {
 public:
@@ -15,10 +14,10 @@ public:
 	virtual ~IScene();
 
 	// 純粋仮想初期化関数
-	virtual void Initialize() = 0;
+	virtual void Initialize(GameScene* gameScene) = 0;
 
 	// 純粋仮想更新関数
-	virtual void Update(GameScene* gameScene) = 0;
+	virtual void Update() = 0;
 
 	// 純粋仮想描画関数
 	// 背景スプライト
@@ -30,7 +29,10 @@ public:
 
 protected:
 
-	// オブジェクト管理
-	ObjectManager* objectManager_ = nullptr;
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
+
+	// 入力
+	Input* input_ = nullptr;
 
 };

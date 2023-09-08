@@ -6,27 +6,24 @@
 #include <numbers>
 #include <vector>
 
-class ObjectManager;
-
 #pragma region 読み込んだテクスチャ
 
 enum PlayerTexture {
 	kPlayerLine,
 	kPlayerTop,
+	kPlayerBody,
+	kPlayerCanon,
+
+	kCountofPlayerTexture,
 };
 
 #pragma endregion
 
 #pragma region 構造体やenum
 
-struct SubDivision {
-	Vector2 point_;
-	float length_;
-};
-
 enum CanonType {
-	kCanonNormal,
 	kCanonLow,
+	kCanonNormal,
 	kCanonHigh,
 
 	kCountofCanonType,
@@ -67,7 +64,7 @@ private:
 	void ControlCanonKeyBoard();
 
 	// 大砲のタイプを切り替える
-	void ChangeCanonType();
+	void ChangeCanonType(bool isUp);
 
 	// 大砲の描画
 	void DrawCanon();
@@ -76,7 +73,6 @@ private:
 private:
 	// シングルトン
 	Input* input_ = nullptr;
-	ObjectManager* objectManager_ = nullptr;
 
 	// プレイヤーの当たり判定
 	Vector3 kPlayerSize_ = {1, 1, 1};
@@ -97,6 +93,11 @@ private:
 
 	// 大砲が固定されているかどうか
 	bool isLockedCanon_ = false;
+
+	// 大砲の回転方向
+	int32_t canonDirection_ = 1;
+	// 回転速度
+	float kCanonRotateSpeed_ = 0.07f;
 
 	// 大砲の位置
 	Vector2 canonPosition_ = {0, 0};

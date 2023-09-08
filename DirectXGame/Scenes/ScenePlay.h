@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Input.h"
-
 #include "Scenes/IScene.h"
-
 
 class ScenePlay : public IScene {
 public:
@@ -14,10 +11,10 @@ public:
 	~ScenePlay();
 
 	// 初期化関数
-	void Initialize() override;
+	void Initialize(GameScene* gameScene) override;
 
 	// 更新関数
-	void Update(GameScene* gameScene) override;
+	void Update() override;
 
 	// 描画関数
 	// 背景スプライト
@@ -27,11 +24,5 @@ public:
 	// 前景スプライト
 	void DrawOverlay() override;
 
-protected:
-
-	// オブジェクト管理
-	ObjectManager* objectManager_ = nullptr;
-
-	Input* input_ = nullptr;
-
+private:
 };

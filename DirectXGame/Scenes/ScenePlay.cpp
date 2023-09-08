@@ -8,9 +8,9 @@ ScenePlay::ScenePlay() {}
 
 ScenePlay::~ScenePlay() {}
 
-void ScenePlay::Initialize() { 
-	objectManager_ = ObjectManager::GetInstance();
+void ScenePlay::Initialize(GameScene* gameScene) { 
 
+	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 
 	/*std::vector<std::unique_ptr<Block>> blocks;
@@ -23,10 +23,10 @@ void ScenePlay::Initialize() {
 			block_->Initialize();
 			block_->SetPosition({16.0f * float(x), 16.0f * float(y)});
 
-			objectManager_->AddObject(kBlock, block_);
+			//objectManager_->AddObjectkBlock, block_);
 
 			// プレイヤーのテクスチャ
-			objectManager_->LoadTexture("block", "block.png", kBlock);
+			//objectManager_->LoadTexture("block", "block.png", kBlock);
 		}
 	
 	}
@@ -36,11 +36,10 @@ void ScenePlay::Initialize() {
 
 }
 
-void ScenePlay::Update(GameScene* gameScene) { 
+void ScenePlay::Update() { 
 	
 	if (input_->PushKey(DIK_E)) {
-		objectManager_->Clear();
-		gameScene->SetScene(Scene::kTitle);
+		gameScene_->SetScene(Scene::kTitle);
 	}
 }
 
@@ -48,4 +47,4 @@ void ScenePlay::DrawBackdrop() {}
 
 void ScenePlay::Draw3D() {}
 
-void ScenePlay::DrawOverlay() { objectManager_->Draw(); }
+void ScenePlay::DrawOverlay() { }

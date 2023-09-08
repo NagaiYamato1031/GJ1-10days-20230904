@@ -24,15 +24,15 @@ void IObject::Initialize() {
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
-	for (WorldTransform& wt : worldTransforms_) {
-		wt.UpdateMatrix();
+	for (auto& wt : worldTransforms_) {
+		wt->UpdateMatrix();
 	}
 }
 
 void IObject::Update() {
 	worldTransformBase_.UpdateMatrix();
-	for (WorldTransform& worldTransform : worldTransforms_) {
-		worldTransform.UpdateMatrix();
+	for (auto& worldTransform : worldTransforms_) {
+		worldTransform->UpdateMatrix();
 	}
 }
 
@@ -65,6 +65,19 @@ Vector3 IObject::GetWorldPosition() const {
 	return worldPos;
 }
 
+Vector2 IObject::GetPosition() const {
+	Vector2 worldPos;
+
+	// worldPos = Mymath::TransformNormal(worldTransform_.translation_, worldTransform_.matWorld_);
+
+	// ワールド座標の平行移動成分を取得
+	worldPos.x = worldTransformBase_.matWorld_.m[3][0];
+	worldPos.y = worldTransformBase_.matWorld_.m[3][1];
+	return worldPos;
+}
+
 void IObject::SetGameScene(GameScene* scene) { gameScene_ = scene; }
 
 void IObject::SetTextureName(const std::string& name) { textureName_.push_back(name); }
+
+std::vector<SpriteData>& IObject::GetSpriteData() { return kUseSpriteData_; }

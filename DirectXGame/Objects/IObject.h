@@ -1,11 +1,19 @@
 #pragma once
 
-#include "WorldTransform.h"
 #include "ViewProjection.h"
-#include <vector>
+#include "WorldTransform.h"
 #include <string>
+#include <vector>
+#include <memory>
+
+#include "Vector2.h"
 
 class GameScene;
+
+struct SpriteData {
+	std::string name_;
+	int32_t max_;
+};
 
 // 仮想クラス
 class IObject {
@@ -41,6 +49,10 @@ public: // ゲッターセッター
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition() const;
+	Vector2 GetPosition() const;
+
+	// 作成するスプライトの数を取得する
+	std::vector<SpriteData>& GetSpriteData();
 
 	// ビュープロジェクションを設定
 	void SetViewProjection(const ViewProjection* viewProjection) {
@@ -53,7 +65,6 @@ public: // ゲッターセッター
 	// テクスチャ登録
 	void SetTextureName(const std::string& name);
 
-
 protected:
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
@@ -62,11 +73,14 @@ protected:
 	WorldTransform worldTransformBase_;
 
 	// モデルなどを動かすための WorldTransform
-	std::vector<WorldTransform> worldTransforms_;
-
+	std::vector<std::unique_ptr<WorldTransform>> worldTransforms_;
+	
 	// 使う画像の名前を保存
+	// kUseSpriteData に統合済み
 	std::vector<std::string> textureName_;
 
+	// 画像の名前と、使用最大数を保存
+	std::vector<SpriteData> kUseSpriteData_;
 
 	// カメラ
 	const ViewProjection* viewProjection_ = nullptr;
