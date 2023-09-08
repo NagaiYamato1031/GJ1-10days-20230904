@@ -73,7 +73,8 @@ void IObject::SetSprite(int index, const std::string& path) {
 	// ハンドル
 	uint32_t handle = TextureManager::Load(path);
 	// スプライト
-	Sprite* sprite = Sprite::Create(handle, pos, color, ancher);
+	UniqueSprite sprite;
+	sprite.reset(Sprite::Create(handle, pos, color, ancher));
 	// トランスフォーム
 	Transform2D transform{
 	    .isUse_{0},
@@ -81,5 +82,8 @@ void IObject::SetSprite(int index, const std::string& path) {
 	    .rotate_{0},
 	    .position_{0, 0},
 	};
-	sprites_[index].emplace_back(SpriteData(transform, std::make_unique<Sprite>(sprite)));
+	SpriteData data;
+	data.transform_ = transform;
+	data.sprite_.reset(Sprite::Create(handle, pos, color, ancher));
+	sprites_[index].emplace_back(&data);
 }

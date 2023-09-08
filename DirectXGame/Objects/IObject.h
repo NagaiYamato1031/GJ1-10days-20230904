@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -53,7 +54,7 @@ public:
 	virtual void AddlyAllGlobalConfigs();
 
 	// 描画後にスプライトの描画状態リセット
-	//virtual void DrawReset();
+	// virtual void DrawReset();
 
 public: // ゲッターセッター
 	// 親となるワールドトランスフォームをセット
@@ -67,7 +68,7 @@ public: // ゲッターセッター
 	Vector2 GetPosition() const;
 
 	// 作成するスプライトの数を取得する
-	//std::vector<SpriteData>& GetSpriteData();
+	// std::vector<SpriteData>& GetSpriteData();
 
 	// ビュープロジェクションを設定
 	void SetViewProjection(const ViewProjection* viewProjection) {
@@ -78,7 +79,7 @@ public: // ゲッターセッター
 	void SetGameScene(GameScene* scene);
 
 	// テクスチャ登録
-	//void SetTextureName(const std::string& name);
+	// void SetTextureName(const std::string& name);
 
 	// スプライトの登録
 	void SetSprite(int index, const std::string& path);
@@ -94,7 +95,7 @@ protected:
 	// std::vector<std::unique_ptr<WorldTransform>> worldTransforms_;
 
 	// 画像の添え字( enum希望 )と、スプライトの Transform とデータを保存
-	std::map<int, std::vector<SpriteData>> sprites_;
+	std::map<int, std::vector<std::unique_ptr<SpriteData>>> sprites_;
 
 	// カメラ
 	const ViewProjection* viewProjection_ = nullptr;

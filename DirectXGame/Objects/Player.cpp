@@ -76,7 +76,7 @@ void Player::Update() {
 
 	worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
 
-	float rotate = std::atan2(movementVelocity_.y, movementVelocity_.x);
+	//float rotate = std::atan2(movementVelocity_.y, movementVelocity_.x);
 	/*worldTransforms_[kPlayerTop]->rotation_.z = rotate;
 	worldTransforms_[kPlayerTop]->translation_ = worldTransformBase_.translation_;
 	*/// objectManager_->GetSprite("PlayerTop")->SetRotation(rotate);
