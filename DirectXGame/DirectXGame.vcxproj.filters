@@ -102,9 +102,6 @@
     <ClCompile Include="Objects\IObject.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\ObjectManager.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Scenes\IScene.cpp">
       <Filter>ソース ファイル\Scenes</Filter>
     </ClCompile>
@@ -222,9 +219,6 @@
       <Filter>ヘッダー ファイル\Config</Filter>
     </ClInclude>
     <ClInclude Include="Objects\IObject.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\ObjectManager.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="Scenes\IScene.h">

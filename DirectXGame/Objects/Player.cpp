@@ -3,7 +3,6 @@
 #include <cmath>
 
 #include "Config/GlobalConfigs.h"
-#include "ObjectManager.h"
 
 #include "Mymath.h"
 
@@ -19,7 +18,6 @@ Player::~Player() {}
 
 void Player::Initialize() {
 	input_ = Input::GetInstance();
-	objectManager_ = ObjectManager::GetInstance();
 
 	worldTransformBase_.Initialize();
 	worldTransforms_.clear();
@@ -32,12 +30,12 @@ void Player::Initialize() {
 
 	worldTransformBase_.translation_ = {640, 500, 0};
 
-	// プレイヤーのテクスチャのデータは、画像読み込みの段階で作ってある
-	// 使う画像の最大数を決める
-	kUseSpriteData_[kPlayerLine].max_ = 1;
-	kUseSpriteData_[kPlayerTop].max_ = 1;
-	kUseSpriteData_[kPlayerBody].max_ = 1;
-	kUseSpriteData_[kPlayerCanon].max_ = 1;
+	//// プレイヤーのテクスチャのデータは、画像読み込みの段階で作ってある
+	//// 使う画像の最大数を決める
+	//kUseSpriteData_[kPlayerLine].max_ = 1;
+	//kUseSpriteData_[kPlayerTop].max_ = 1;
+	//kUseSpriteData_[kPlayerBody].max_ = 1;
+	//kUseSpriteData_[kPlayerCanon].max_ = 1;
 
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
@@ -102,7 +100,7 @@ void Player::Update() {
 
 void Player::Draw() {
 	// プレイヤーの描画
-	objectManager_->DrawSprite("PlayerTop", worldTransforms_[kPlayerTop].get());
+	//objectManager_->DrawSprite("PlayerTop", worldTransforms_[kPlayerTop].get());
 
 	DrawCanon();
 	// なぞった線を描画する
@@ -253,7 +251,7 @@ void Player::DrawCanon() {
 	way = canonPosition_ + way * 0.5f;
 	worldTransforms_[kPlayerLine]->translation_.x = way.x;
 	worldTransforms_[kPlayerLine]->translation_.y = way.y;
-	objectManager_->DrawSprite("Line", worldTransforms_[kPlayerLine].get());
+	//objectManager_->DrawSprite("Line", worldTransforms_[kPlayerLine].get());
 	// Sprite* buff = objectManager_->GetSprite("1x1");
 	// buff->SetSize({Mymath::Length(way), 5.0f});
 	// buff->SetRotation(canonRotate_);
@@ -267,7 +265,7 @@ void Player::DrawCanon() {
 	worldTransforms_[kPlayerCanon]->rotation_.z = canonRotate_;
 	worldTransforms_[kPlayerCanon]->scale_.x = 100;
 	worldTransforms_[kPlayerCanon]->scale_.y = 100;
-	objectManager_->DrawSprite("Canon", worldTransforms_[kPlayerCanon].get());
+	//objectManager_->DrawSprite("Canon", worldTransforms_[kPlayerCanon].get());
 	// buff = objectManager_->GetSprite("canon");
 	// buff->SetPosition(canonPosition_);
 	// buff->SetRotation(canonRotate_);

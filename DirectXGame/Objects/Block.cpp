@@ -1,8 +1,6 @@
 #include "Block.h"
 
-#include "ObjectManager.h"
 #include "Config/GlobalConfigs.h"
-#include "ObjectManager.h"
 
 Block::Block() {}
 
@@ -12,7 +10,6 @@ void Block::Initialize() {
 	worldTransformBase_.Initialize();
 	worldTransforms_.clear();
 
-	objectManager_ = ObjectManager::GetInstance();
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Block";
@@ -36,8 +33,8 @@ void Block::Update() {
 }
 
 void Block::Draw() { 
-	objectManager_->SetSpritePosition("block", position_);
-	objectManager_->DrawSprite("block"); 
+	//objectManager_->SetSpritePosition("block", position_);
+	//objectManager_->DrawSprite("block"); 
 }
 
 void Block::OnCollision() {}
