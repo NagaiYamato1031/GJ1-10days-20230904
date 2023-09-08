@@ -22,12 +22,25 @@ void Player::Initialize() {
 	worldTransformBase_.Initialize();
 	sprites_.clear();
 
+	SetSprite(kPlayerLine, 1, "Sausage/line.png");
+	SetSprite(kPlayerTop, 1, "Sausage/sausage.png");
+	SetSprite(kPlayerBody, 1, "Sausage/sausage.png");
+	SetSprite(kPlayerCanon, 1, "Sausage/canon.png");
+
+	FetchSpriteData();
+
+	sprites_[kPlayerLine][0]->isUse_ = true;
+	sprites_[kPlayerTop][0]->isUse_ = true;
+	sprites_[kPlayerBody][0]->isUse_ = true;
+	sprites_[kPlayerCanon][0]->isUse_ = true;
+
 	kPlayerSize_ = {1, 1, 1};
 	// kGravity_ = 0.98f;
 	isLockedCanon_ = false;
 	// kUseSpriteMax_ = kCountofPlayerTexture;
 
 	worldTransformBase_.translation_ = {640, 500, 0};
+	sprites_[kPlayerTop][0]->transform_.position_ = {640, 500};
 
 	//// プレイヤーのテクスチャのデータは、画像読み込みの段階で作ってある
 	//// 使う画像の最大数を決める
@@ -36,10 +49,6 @@ void Player::Initialize() {
 	// kUseSpriteData_[kPlayerBody].max_ = 1;
 	// kUseSpriteData_[kPlayerCanon].max_ = 1;
 
-	SetSprite(kPlayerLine, "Sausage/line.png");
-	SetSprite(kPlayerTop, "Sausage/sausage.png");
-	SetSprite(kPlayerBody, "Sausage/sausage.png");
-	SetSprite(kPlayerCanon, "Sausage/canon.png");
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Player";
@@ -61,7 +70,6 @@ void Player::Initialize() {
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
-	FetchSpriteData();
 }
 
 void Player::Update() {
@@ -71,6 +79,7 @@ void Player::Update() {
 	ControlCanonKeyBoard();
 
 	worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
+	sprites_[kPlayerTop][0]->transform_.position_ += movementVelocity_;
 
 	// float rotate = std::atan2(movementVelocity_.y, movementVelocity_.x);
 	/*worldTransforms_[kPlayerTop]->rotation_.z = rotate;
@@ -107,11 +116,13 @@ void Player::Draw() {
 	// プレイヤーの描画
 	// objectManager_->DrawSprite("PlayerTop", worldTransforms_[kPlayerTop].get());
 
-	sprites_[kPlayerTop][0]->sprite_->Draw();
+	//sprites_[kPlayerTop][0]->sprite_->Draw();
 
-	//DrawCanon();
-	// なぞった線を描画する
-	// DrawLine();
+	DrawSprite();
+
+	// DrawCanon();
+	//  なぞった線を描画する
+	//  DrawLine();
 }
 
 void Player::OnCollision() {}
@@ -130,6 +141,19 @@ void Player::AddlyGlobalConfigs() {
 void Player::ControlCanonMouse() {
 	// マウス座標
 	mousePosition_ = input_->GetMousePosition();
+	// マウス座標をゲームの範囲内に収める
+	float canonSize = sprites_[kPlayerCanon][0]->sprite_->GetSize().x / 2.0f;
+	if (mousePosition_.x < canonSize) {
+		mousePosition_.x = canonSize;
+	} else if (1280 - canonSize < mousePosition_.x) {
+		mousePosition_.x = 1280 - canonSize;
+	}
+	if (mousePosition_.y < canonSize) {
+		mousePosition_.y = canonSize;
+	} else if (720 - canonSize < mousePosition_.y) {
+		mousePosition_.y = 720 - canonSize;
+	}
+
 	// 大砲がロックされている時
 	if (isLockedCanon_) {
 		// 一度方向を取得する
@@ -152,6 +176,7 @@ void Player::ControlCanonMouse() {
 				mousePosition_.y = mousePosition_.y + (std::sinf(theta) * length);
 			}
 		}
+		sprites_[kPlayerCanon][0]->transform_.rotate_ = theta;
 		canonRotate_ = theta;
 
 		// 左クリックの挙動
@@ -166,6 +191,7 @@ void Player::ControlCanonMouse() {
 			ChangeCanonType(true);
 		}
 	} else {
+		sprites_[kPlayerCanon][0]->transform_.position_ = mousePosition_;
 		canonPosition_ = mousePosition_;
 		if (input_->IsTriggerMouse(0)) {
 			isLockedCanon_ = true;
@@ -192,7 +218,7 @@ void Player::ControlCanonKeyBoard() {
 	if (input_->PushKey(DIK_D)) {
 		canonPosition_.x += kCanonMoveSpeed;
 	}
-
+	sprites_[kPlayerCanon][0]->transform_.position_ = canonPosition_;
 	// 上方向
 	/// float upTheta = static_cast<float>(-std::numbers::pi) / 2.0f;
 	// 大砲の回転方向調整
@@ -219,7 +245,7 @@ void Player::ControlCanonKeyBoard() {
 
 	// 一回転したときの挙動
 	canonRotate_ = std::fmodf(canonRotate_, static_cast<float>(std::numbers::pi) * 2);
-
+	sprites_[kPlayerCanon][0]->transform_.rotate_ = canonRotate_;
 	// 射出の挙動
 	if (input_->TriggerKey(DIK_Q)) {
 		Vector2 velocity = {std::cosf(canonRotate_), std::sinf(canonRotate_)};
@@ -251,7 +277,7 @@ void Player::ChangeCanonType(bool isUp) {
 
 void Player::DrawCanon() {
 	//// 試しに描画
-	//Vector2 way = mousePosition_ - canonPosition_;
+	// Vector2 way = mousePosition_ - canonPosition_;
 	/*worldTransforms_[kPlayerLine]->scale_.x = Mymath::Length(way);
 	worldTransforms_[kPlayerLine]->scale_.y = 5.0f;
 	worldTransforms_[kPlayerLine]->rotation_.z = canonRotate_;

@@ -80,21 +80,46 @@ void IObject::SetSprite(int index, const std::string& path) {
 	sprite.reset(Sprite::Create(handle, pos, color, ancher));
 	// トランスフォーム
 	Transform2D transform{
-	    .isUse_{0},
 	    .size_{sprite->GetSize()},
 	    .scale_{1, 1},
 	    .rotate_{0},
 	    .position_{0, 0},
 	};
 	SpriteData* data = new SpriteData;
+	data->isUse_ = false;
 	data->transform_ = transform;
 	data->sprite_.reset(Sprite::Create(handle, pos, color, ancher));
 	sprites_[index].emplace_back(data);
 }
+void IObject::SetSprite(int index, int num, const std::string& path) {
+	Vector2 pos{0, 0};
+	Vector4 color{1, 1, 1, 1};
+	Vector2 ancher{0.5f, 0.5f};
+	// ハンドル
+	uint32_t handle = TextureManager::Load(path);
+	for (size_t i = 0; i < num; i++) {
+		// スプライト
+		UniqueSprite sprite;
+		sprite.reset(Sprite::Create(handle, pos, color, ancher));
+		// トランスフォーム
+		Transform2D transform{
+		    .size_{sprite->GetSize()},
+		    .scale_{1, 1},
+		    .rotate_{0},
+		    .position_{0, 0},
+		};
+		SpriteData* data = new SpriteData;
+		data->isUse_ = false;
+		data->transform_ = transform;
+		data->sprite_.reset(Sprite::Create(handle, pos, color, ancher));
+		sprites_[index].emplace_back(data);
+	}
+}
+
 void IObject::SpriteUpdate() {
 	for (int i = 0; i < sprites_.size(); i++) {
 		for (auto& data : sprites_[i]) {
-			if (data->transform_.isUse_) {
+			if (data->isUse_) {
 				Vector2 size;
 				size.x = data->transform_.size_.x * data->transform_.scale_.x;
 				size.y = data->transform_.size_.y * data->transform_.scale_.y;
@@ -112,6 +137,16 @@ void IObject::FetchSpriteData() {
 			data->transform_.position_ = data->sprite_->GetPosition();
 			data->transform_.rotate_ = data->sprite_->GetRotation();
 			data->transform_.size_ = data->sprite_->GetSize();
+		}
+	}
+}
+
+void IObject::DrawSprite() {
+	for (int i = 0; i < sprites_.size(); i++) {
+		for (auto& data : sprites_[i]) {
+			if (data->isUse_) {
+				data->sprite_->Draw();
+			}
 		}
 	}
 }

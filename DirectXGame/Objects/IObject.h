@@ -15,7 +15,6 @@
 class GameScene;
 
 struct Transform2D {
-	int16_t isUse_;
 	Vector2 size_;
 	Vector2 scale_;
 	float rotate_;
@@ -25,6 +24,7 @@ struct Transform2D {
 using UniqueSprite = std::unique_ptr<Sprite>;
 
 struct SpriteData {
+	int16_t isUse_;
 	Transform2D transform_;
 	UniqueSprite sprite_;
 };
@@ -84,12 +84,16 @@ public: // ゲッターセッター
 
 	// スプライトの登録
 	void SetSprite(int index, const std::string& path);
+	void SetSprite(int index, int num, const std::string& path);
 
 	// スプライトの更新
 	void SpriteUpdate();
 
 	// データを一度トランスフォームに入れる
 	void FetchSpriteData();
+
+	// スプライトの一括描画
+	void DrawSprite();
 
 protected:
 	// ゲームシーン
