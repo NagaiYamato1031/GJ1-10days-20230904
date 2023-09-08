@@ -76,8 +76,10 @@ protected:
 	std::vector<std::unique_ptr<WorldTransform>> worldTransforms_;
 	
 	// 使う画像の名前を保存
+	// kUseSpriteData に統合済み
 	std::vector<std::string> textureName_;
 
+	// 画像の名前と、使用最大数を保存
 	std::vector<SpriteData> kUseSpriteData_;
 
 	// カメラ

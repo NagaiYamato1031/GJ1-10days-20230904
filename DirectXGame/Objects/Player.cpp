@@ -23,6 +23,7 @@ void Player::Initialize() {
 
 	worldTransformBase_.Initialize();
 	worldTransforms_.clear();
+	kUseSpriteData_.clear();
 
 	kPlayerSize_ = {1, 1, 1};
 	// kGravity_ = 0.98f;
@@ -31,10 +32,12 @@ void Player::Initialize() {
 
 	worldTransformBase_.translation_ = {640, 500, 0};
 
-	// プレイヤーのテクスチャのデータを作る
-	for (size_t i = 0; i < kCountofPlayerTexture; i++) {
-
-	}
+	// プレイヤーのテクスチャのデータは、画像読み込みの段階で作ってある
+	// 使う画像の最大数を決める
+	kUseSpriteData_[kPlayerLine].max_ = 1;
+	kUseSpriteData_[kPlayerTop].max_ = 1;
+	kUseSpriteData_[kPlayerBody].max_ = 1;
+	kUseSpriteData_[kPlayerCanon].max_ = 1;
 
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();

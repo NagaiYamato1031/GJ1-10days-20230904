@@ -22,14 +22,16 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	objectManager_->AddObject(kPlayer, player_);
 
 	// プレイヤーのテクスチャ
+	// enum を使用している時、enum の順番通りに読み込ませる
 	objectManager_->LoadTexture("Line", "Sausage/line.png",kPlayer);
 	objectManager_->LoadTexture("PlayerTop", "Sausage/sausage.png", kPlayer);
+	objectManager_->LoadTexture("PlayerBody", "Sausage/sausage.png", kPlayer);
 	objectManager_->LoadTexture("canon", "Sausage/canon.png", kPlayer);
 	objectManager_->LoadTexture("1x1", "white1x1.png");
   
 
 	auto& playerData = objectManager_->GetOneObject(kPlayer)->GetSpriteData();
-	for (auto buffer : playerData) {
+	for (auto& buffer : playerData) {
 		objectManager_->CreateSprite(buffer.name_, buffer.max_);
 	}
 	/*objectManager_->CreateSprite("Line", 1);
