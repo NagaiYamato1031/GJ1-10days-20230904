@@ -6,8 +6,6 @@
 #include <numbers>
 #include <vector>
 
-class ObjectManager;
-
 #pragma region 読み込んだテクスチャ
 
 enum PlayerTexture {
@@ -75,7 +73,6 @@ private:
 private:
 	// シングルトン
 	Input* input_ = nullptr;
-	ObjectManager* objectManager_ = nullptr;
 
 	// プレイヤーの当たり判定
 	Vector3 kPlayerSize_ = {1, 1, 1};

@@ -3,8 +3,6 @@
 #include "IObject.h"
 #include "Vector2.h"
 
-class ObjectManager;
-
 // Plyaerクラス
 class Block : public IObject {
 public:
@@ -35,7 +33,6 @@ public:
 
 private:
 
-	ObjectManager* objectManager_ = nullptr;
 	bool isDead_ = false;
 	Vector2 position_;
 };

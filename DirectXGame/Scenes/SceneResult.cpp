@@ -8,7 +8,6 @@ SceneResult::SceneResult() {}
 SceneResult::~SceneResult() {}
 
 void SceneResult::Initialize(GameScene* gameScene) {
-	objectManager_ = ObjectManager::GetInstance();
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 }

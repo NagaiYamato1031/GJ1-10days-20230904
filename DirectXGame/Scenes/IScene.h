@@ -3,10 +3,9 @@
 #include <list>
 #include <memory>
 
-#include "./Objects/ObjectManager.h"
 #include "Input.h"
 
-class GameScnee;
+class GameScene;
 
 class IScene {
 public:
@@ -29,9 +28,6 @@ public:
 	virtual void DrawOverlay() = 0;
 
 protected:
-
-	// オブジェクト管理
-	ObjectManager* objectManager_ = nullptr;
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
