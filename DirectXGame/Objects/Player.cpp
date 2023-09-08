@@ -31,6 +31,12 @@ void Player::Initialize() {
 
 	worldTransformBase_.translation_ = {640, 500, 0};
 
+	// プレイヤーのテクスチャのデータを作る
+	for (size_t i = 0; i < kCountofPlayerTexture; i++) {
+
+	}
+
+
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Player";
 	configs->CreateGroup(groupName);
