@@ -8,7 +8,14 @@ Block::~Block() {}
 
 void Block::Initialize() {
 	worldTransformBase_.Initialize();
+
+	input_ = Input::GetInstance();
+
 	sprites_.clear();
+
+	SetSprite(kNormal, 1, "block.png");
+
+	sprites_[kNormal][0]->isUse_ = true;
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Block";
@@ -20,8 +27,6 @@ void Block::Initialize() {
 	//for (auto& wt : worldTransforms_) {
 	//	wt->UpdateMatrix();
 	//}
-
-	position_ = {0.0f, 0.0f};
 }
 
 void Block::Update() {
@@ -29,11 +34,16 @@ void Block::Update() {
 	 for (auto& worldTransform : worldTransforms_) {
 	     worldTransform->UpdateMatrix();
 	 }*/
+	SpriteUpdate();
+
+	Collider();
+
 }
 
 void Block::Draw() { 
 	//objectManager_->SetSpritePosition("block", position_);
 	//objectManager_->DrawSprite("block"); 
+	DrawSprite();
 }
 
 void Block::OnCollision() {}
@@ -42,4 +52,23 @@ void Block::AddlyGlobalConfigs() {
 
 	/*GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Block";*/
+}
+
+void Block::SetPosition(const Vector2 pos) { 
+	worldTransformBase_.translation_.x = pos.x;
+	worldTransformBase_.translation_.y = pos.y;
+	sprites_[kNormal][0]->transform_.position_ = {worldTransformBase_.translation_.x, worldTransformBase_.translation_.y};
+}
+
+void Block::Collider() {
+	Vector2 playerPos = {float(input_->GetMousePosition().x), float(input_->GetMousePosition().y)};
+	//playerPos = player_->GetPosition();
+	//float playerSize = player_->GetSize();
+
+	float a = playerPos.x - worldTransformBase_.translation_.x;
+	float b = playerPos.y - worldTransformBase_.translation_.y;
+	float c = sqrtf(a * a + b * b);
+	if (c <= 32.0f) {
+		isDead_ = true;
+	}
 }

@@ -2,6 +2,11 @@
 
 #include "Scenes/IScene.h"
 
+#include <vector>
+
+#include "Objects/Player.h"
+#include "Objects/Block.h"
+
 class ScenePlay : public IScene {
 public:
 	// コンストクラタ
@@ -27,5 +32,8 @@ public:
 	// 衝突判定
 	void CheckAllCollision() override;
 
+	void BlockSqawn();
+
 private:
+	std::vector<std::unique_ptr<Block>> blocks_;
 };

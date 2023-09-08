@@ -3,6 +3,16 @@
 #include "IObject.h"
 #include "Vector2.h"
 
+#include "Input.h"
+
+#pragma region 読み込んだテクスチャ
+
+enum BlockTexture {
+	kNormal
+};
+
+#pragma endregion
+
 // Plyaerクラス
 class Block : public IObject {
 public:
@@ -29,10 +39,13 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void SetPosition(const Vector2 pos) { position_ = pos; }
+	// worldTransformBaseに位置をSet
+	void SetPosition(const Vector2 pos);
+
+	// 当たり判定
+	void Collider();
 
 private:
-
+	Input* input_ = nullptr;
 	bool isDead_ = false;
-	Vector2 position_;
 };
