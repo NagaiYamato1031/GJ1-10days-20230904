@@ -2,6 +2,8 @@
 #include "IScene.h"
 
 #include <memory>
+#include "TextureManager.h"
+#include "Sprite.h"
 
 #include "Objects/Player.h"
 #include "Objects/Block.h"
@@ -26,4 +28,8 @@ public:
 private:
 	
 	std::unique_ptr<Player> player_;
+
+	std::unique_ptr<Sprite> backGround_;
+	std::unique_ptr<Sprite> titleLogo_;
+
 };
