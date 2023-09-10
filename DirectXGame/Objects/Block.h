@@ -8,7 +8,8 @@
 #pragma region 読み込んだテクスチャ
 
 enum BlockTexture {
-	kNormal
+	kNormal,
+	kPixel
 };
 
 #pragma endregion
