@@ -57,11 +57,10 @@ public:
 	void VanishEffectInitialize();
 	void VanishEffect();
 
+	// 振る舞いを変える
 	void ChangeState(BlockState behavior);
 
 	bool GetFlage() { return spawnFlage_; }
-
-	void SetIsUse(uint16_t isUse) { sprites_[kNormal][0]->isUse_ = isUse; }
 
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
 
@@ -75,8 +74,9 @@ private:
 	// 振る舞いリクエスト
 	std::optional<BlockState> blockEffectBehaviorRequest_ = std::nullopt;
 
-	uint32_t effectTimer = 0;
+	// 破壊された時の破片
 	BlockPixel pixel_[6];
+
 	float effectSize_ = 0.0f;
 	float degree_ = 0.0f;
 	const float rotateSpeed_ = 2.25f;

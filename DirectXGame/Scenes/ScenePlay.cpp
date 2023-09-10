@@ -12,7 +12,7 @@ void ScenePlay::Initialize(GameScene* gameScene) {
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 
-	//BlockSqawn();
+	BlockSqawn();
 
 	for (int x = 0; x < 36; x++) {
 		for (int y = 0; y < 4; y++) {
