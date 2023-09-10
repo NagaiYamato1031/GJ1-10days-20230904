@@ -60,6 +60,8 @@ public:
 	void SetStageSize(const Vector2& size) { stageSize_ = size; }
 	void SetStagePosition(const Vector2& position) { stagePosition_ = position; }
 
+	const Transform2D& GetTransform2D();
+
 private:
 
 	// 大砲の操作

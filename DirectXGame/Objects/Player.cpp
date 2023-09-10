@@ -88,7 +88,7 @@ void Player::Update() {
 	// 範囲外に出ないようにする処理
 
 	Vector2 position = sprites_[kPlayerTop][0]->transform_.position_ + movementVelocity_;
-	float playerSIze = sprites_[kPlayerTop][0]->transform_.size_.x / 2.0f;
+	float playerSIze = sprites_[kPlayerTop][0]->transform_.size_.x * sprites_[kPlayerTop][0]->transform_.scale_.x  / 2.0f;
 	if (position.x < stagePosition_.x + playerSIze) {
 		position.x = stagePosition_.x + playerSIze;
 		movementVelocity_.x *= -1;
@@ -151,6 +151,8 @@ void Player::Draw() {
 	//  なぞった線を描画する
 	//  DrawLine();
 }
+
+const Transform2D& Player::GetTransform2D() { return sprites_[kPlayerTop][0]->transform_; }
 
 void Player::OnCollision() {}
 

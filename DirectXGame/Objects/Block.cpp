@@ -36,7 +36,7 @@ void Block::Update() {
 	 }*/
 	SpriteUpdate();
 
-	Collider();
+	//Collider();
 
 }
 
@@ -46,7 +46,10 @@ void Block::Draw() {
 	DrawSprite();
 }
 
-void Block::OnCollision() {}
+void Block::OnCollision() {
+	isDead_ = true;
+	worldTransformBase_.translation_ = {640, 400, 0};
+}
 
 void Block::AddlyGlobalConfigs() {
 
