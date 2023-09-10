@@ -3,6 +3,9 @@
 #include "Scenes/IScene.h"
 
 #include <vector>
+#include "TextureManager.h"
+#include "Sprite.h"
+
 
 #include "Objects/Player.h"
 #include "Objects/Block.h"
@@ -35,5 +38,7 @@ public:
 	void BlockSqawn();
 
 private:
+	std::unique_ptr<Sprite> backGround_;
+	std::unique_ptr<Player> player_;
 	std::vector<std::unique_ptr<Block>> blocks_;
 };

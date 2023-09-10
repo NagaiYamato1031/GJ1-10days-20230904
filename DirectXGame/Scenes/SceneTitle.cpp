@@ -13,12 +13,6 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	handle = TextureManager::Load("Sausage/title.png");
 	titleLogo_.reset(Sprite::Create(handle, {640,500}, {1, 1, 1, 1}, {0.5f, 0.5f}));
 
-	player_.reset(new Player);
-	player_->Initialize();
-
-	player_->SetStagePosition({1280 / 4.0f, 0});
-	player_->SetStageSize({1280 / 2.0f, 720});
-
 	// プレイヤーのテクスチャ
 	// enum を使用している時、enum の順番通りに読み込ませる
 	// objectManager_->LoadTexture("Line", "Sausage/line.png",kPlayer);
@@ -29,9 +23,6 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 }
 
 void SceneTitle::Update() {
-
-	player_->Update();
-
 	if (input_->PushKey(DIK_SPACE)) {
 		gameScene_->SetScene(Scene::kPlay);
 	}
@@ -42,6 +33,6 @@ void SceneTitle::DrawBackdrop() {
 	titleLogo_->Draw();
 }
 void SceneTitle::Draw3D() {}
-void SceneTitle::DrawOverlay() { player_->Draw(); }
+void SceneTitle::DrawOverlay() { }
 
 void SceneTitle::CheckAllCollision() {}

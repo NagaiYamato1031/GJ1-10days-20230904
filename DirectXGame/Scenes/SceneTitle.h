@@ -5,9 +5,6 @@
 #include "TextureManager.h"
 #include "Sprite.h"
 
-#include "Objects/Player.h"
-#include "Objects/Block.h"
-
 class SceneTitle : public IScene {
 public:
 
@@ -27,7 +24,6 @@ public:
 
 private:
 	
-	std::unique_ptr<Player> player_;
 
 	std::unique_ptr<Sprite> backGround_;
 	std::unique_ptr<Sprite> titleLogo_;
