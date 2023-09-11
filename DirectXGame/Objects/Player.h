@@ -55,6 +55,13 @@ public:
 	/// </summary>
 	void AddlyGlobalConfigs() override;
 
+
+	// ステージのサイズを設定する
+	void SetStageSize(const Vector2& size) { stageSize_ = size; }
+	void SetStagePosition(const Vector2& position) { stagePosition_ = position; }
+
+	const Transform2D& GetTransform2D();
+
 private:
 
 	// 大砲の操作
@@ -66,19 +73,39 @@ private:
 	// 大砲のタイプを切り替える
 	void ChangeCanonType(bool isUp);
 
-	// 大砲の描画
-	void DrawCanon();
+	// 大砲とプレイヤーの衝突判定を取る
+	bool CheckHitCollision();
 
+	// 衝突を含めた処理
+	void ControlCanonCollision();
+
+	// 発射時の処理
+	void CanonShot();
 
 private:
 	// シングルトン
 	Input* input_ = nullptr;
 
+	// 全体的なスケール
+	float kAllScale_ = 1.0f;
+
 	// プレイヤーの当たり判定
-	Vector3 kPlayerSize_ = {1, 1, 1};
+	float kPlayerSize_ = 64;
+	float kCanonSize_ = 64;
 
 	// プレイヤーにかかる重力
 	//float kGravity_ = 0.98f;
+
+	// 大砲に入っているか
+	bool isReloaded_ = false;
+
+	// 大砲との判定を行わないフレーム
+	int32_t kNonCollisionFrame_ = 30;
+	int32_t nonCollisionFrame_ = 30;
+
+	// ステージのサイズを外部から設定
+	Vector2 stageSize_;
+	Vector2 stagePosition_;
 
 #pragma region 大砲で撃つ
 
@@ -90,6 +117,8 @@ private:
 
 	// 大砲で撃った時の速度
 	float kCanonPower_ = 5.0f;
+
+	float kCanonMoveSpeed_ = 3.0f;
 
 	// 大砲が固定されているかどうか
 	bool isLockedCanon_ = false;

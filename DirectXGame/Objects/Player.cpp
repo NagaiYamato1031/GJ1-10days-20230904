@@ -4,6 +4,7 @@
 
 #include "Config/GlobalConfigs.h"
 
+#include "MyConst.h"
 #include "Mymath.h"
 
 #ifdef _DEBUG
@@ -24,23 +25,25 @@ void Player::Initialize() {
 
 	SetSprite(kPlayerLine, 1, "Sausage/line.png");
 	SetSprite(kPlayerTop, 1, "Sausage/sausage.png");
-	SetSprite(kPlayerBody, 1, "Sausage/sausage.png");
+	SetSprite(kPlayerBody, 3, "Sausage/sausage2.png");
 	SetSprite(kPlayerCanon, 1, "Sausage/canon.png");
 
 	FetchSpriteData();
 
 	sprites_[kPlayerLine][0]->isUse_ = true;
 	sprites_[kPlayerTop][0]->isUse_ = true;
-	sprites_[kPlayerBody][0]->isUse_ = true;
+	sprites_[kPlayerBody][0]->isUse_ = false;
 	sprites_[kPlayerCanon][0]->isUse_ = true;
 
-	kPlayerSize_ = {1, 1, 1};
+	kPlayerSize_ = 64;
+	kCanonSize_ = 64;
 	// kGravity_ = 0.98f;
 	isLockedCanon_ = false;
 	// kUseSpriteMax_ = kCountofPlayerTexture;
 
 	worldTransformBase_.translation_ = {640, 500, 0};
 	sprites_[kPlayerTop][0]->transform_.position_ = {640, 500};
+	canonPosition_ = {600, 540};
 
 	//// プレイヤーのテクスチャのデータは、画像読み込みの段階で作ってある
 	//// 使う画像の最大数を決める
@@ -49,16 +52,20 @@ void Player::Initialize() {
 	// kUseSpriteData_[kPlayerBody].max_ = 1;
 	// kUseSpriteData_[kPlayerCanon].max_ = 1;
 
-
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Player";
 	configs->CreateGroup(groupName);
 
 	configs->AddItem(groupName, "kPlayerSize", kPlayerSize_);
+	configs->AddItem(groupName, "kCanonSize", kCanonSize_);
+	configs->AddItem(groupName, "kCanonMoveSpeed", kCanonMoveSpeed_);
 	// configs->AddItem(groupName, "kGravity", kGravity_);
 	configs->AddItem(groupName, "kCanonPower", kCanonPower_);
 	configs->AddItem(groupName, "kCanonRotateLimit", kCanonRotateLimit_);
+	configs->AddItem(groupName, "kNonCollisionFrame", kNonCollisionFrame_);
 	// configs->AddItem(groupName, "kUseSpriteMax", kUseSpriteMax_);
+
+	AddlyAllGlobalConfigs();
 
 	//// 使うテクスチャの数だけ WorldTransform を作る
 	// for (size_t i = 0; i < kCountofPlayerTexture; i++) {
@@ -69,7 +76,6 @@ void Player::Initialize() {
 
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
-
 }
 
 void Player::Update() {
@@ -78,32 +84,53 @@ void Player::Update() {
 	// ControlCanonMouse();
 	ControlCanonKeyBoard();
 
-	worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
-	sprites_[kPlayerTop][0]->transform_.position_ += movementVelocity_;
+	// worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
+	// 範囲外に出ないようにする処理
 
-	// float rotate = std::atan2(movementVelocity_.y, movementVelocity_.x);
-	/*worldTransforms_[kPlayerTop]->rotation_.z = rotate;
-	worldTransforms_[kPlayerTop]->translation_ = worldTransformBase_.translation_;
-	*/// objectManager_->GetSprite("PlayerTop")->SetRotation(rotate);
-	// objectManager_->GetSprite("PlayerTop")->SetPosition({worldTransformBase_.translation_.x,
-	// worldTransformBase_.translation_.y});
+	Vector2 position = sprites_[kPlayerTop][0]->transform_.position_ + movementVelocity_;
+	float playerSIze = sprites_[kPlayerTop][0]->transform_.size_.x * sprites_[kPlayerTop][0]->transform_.scale_.x  / 2.0f;
+	if (position.x < stagePosition_.x + playerSIze) {
+		position.x = stagePosition_.x + playerSIze;
+		movementVelocity_.x *= -1;
+	} else if (stagePosition_.x + stageSize_.x - playerSIze < position.x) {
+		position.x = stagePosition_.x + stageSize_.x - playerSIze;
+		movementVelocity_.x *= -1;
+	}
+	if (position.y < stagePosition_.y + playerSIze) {
+		position.y = stagePosition_.y + playerSIze;
+		movementVelocity_.y *= -1;
+	} else if (stagePosition_.y + stageSize_.y - playerSIze < position.y) {
+		position.y = stagePosition_.y + stageSize_.y - playerSIze;
+		movementVelocity_.y *= -1;
+	}
+	sprites_[kPlayerTop][0]->transform_.position_ = position;
+
+	// 回転させる
+	float rotate = std::atan2f(movementVelocity_.y, movementVelocity_.x);
+	sprites_[kPlayerTop][0]->transform_.rotate_ = rotate;
 
 	worldTransformBase_.UpdateMatrix();
 	/*for (auto& worldTransform : worldTransforms_) {
 	    worldTransform->UpdateMatrix();
 	}*/
+	ControlCanonCollision();
 
 #ifdef _DEBUG
 
 	ImGui::Begin("Player");
-
-	ImGui::DragFloat2("PlayerPosition", &worldTransformBase_.translation_.x, 0.1f);
+	Vector2 ppos = sprites_[kPlayerTop][0]->transform_.position_;
+	ImGui::DragFloat2("PlayerPosition", &ppos.x, 0.1f);
 	Vector2 pos = sprites_[kPlayerTop].begin()->get()->sprite_->GetSize();
 	ImGui::DragFloat2("SpriteSize", &pos.x, 0.1f);
 	ImGui::DragFloat2("CanonPosition", &canonPosition_.x, 0.1f);
 	ImGui::DragFloat("CanonRotate", &canonRotate_, 0.1f);
 	ImGui::SliderInt("isLockedCanon", reinterpret_cast<int*>(&isLockedCanon_), 0, 1);
 	ImGui::SliderInt("CanonType", reinterpret_cast<int*>(&canonType_), 0, kCountofCanonType - 1);
+	ImGui::SliderInt("isReloaded", reinterpret_cast<int*>(&isReloaded_), 0, 1);
+
+	if (ImGui::Button("AddlyConfig")) {
+		AddlyAllGlobalConfigs();
+	}
 
 	ImGui::End();
 
@@ -116,7 +143,7 @@ void Player::Draw() {
 	// プレイヤーの描画
 	// objectManager_->DrawSprite("PlayerTop", worldTransforms_[kPlayerTop].get());
 
-	//sprites_[kPlayerTop][0]->sprite_->Draw();
+	// sprites_[kPlayerTop][0]->sprite_->Draw();
 
 	DrawSprite();
 
@@ -125,16 +152,21 @@ void Player::Draw() {
 	//  DrawLine();
 }
 
+const Transform2D& Player::GetTransform2D() { return sprites_[kPlayerTop][0]->transform_; }
+
 void Player::OnCollision() {}
 
 void Player::AddlyGlobalConfigs() {
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Player";
 
-	kPlayerSize_ = configs->GetVector3Value(groupName, "kPlayerSize");
+	kPlayerSize_ = configs->GetFloatValue(groupName, "kPlayerSize") * kAllScale_;
+	kCanonSize_ = configs->GetFloatValue(groupName, "kCanonSize") * kAllScale_;
+	kCanonMoveSpeed_ = configs->GetFloatValue(groupName, "kCanonMoveSpeed");
 	// kGravity_ = configs->GetFloatValue(groupName, "kGravity");
 	kCanonPower_ = configs->GetFloatValue(groupName, "kCanonPower");
 	kCanonRotateLimit_ = configs->GetFloatValue(groupName, "kCanonRotateLimit");
+	kNonCollisionFrame_ = configs->GetIntValue(groupName, "kNonCollisionFrame");
 	// kUseSpriteMax_ = configs->GetIntValue(groupName, "kUseSpriteMax");
 }
 
@@ -143,15 +175,15 @@ void Player::ControlCanonMouse() {
 	mousePosition_ = input_->GetMousePosition();
 	// マウス座標をゲームの範囲内に収める
 	float canonSize = sprites_[kPlayerCanon][0]->sprite_->GetSize().x / 2.0f;
-	if (mousePosition_.x < canonSize) {
-		mousePosition_.x = canonSize;
-	} else if (1280 - canonSize < mousePosition_.x) {
-		mousePosition_.x = 1280 - canonSize;
+	if (mousePosition_.x < stagePosition_.x + canonSize) {
+		mousePosition_.x = stagePosition_.x + canonSize;
+	} else if (stagePosition_.x + stageSize_.x - canonSize < mousePosition_.x) {
+		mousePosition_.x = stagePosition_.x + stageSize_.x - canonSize;
 	}
-	if (mousePosition_.y < canonSize) {
-		mousePosition_.y = canonSize;
-	} else if (720 - canonSize < mousePosition_.y) {
-		mousePosition_.y = 720 - canonSize;
+	if (mousePosition_.y < stagePosition_.y + canonSize) {
+		mousePosition_.y = stagePosition_.y + canonSize;
+	} else if (stagePosition_.y + stageSize_.y - canonSize < mousePosition_.y) {
+		mousePosition_.y = stagePosition_.y + stageSize_.y - canonSize;
 	}
 
 	// 大砲がロックされている時
@@ -181,10 +213,7 @@ void Player::ControlCanonMouse() {
 
 		// 左クリックの挙動
 		if (input_->IsTriggerMouse(0)) {
-			Vector2 velocity = {std::cosf(canonRotate_), std::sinf(canonRotate_)};
-			velocity *= kCanonPower_;
-			movementVelocity_ = velocity;
-			isLockedCanon_ = false;
+			CanonShot();
 		}
 		// 右クリックの挙動
 		if (input_->IsTriggerMouse(1)) {
@@ -204,21 +233,35 @@ void Player::ControlCanonMouse() {
 
 void Player::ControlCanonKeyBoard() {
 
-	float kCanonMoveSpeed = 3.0f;
+	//float kCanonMoveSpeed = 3.0f;
 	// 大砲の移動
 	if (input_->PushKey(DIK_W)) {
-		canonPosition_.y -= kCanonMoveSpeed;
+		canonPosition_.y -= kCanonMoveSpeed_;
 	}
 	if (input_->PushKey(DIK_S)) {
-		canonPosition_.y += kCanonMoveSpeed;
+		canonPosition_.y += kCanonMoveSpeed_;
 	}
 	if (input_->PushKey(DIK_A)) {
-		canonPosition_.x -= kCanonMoveSpeed;
+		canonPosition_.x -= kCanonMoveSpeed_;
 	}
 	if (input_->PushKey(DIK_D)) {
-		canonPosition_.x += kCanonMoveSpeed;
+		canonPosition_.x += kCanonMoveSpeed_;
 	}
+	// 範囲制限
+	float canonSize = sprites_[kPlayerCanon][0]->sprite_->GetSize().x / 2.0f;
+	if (canonPosition_.x < stagePosition_.x + canonSize) {
+		canonPosition_.x = stagePosition_.x + canonSize;
+	} else if (stagePosition_.x + stageSize_.x - canonSize < canonPosition_.x) {
+		canonPosition_.x = stagePosition_.x + stageSize_.x - canonSize;
+	}
+	if (canonPosition_.y < stagePosition_.y + canonSize) {
+		canonPosition_.y = stagePosition_.y + canonSize;
+	} else if (stagePosition_.y + stageSize_.y - canonSize < canonPosition_.y) {
+		canonPosition_.y = stagePosition_.y + stageSize_.y - canonSize;
+	}
+
 	sprites_[kPlayerCanon][0]->transform_.position_ = canonPosition_;
+
 	// 上方向
 	/// float upTheta = static_cast<float>(-std::numbers::pi) / 2.0f;
 	// 大砲の回転方向調整
@@ -248,10 +291,7 @@ void Player::ControlCanonKeyBoard() {
 	sprites_[kPlayerCanon][0]->transform_.rotate_ = canonRotate_;
 	// 射出の挙動
 	if (input_->TriggerKey(DIK_Q)) {
-		Vector2 velocity = {std::cosf(canonRotate_), std::sinf(canonRotate_)};
-		velocity *= kCanonPower_;
-		movementVelocity_ = velocity;
-		isLockedCanon_ = false;
+		CanonShot();
 	}
 	// タイプ変更の挙動
 	if (input_->TriggerKey(DIK_UP)) {
@@ -275,34 +315,65 @@ void Player::ChangeCanonType(bool isUp) {
 	}
 }
 
-void Player::DrawCanon() {
-	//// 試しに描画
-	// Vector2 way = mousePosition_ - canonPosition_;
-	/*worldTransforms_[kPlayerLine]->scale_.x = Mymath::Length(way);
-	worldTransforms_[kPlayerLine]->scale_.y = 5.0f;
-	worldTransforms_[kPlayerLine]->rotation_.z = canonRotate_;
-	way = canonPosition_ + way * 0.5f;
-	worldTransforms_[kPlayerLine]->translation_.x = way.x;
-	worldTransforms_[kPlayerLine]->translation_.y = way.y;
-	*///objectManager_->DrawSprite("Line", worldTransforms_[kPlayerLine].get());
-	// Sprite* buff = objectManager_->GetSprite("1x1");
-	// buff->SetSize({Mymath::Length(way), 5.0f});
-	// buff->SetRotation(canonRotate_);
-	// way = canonPosition_ + way * 0.5f;
-	// buff->SetPosition(way);
+bool Player::CheckHitCollision() {
+	float canonRadius = kCanonSize_ * sprites_[kPlayerCanon][0]->transform_.scale_.x;
+	Vector2 position = sprites_[kPlayerTop][0]->transform_.position_;
+	float playerSIze = kPlayerSize_ * sprites_[kPlayerTop][0]->transform_.scale_.x;
 
-	// buff->Draw();
+	float distance = Mymath::Length(position - canonPosition_);
+	if (distance < canonRadius + playerSIze) {
+		return true;
+	}
+	return false;
+}
 
-	// worldTransforms_[kPlayerCanon]->translation_.x = canonPosition_.x;
-	// worldTransforms_[kPlayerCanon]->translation_.y = canonPosition_.y;
-	// worldTransforms_[kPlayerCanon]->rotation_.z = canonRotate_;
-	// worldTransforms_[kPlayerCanon]->scale_.x = 100;
-	// worldTransforms_[kPlayerCanon]->scale_.y = 100;
-	////objectManager_->DrawSprite("Canon", worldTransforms_[kPlayerCanon].get());
-	//// buff = objectManager_->GetSprite("canon");
-	// buff->SetPosition(canonPosition_);
-	// buff->SetRotation(canonRotate_);
-	// buff->SetSize({100, 100});
+void Player::ControlCanonCollision() {
+	// 当たらないフレームが経過するまで処理しない
+	if (nonCollisionFrame_ != 0) {
+		nonCollisionFrame_--;
+		return;
+	}
+	if (isReloaded_) {
+		auto& playerData = sprites_[kPlayerTop][0]->transform_;
+		playerData.rotate_ = canonRotate_;
+		playerData.position_ = canonPosition_;
 
-	// buff->Draw();
+	}
+	// 当たった瞬間の処理
+	else if (!isReloaded_ && CheckHitCollision()) {
+		// 体を消す
+		for (auto& body : sprites_[kPlayerBody]) {
+			body->isUse_ = false;
+		}
+		isReloaded_ = true;
+	}
+}
+
+void Player::CanonShot() {
+	if (!isReloaded_) {
+		return;
+	}
+	Vector2 velocity = {std::cosf(canonRotate_), std::sinf(canonRotate_)};
+	velocity *= kCanonPower_;
+	movementVelocity_ = velocity;
+	isLockedCanon_ = false;
+	// 当たらないフレームを設定
+	nonCollisionFrame_ = kNonCollisionFrame_;
+	isReloaded_ = false;
+	/*
+	auto& playerData = sprites_[kPlayerBody];
+	switch (canonType_) {
+	case kCanonLow:
+		playerData[0]->isUse_ = true;
+	case kCanonNormal:
+		playerData[1]->isUse_ = true;
+	case kCanonHigh:
+		playerData[2]->isUse_ = true;
+		break;
+	case kCountofCanonType:
+	default:
+		break;
+	}
+	*/
+	sprites_[kPlayerTop][0]->transform_.rotate_ = canonRotate_;
 }
