@@ -48,7 +48,7 @@ void Block::Draw() {
 
 void Block::OnCollision() {
 	isDead_ = true;
-	worldTransformBase_.translation_ = {640, 400, 0};
+	//worldTransformBase_.translation_ = {640, 400, 0};
 }
 
 void Block::AddlyGlobalConfigs() {
