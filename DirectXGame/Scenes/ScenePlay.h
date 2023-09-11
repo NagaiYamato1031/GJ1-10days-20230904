@@ -9,6 +9,7 @@
 
 #include "Objects/Player.h"
 #include "Objects/Block.h"
+#include "Objects/BlockEffect.h"
 
 class ScenePlay : public IScene {
 public:
@@ -41,4 +42,5 @@ private:
 	std::unique_ptr<Sprite> backGround_;
 	std::unique_ptr<Player> player_;
 	std::vector<std::unique_ptr<Block>> blocks_;
+	std::vector<std::unique_ptr<BlockEffect>> blockEffects_;
 };

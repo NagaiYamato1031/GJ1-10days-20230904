@@ -113,6 +113,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mymath.cpp" />
     <ClCompile Include="Objects\Block.cpp" />
+    <ClCompile Include="Objects\BlockEffect.cpp" />
     <ClCompile Include="Objects\IObject.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Scenes\IScene.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="MyConst.h" />
     <ClInclude Include="Mymath.h" />
     <ClInclude Include="Objects\Block.h" />
+    <ClInclude Include="Objects\BlockEffect.h" />
     <ClInclude Include="Objects\IObject.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Scenes\IScene.h" />
