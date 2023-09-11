@@ -70,7 +70,7 @@ private:
 		Vector2 velocity;
 	};
 	// 振る舞い
-	BlockState blockEffectBehavior_ = BlockState::kSpawn;
+	BlockState blockEffectBehavior_ = BlockState::kNone;
 	// 振る舞いリクエスト
 	std::optional<BlockState> blockEffectBehaviorRequest_ = std::nullopt;
 

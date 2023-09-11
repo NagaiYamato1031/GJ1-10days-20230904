@@ -44,7 +44,7 @@ void ScenePlay::Initialize(GameScene* gameScene) {
 		}
 	}
 }
-}
+
 
 void ScenePlay::Update() {
   bool spawnFlage = false;
@@ -106,7 +106,6 @@ void ScenePlay::Update() {
 void ScenePlay::DrawBackdrop() {
 	backGround_->Draw();
   
-  void ScenePlay::DrawBackdrop() { 
 	for (size_t i = 0; i < blockEffects_.size(); i++) {
 		BlockEffect* blockEffect = blockEffects_[i].get();
 		blockEffect->Draw();
