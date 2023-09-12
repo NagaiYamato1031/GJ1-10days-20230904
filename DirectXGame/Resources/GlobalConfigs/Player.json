@@ -1,9 +1,9 @@
 {
     "Player": {
         "kCanonMoveSpeed": 5.0,
-        "kCanonPower": 5.0,
+        "kCanonPower": 10.0,
         "kCanonRotateLimit": 1.0471975803375244,
-        "kCanonSize": 64.0,
+        "kCanonSize": 10.0,
         "kNonCollisionFrame": 30,
         "kPlayerSize": 64.0
     }

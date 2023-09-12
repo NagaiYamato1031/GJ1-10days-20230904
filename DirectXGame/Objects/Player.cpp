@@ -225,7 +225,7 @@ void Player::ControlCanonMouse() {
 	} else {
 		sprites_[kPlayerCanon][0]->transform_.position_ = mousePosition_;
 		canonPosition_ = mousePosition_;
-		if (input_->IsTriggerMouse(0)) {
+		if (input_->IsTriggerMouse(0) && isReloaded_) {
 			isLockedCanon_ = true;
 		}
 		if (input_->IsTriggerMouse(1)) {
