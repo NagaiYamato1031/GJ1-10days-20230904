@@ -1,16 +1,15 @@
 #pragma once
 #include "IScene.h"
 
-#include <memory>
-#include "TextureManager.h"
 #include "Sprite.h"
+#include "TextureManager.h"
+#include <memory>
 
 #include "Objects/Block.h"
 #include "Objects/Player.h"
 
 class SceneSelect : public IScene {
 public:
-
 	~SceneSelect() override;
 
 	// 初期化
@@ -30,12 +29,6 @@ public:
 private:
 	std::unique_ptr<Sprite> backGround_;
 
-	std::unique_ptr<Block> blockStageOne_;
-	std::unique_ptr<Block> blockStageTwo_;
-	std::unique_ptr<Block> blockStageThree_;
-
-	std::vector<Block*> blocks_;
 
 	std::unique_ptr<Player> player_;
-
 };

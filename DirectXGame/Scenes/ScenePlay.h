@@ -38,9 +38,10 @@ public:
 
 	void BlockSqawn();
 
+	void AddlyConfigs() override;
+
 private:
 	std::unique_ptr<Sprite> backGround_;
 	std::unique_ptr<Player> player_;
-	std::vector<std::unique_ptr<Block>> blocks_;
 	std::vector<std::unique_ptr<BlockEffect>> blockEffects_;
 };

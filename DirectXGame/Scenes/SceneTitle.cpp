@@ -8,10 +8,17 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 
+	timeFrame = 0;
+	nextLoadData_ = 0;
+
+	GlobalConfigs* configs_ = GlobalConfigs::GetInstance();
+	const char* groupName = "SceneTitle";
+	configs_->CreateGroup(groupName);
+
 	int32_t handle = TextureManager::Load("Sausage/wallPaper.png");
 	backGround_.reset(Sprite::Create(handle, {640, 360}, {1, 1, 1, 1}, {0.5f, 0.5f}));
 	handle = TextureManager::Load("Sausage/title.png");
-	titleLogo_.reset(Sprite::Create(handle, {640,500}, {1, 1, 1, 1}, {0.5f, 0.5f}));
+	titleLogo_.reset(Sprite::Create(handle, {640, 500}, {1, 1, 1, 1}, {0.5f, 0.5f}));
 
 	// プレイヤーのテクスチャ
 	// enum を使用している時、enum の順番通りに読み込ませる
@@ -33,6 +40,8 @@ void SceneTitle::DrawBackdrop() {
 	titleLogo_->Draw();
 }
 void SceneTitle::Draw3D() {}
-void SceneTitle::DrawOverlay() { }
+void SceneTitle::DrawOverlay() {}
 
 void SceneTitle::CheckAllCollision() {}
+
+void SceneTitle::AddlyConfigs() {}

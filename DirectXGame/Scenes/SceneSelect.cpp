@@ -10,7 +10,11 @@ SceneSelect::~SceneSelect() {}
 void SceneSelect::Initialize(GameScene* gameScene) {
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
+
 	blocks_.clear();
+	timeFrame = 0;
+	stageDatas_.clear();
+	nextLoadData_ = 0;
 
 	player_.reset(new Player());
 	player_->Initialize();
@@ -19,18 +23,21 @@ void SceneSelect::Initialize(GameScene* gameScene) {
 	player_->SetStageSize({1280, 720});
 
 	// ステージ選択用のブロック
-	blockStageOne_.reset(new Block());
+	Block* blockStageOne_;
+	Block* blockStageTwo_;
+	Block* blockStageThree_;
+	blockStageOne_ = new Block();
 	blockStageOne_->Initialize();
 
-	blockStageTwo_.reset(new Block());
+	blockStageTwo_ = new Block();
 	blockStageTwo_->Initialize();
 
-	blockStageThree_.reset(new Block());
+	blockStageThree_ = new Block();
 	blockStageThree_->Initialize();
 
-	blocks_.push_back(blockStageOne_.get());
-	blocks_.push_back(blockStageTwo_.get());
-	blocks_.push_back(blockStageThree_.get());
+	blocks_.emplace_back(blockStageOne_);
+	blocks_.emplace_back(blockStageTwo_);
+	blocks_.emplace_back(blockStageThree_);
 
 	GlobalConfigs* configs_ = GlobalConfigs::GetInstance();
 	const char* groupName = "SceneSelect";
@@ -52,11 +59,11 @@ void SceneSelect::Initialize(GameScene* gameScene) {
 
 void SceneSelect::Update() {
 
-	if (blockStageOne_->IsDead()) {
+	if (blocks_[0]->IsDead()) {
 		gameScene_->SetScene(Scene::kPlay);
-	} else if (blockStageTwo_->IsDead()) {
+	} else if (blocks_[1]->IsDead()) {
 		gameScene_->SetScene(Scene::kPlay);
-	} else if (blockStageThree_->IsDead()) {
+	} else if (blocks_[2]->IsDead()) {
 		gameScene_->SetScene(Scene::kPlay);
 	}
 
@@ -66,7 +73,7 @@ void SceneSelect::Update() {
 
 	player_->Update();
 
-	#ifdef _DEBUG
+#ifdef _DEBUG
 
 	ImGui::Begin("SceneSelect");
 
@@ -77,8 +84,6 @@ void SceneSelect::Update() {
 	ImGui::End();
 
 #endif // _DEBUG
-
-
 }
 
 void SceneSelect::DrawBackdrop() {
@@ -130,13 +135,13 @@ void SceneSelect::AddlyConfigs() {
 	// ブロックの位置
 	bufferVec3 = configs->GetVector3Value(groupName, "StageOnePosition");
 	bufferVec2 = {bufferVec2.x, bufferVec2.y};
-	blockStageOne_->SetPosition(bufferVec2);
+	blocks_[0]->SetPosition(bufferVec2);
 
 	bufferVec3 = configs->GetVector3Value(groupName, "StageTwoPosition");
 	bufferVec2 = {bufferVec2.x, bufferVec2.y};
-	blockStageTwo_->SetPosition(bufferVec2);
-	
+	blocks_[1]->SetPosition(bufferVec2);
+
 	bufferVec3 = configs->GetVector3Value(groupName, "StageThreePosition");
 	bufferVec2 = {bufferVec2.x, bufferVec2.y};
-	blockStageThree_->SetPosition(bufferVec2);
+	blocks_[2]->SetPosition(bufferVec2);
 }
