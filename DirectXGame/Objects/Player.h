@@ -94,6 +94,8 @@ private:
 	float kPlayerSize_ = 64;
 	float kCanonSize_ = 64;
 
+	int32_t kCanonMoveLimitY_ = 300;
+
 	// プレイヤーにかかる重力
 	// float kGravity_ = 0.98f;
 

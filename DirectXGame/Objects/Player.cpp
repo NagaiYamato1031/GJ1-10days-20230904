@@ -59,6 +59,7 @@ void Player::Initialize() {
 	configs->AddItem(groupName, "kPlayerSize", kPlayerSize_);
 	configs->AddItem(groupName, "kCanonSize", kCanonSize_);
 	configs->AddItem(groupName, "kCanonMoveSpeed", kCanonMoveSpeed_);
+	configs->AddItem(groupName, "kCanonMoveLimitY", kCanonMoveLimitY_);
 	// configs->AddItem(groupName, "kGravity", kGravity_);
 	configs->AddItem(groupName, "kCanonPower", kCanonPower_);
 	configs->AddItem(groupName, "kCanonRotateLimit", kCanonRotateLimit_);
@@ -85,7 +86,7 @@ void Player::Update() {
 		ControlCanonMouse();
 	}
 	ControlCanonKeyBoard();
-	
+
 	// worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
 	// 範囲外に出ないようにする処理
 
@@ -167,6 +168,7 @@ void Player::AddlyGlobalConfigs() {
 	kPlayerSize_ = configs->GetFloatValue(groupName, "kPlayerSize") * kAllScale_;
 	kCanonSize_ = configs->GetFloatValue(groupName, "kCanonSize") * kAllScale_;
 	kCanonMoveSpeed_ = configs->GetFloatValue(groupName, "kCanonMoveSpeed");
+	kCanonMoveLimitY_ = configs->GetFloatValue(groupName, "kCanonMoveLimitY");
 	// kGravity_ = configs->GetFloatValue(groupName, "kGravity");
 	kCanonPower_ = configs->GetFloatValue(groupName, "kCanonPower");
 	kCanonRotateLimit_ = configs->GetFloatValue(groupName, "kCanonRotateLimit");
@@ -184,8 +186,8 @@ void Player::ControlCanonMouse() {
 	} else if (stagePosition_.x + stageSize_.x - canonSize < mousePosition_.x) {
 		mousePosition_.x = stagePosition_.x + stageSize_.x - canonSize;
 	}
-	if (mousePosition_.y < stagePosition_.y + canonSize) {
-		mousePosition_.y = stagePosition_.y + canonSize;
+	if (mousePosition_.y < kCanonMoveLimitY_ + canonSize) {
+		mousePosition_.y = kCanonMoveLimitY_ + canonSize;
 	} else if (stagePosition_.y + stageSize_.y - canonSize < mousePosition_.y) {
 		mousePosition_.y = stagePosition_.y + stageSize_.y - canonSize;
 	}
@@ -258,8 +260,8 @@ void Player::ControlCanonKeyBoard() {
 	} else if (stagePosition_.x + stageSize_.x - canonSize < canonPosition_.x) {
 		canonPosition_.x = stagePosition_.x + stageSize_.x - canonSize;
 	}
-	if (canonPosition_.y < stagePosition_.y + canonSize) {
-		canonPosition_.y = stagePosition_.y + canonSize;
+	if (canonPosition_.y < kCanonMoveLimitY_ + canonSize) {
+		canonPosition_.y = kCanonMoveLimitY_ + canonSize;
 	} else if (stagePosition_.y + stageSize_.y - canonSize < canonPosition_.y) {
 		canonPosition_.y = stagePosition_.y + stageSize_.y - canonSize;
 	}

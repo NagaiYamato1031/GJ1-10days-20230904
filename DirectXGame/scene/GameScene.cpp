@@ -22,6 +22,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	configs_ = GlobalConfigs::GetInstance();
+	configs_->LoadFiles();
 
 	// 一度すべてのシーンを取得する
 	sceneList_.clear();
