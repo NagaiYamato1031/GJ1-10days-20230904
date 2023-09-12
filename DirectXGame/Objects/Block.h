@@ -5,6 +5,8 @@
 
 #include "Input.h"
 
+class BlockEffect;
+
 #pragma region 読み込んだテクスチャ
 
 enum BlockTexture {
@@ -47,6 +49,8 @@ public:
 	void Collider();
 
 private:
+	BlockEffect* blockEffect_ = nullptr;
+	//BlockEffect* blockEffect_;
 	Input* input_ = nullptr;
 	bool isDead_ = false;
 };

@@ -60,9 +60,7 @@ public:
 	// 振る舞いを変える
 	void ChangeState(BlockState behavior);
 
-	bool GetFlage() { return spawnFlage_; }
-
-	void SetIsActive(bool isActive) { isActive_ = isActive; }
+	void SetSpritePosition(const Vector2& position);
 
 private:
 	struct BlockPixel {
@@ -80,7 +78,4 @@ private:
 	float effectSize_ = 0.0f;
 	float degree_ = 0.0f;
 	const float rotateSpeed_ = 2.25f;
-	bool isActive_ = true;
-	bool spawnFlage_ = false; 
-
 };

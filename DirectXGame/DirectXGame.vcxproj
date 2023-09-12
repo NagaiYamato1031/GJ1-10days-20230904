@@ -120,6 +120,7 @@
     <ClCompile Include="Scenes\IScene.cpp" />
     <ClCompile Include="Scenes\ScenePlay.cpp" />
     <ClCompile Include="Scenes\SceneResult.cpp" />
+    <ClCompile Include="Scenes\SceneSelect.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Scenes\IScene.h" />
     <ClInclude Include="Scenes\ScenePlay.h" />
     <ClInclude Include="Scenes\SceneResult.h" />
+    <ClInclude Include="Scenes\SceneSelect.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="scene\GameScene.h" />
   </ItemGroup>

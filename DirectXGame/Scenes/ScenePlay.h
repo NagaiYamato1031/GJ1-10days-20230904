@@ -45,4 +45,5 @@ private:
 	std::vector<std::unique_ptr<Block>> blocks_;
 	std::vector<std::unique_ptr<BlockEffect>> blockEffects_;
 	Score* score_;
+
 };

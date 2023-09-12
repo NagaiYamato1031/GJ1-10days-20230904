@@ -2,6 +2,8 @@
 
 #include "Config/GlobalConfigs.h"
 
+#include "Objects/BlockEffect.h"
+
 Block::Block() {}
 
 Block::~Block() {}
@@ -13,9 +15,12 @@ void Block::Initialize() {
 
 	sprites_.clear();
 
-	SetSprite(kNormal, 1, "block.png");
+	blockEffect_ = new BlockEffect();
+	blockEffect_->Initialize();
 
-	sprites_[kNormal][0]->isUse_ = true;
+	/*SetSprite(kNormal, 1, "block.png");
+
+	sprites_[kNormal][0]->isUse_ = true;*/
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
 	const char* groupName = "Block";
@@ -30,11 +35,11 @@ void Block::Initialize() {
 }
 
 void Block::Update() {
+	blockEffect_->Update();
 	worldTransformBase_.UpdateMatrix(); /*
 	 for (auto& worldTransform : worldTransforms_) {
 	     worldTransform->UpdateMatrix();
 	 }*/
-	SpriteUpdate();
 
 	//Collider();
 
@@ -43,12 +48,13 @@ void Block::Update() {
 void Block::Draw() { 
 	//objectManager_->SetSpritePosition("block", position_);
 	//objectManager_->DrawSprite("block"); 
-	DrawSprite();
+	//DrawSprite();
+	blockEffect_->Draw();
 }
 
 void Block::OnCollision() {
 	isDead_ = true;
-	//worldTransformBase_.translation_ = {640, 400, 0};
+　blockEffect_->ChangeState(BlockState::kBreak);
 }
 
 void Block::AddlyGlobalConfigs() {
@@ -60,7 +66,7 @@ void Block::AddlyGlobalConfigs() {
 void Block::SetPosition(const Vector2 pos) { 
 	worldTransformBase_.translation_.x = pos.x;
 	worldTransformBase_.translation_.y = pos.y;
-	sprites_[kNormal][0]->transform_.position_ = {worldTransformBase_.translation_.x, worldTransformBase_.translation_.y};
+	blockEffect_->SetSpritePosition(pos);
 }
 
 void Block::Collider() {
