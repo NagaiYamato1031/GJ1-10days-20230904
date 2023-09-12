@@ -81,14 +81,17 @@ void Player::Initialize() {
 void Player::Update() {
 	// ControlLineUpdate();
 
-	// ControlCanonMouse();
+	if (isMouse_) {
+		ControlCanonMouse();
+	}
 	ControlCanonKeyBoard();
-
+	
 	// worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
 	// 範囲外に出ないようにする処理
 
 	Vector2 position = sprites_[kPlayerTop][0]->transform_.position_ + movementVelocity_;
-	float playerSIze = sprites_[kPlayerTop][0]->transform_.size_.x * sprites_[kPlayerTop][0]->transform_.scale_.x  / 2.0f;
+	float playerSIze = sprites_[kPlayerTop][0]->transform_.size_.x *
+	                   sprites_[kPlayerTop][0]->transform_.scale_.x / 2.0f;
 	if (position.x < stagePosition_.x + playerSIze) {
 		position.x = stagePosition_.x + playerSIze;
 		movementVelocity_.x *= -1;
@@ -127,6 +130,7 @@ void Player::Update() {
 	ImGui::SliderInt("isLockedCanon", reinterpret_cast<int*>(&isLockedCanon_), 0, 1);
 	ImGui::SliderInt("CanonType", reinterpret_cast<int*>(&canonType_), 0, kCountofCanonType - 1);
 	ImGui::SliderInt("isReloaded", reinterpret_cast<int*>(&isReloaded_), 0, 1);
+	ImGui::SliderInt("isMouse", reinterpret_cast<int*>(&isMouse_), 0, 1);
 
 	if (ImGui::Button("AddlyConfig")) {
 		AddlyAllGlobalConfigs();
@@ -233,8 +237,8 @@ void Player::ControlCanonMouse() {
 
 void Player::ControlCanonKeyBoard() {
 
-	//float kCanonMoveSpeed = 3.0f;
-	// 大砲の移動
+	// float kCanonMoveSpeed = 3.0f;
+	//  大砲の移動
 	if (input_->PushKey(DIK_W)) {
 		canonPosition_.y -= kCanonMoveSpeed_;
 	}
@@ -364,15 +368,15 @@ void Player::CanonShot() {
 	auto& playerData = sprites_[kPlayerBody];
 	switch (canonType_) {
 	case kCanonLow:
-		playerData[0]->isUse_ = true;
+	    playerData[0]->isUse_ = true;
 	case kCanonNormal:
-		playerData[1]->isUse_ = true;
+	    playerData[1]->isUse_ = true;
 	case kCanonHigh:
-		playerData[2]->isUse_ = true;
-		break;
+	    playerData[2]->isUse_ = true;
+	    break;
 	case kCountofCanonType:
 	default:
-		break;
+	    break;
 	}
 	*/
 	sprites_[kPlayerTop][0]->transform_.rotate_ = canonRotate_;
