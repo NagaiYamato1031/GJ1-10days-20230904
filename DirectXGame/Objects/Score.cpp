@@ -5,9 +5,10 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-Score::Score() {}
-
-Score::~Score() {}
+Score* Score::GetInstance() { 
+	static Score instance;
+	return &instance;
+}
 
 void Score::Initialize() {
 	worldTransformBase_.Initialize();

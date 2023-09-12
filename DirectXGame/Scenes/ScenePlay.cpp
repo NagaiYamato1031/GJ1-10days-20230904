@@ -45,7 +45,7 @@ void ScenePlay::Initialize(GameScene* gameScene) {
   }
 
 
-  score_.reset(new Score);
+  score_ = Score::GetInstance();
   score_->Initialize();
 }
 

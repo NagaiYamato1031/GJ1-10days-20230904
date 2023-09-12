@@ -23,10 +23,8 @@ enum ScoreTexture {
 // Scoreクラス
 class Score : public IObject {
 public:
-	// 仮想関数
-	Score();
-	~Score() override;
 
+	static Score* GetInstance();
 	// 初期化関数
 	void Initialize() override;
 
@@ -52,6 +50,12 @@ public:
 
 	// スコア減算
 	void SubtractScore();
+
+private:
+	Score() = default;
+	~Score() = default;
+	Score(const Score&) = delete;
+	const Score& operator=(const Score&) = delete;
 
 private:
 	const float scoreDecrease_ = 100.0f;
