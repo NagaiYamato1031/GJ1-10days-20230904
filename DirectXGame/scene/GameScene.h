@@ -22,6 +22,7 @@ class IScene;
 
 enum Scene {
 	kTitle, // タイトル
+	kSelect, // 選択
 	kPlay,	// プレイ
 	kEnd,	// エンド
 

@@ -59,6 +59,10 @@ public:
 	void SetStageSize(const Vector2& size) { stageSize_ = size; }
 	void SetStagePosition(const Vector2& position) { stagePosition_ = position; }
 
+	// ステージでの大砲の移動制限を設定する
+	void SetCanonMoveSize(const Vector2& size) { canonMoveLimitSize_ = size; }
+	void SetCanonMovePosition(const Vector2& position) { canonMoveLimitPosition_ = position; }
+
 	const Transform2D& GetTransform2D();
 
 	void SetIsMouse(bool num) { isMouse_ = num; }
@@ -94,7 +98,8 @@ private:
 	float kPlayerSize_ = 64;
 	float kCanonSize_ = 64;
 
-	int32_t kCanonMoveLimitY_ = 300;
+	Vector2 canonMoveLimitSize_ = {1280, 420};
+	Vector2 canonMoveLimitPosition_ = {0, 300};
 
 	// プレイヤーにかかる重力
 	// float kGravity_ = 0.98f;
