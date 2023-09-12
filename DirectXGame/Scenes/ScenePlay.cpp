@@ -45,39 +45,78 @@ void ScenePlay::Initialize(GameScene* gameScene) {
 
   score_ = Score::GetInstance();
   score_->Initialize();
+
+  ScenePlayBehavior_ = ScenePlayState::kPlay;
 }
 
 void ScenePlay::Update() {
-  
-	player_->Update();
-  
-	for (auto& block : blocks_) {
-		block->Update();
-	}
-	if (input_->PushKey(DIK_E)) {
-		gameScene_->SetScene(Scene::kTitle);
-	}
+  if (ScenePlayBehaviorRequest_) {
+	  // 振る舞いを変更する
+	  ScenePlayBehavior_ = ScenePlayBehaviorRequest_.value();
+	  // 各振る舞いごとの初期化を実行
+	  switch (ScenePlayBehavior_) {
+	  case ScenePlayState::kPlay:
+		  break;
+	  case ScenePlayState::kResult:
+		  result_.reset(new Result);
+		  result_->Initialize();
+		  break;
+	  }
+	  // 振る舞いリクエストをリセット
+	  ScenePlayBehaviorRequest_ = std::nullopt;
+  }
 
-	CheckAllCollision();
+  switch (ScenePlayBehavior_) {
+  case ScenePlayState::kPlay:
+	  player_->Update();
 
+	  for (auto& block : blocks_) {
+		  block->Update();
+	  }
+	  if (input_->PushKey(DIK_E)) {
+		  gameScene_->SetScene(Scene::kTitle);
+	  }
 
+	  CheckAllCollision();
 
-	score_->Update();
+	  score_->Update();
+	  if (input_->PushKey(DIK_B)) {
+		  ScenePlayBehaviorRequest_ = ScenePlayState::kResult;
+	  }
+	  break;
+  case ScenePlayState::kResult:
+	  result_->Update();
+	  break;
+  }
 
 }
 
 
 
 void ScenePlay::DrawBackdrop() {
-	backGround_->Draw();
+  switch (ScenePlayBehavior_) {
+  case ScenePlayState::kPlay:
+	  backGround_->Draw();
 
-	for (auto& block : blocks_) {
-		block->Draw();
-	
-	}
-	player_->Draw();
+	  for (auto& block : blocks_) {
+		  block->Draw();
+	  }
+	  player_->Draw();
 
-	score_->Draw();
+	  score_->Draw();
+	  break;
+  case ScenePlayState::kResult:
+	  backGround_->Draw();
+
+	  for (auto& block : blocks_) {
+		  block->Draw();
+	  }
+	  player_->Draw();
+
+	  score_->Draw();
+	  result_->Draw();
+	  break;
+  }
 }
 
 void ScenePlay::Draw3D() {}

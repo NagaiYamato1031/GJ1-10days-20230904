@@ -12,6 +12,15 @@
 #include "Objects/BlockEffect.h"
 #include "Objects/Score.h"
 
+#include <optional>
+
+#include "Objects/Result.h"
+
+enum class ScenePlayState { 
+	kPlay,
+	kResult,
+};
+
 class ScenePlay : public IScene {
 public:
 	// コンストクラタ
@@ -46,5 +55,12 @@ private:
 	std::unique_ptr<Player> player_;
 	std::vector<std::unique_ptr<BlockEffect>> blockEffects_;
 	Score* score_;
+
+	std::unique_ptr<Result> result_;
+
+	// 振る舞い
+	ScenePlayState ScenePlayBehavior_ = ScenePlayState::kPlay;
+	// 振る舞いリクエスト
+	std::optional<ScenePlayState> ScenePlayBehaviorRequest_ = std::nullopt;
 
 };

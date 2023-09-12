@@ -5,9 +5,10 @@
 #include "TextureManager.h"
 #include "Sprite.h"
 
+#include "Audio.h"
+
 class SceneTitle : public IScene {
 public:
-
 	~SceneTitle() override;
 
 	// 初期化
@@ -25,7 +26,9 @@ public:
 	void AddlyConfigs() override;
 
 private:
-	
+
+	Audio* audio_ = nullptr;
+	int32_t soundHandle_;
 
 	std::unique_ptr<Sprite> backGround_;
 	std::unique_ptr<Sprite> titleLogo_;

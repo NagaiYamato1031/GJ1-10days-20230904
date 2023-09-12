@@ -51,6 +51,8 @@ public:
 	// スコア減算
 	void SubtractScore();
 
+	float GetScore() { return score_; }
+
 private:
 	Score() = default;
 	~Score() = default;
