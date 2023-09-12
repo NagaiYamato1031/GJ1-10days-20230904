@@ -38,13 +38,13 @@ void ScenePlay::Initialize(GameScene* gameScene) {
 		blockDatas_.clear();
 		CreateBlocks(position);
 		//// フラグを元に戻す
-		//for (auto& datas : blockDatas_) {
+		// for (auto& datas : blockDatas_) {
 		//	for (auto& data : datas) {
 		//		Vector2 temp = data->GetPosition();
 		//		data->Initialize();
 		//		data->SetPosition(temp);
 		//	}
-		//}
+		// }
 	}
 
 	GlobalConfigs* configs_ = GlobalConfigs::GetInstance();
@@ -132,7 +132,8 @@ void ScenePlay::Draw3D() {}
 void ScenePlay::DrawOverlay() {}
 
 void ScenePlay::CheckAllCollision() {
-	Transform2D playerData = player_->GetTransform2D();
+	auto& playerDatas = player_->GetTransform2Ds();
+	Transform2D playerData = playerDatas[0];
 
 	if (720.0f - playerData.size_.x * playerData.scale_.x / 2.0f <= playerData.position_.y) {
 		score_->SubtractScore();
@@ -157,6 +158,28 @@ void ScenePlay::CheckAllCollision() {
 			if (distance <= playerData.size_.x * playerData.scale_.x / 2.5f + blockSize) {
 				block->OnCollision();
 				score_->AddScore();
+			}
+		}
+	}
+	offset *= -1;
+	for (size_t i = 1; i < playerDatas.size(); i++) {
+
+		// 角度で取得
+		direction = {std::cosf(playerDatas[i].rotate_), std::sinf(playerDatas[i].rotate_)};
+		direction.x *= offset;
+
+		playerData.position_ = playerDatas[i].position_ + direction;
+		for (auto& block : *blocks_) {
+			if (!block->IsDead()) {
+				Vector2 blockData = block->GetPosition();
+
+				float blockSize = 32.0f;
+
+				float distance = Mymath::Length(playerData.position_ - blockData);
+				if (distance <= playerData.size_.x * playerData.scale_.x / 2.5f + blockSize) {
+					block->OnCollision();
+					score_->AddScore();
+				}
 			}
 		}
 	}

@@ -34,7 +34,7 @@ void Player::Initialize() {
 
 	sprites_[kPlayerLine][0]->isUse_ = true;
 	sprites_[kPlayerTop][0]->isUse_ = true;
-	sprites_[kPlayerBody][0]->isUse_ = false;
+	// sprites_[kPlayerBody][0]->isUse_ = false;
 	sprites_[kPlayerCanon][0]->isUse_ = true;
 
 	kPlayerSize_ = 64;
@@ -64,6 +64,7 @@ void Player::Initialize() {
 	configs->AddItem(groupName, "kCanonPower", kCanonPower_);
 	configs->AddItem(groupName, "kCanonRotateLimit", kCanonRotateLimit_);
 	configs->AddItem(groupName, "kNonCollisionFrame", kNonCollisionFrame_);
+	configs->AddItem(groupName, "kOffsetOption", kOffsetOption_);
 
 	AddlyAllGlobalConfigs();
 
@@ -113,6 +114,20 @@ void Player::Update() {
 	float rotate = std::atan2f(movementVelocity_.y, movementVelocity_.x);
 	sprites_[kPlayerTop][0]->transform_.rotate_ = rotate;
 
+	// 本体に合わせて動かす
+	auto& playerDatas = sprites_[kPlayerBody];
+	for (size_t i = 0; i < playerDatas.size(); i++) {
+		if (!playerDatas[i]->isUse_) {
+			continue;
+		}
+		float rotateBuffer = rotate - (1 - static_cast<float>(i)) * 0.3f;
+		playerDatas[i]->transform_.rotate_ = rotateBuffer;
+		// 角度で取得
+		Vector2 direction = {std::cosf(rotateBuffer), std::sinf(rotateBuffer)};
+		direction *= kOffsetOption_;
+		playerDatas[i]->transform_.position_ = position + direction;
+	}
+
 	worldTransformBase_.UpdateMatrix();
 	/*for (auto& worldTransform : worldTransforms_) {
 	    worldTransform->UpdateMatrix();
@@ -122,16 +137,27 @@ void Player::Update() {
 #ifdef _DEBUG
 
 	ImGui::Begin("Player");
-	Vector2 ppos = sprites_[kPlayerTop][0]->transform_.position_;
-	ImGui::DragFloat2("PlayerPosition", &ppos.x, 0.1f);
 	Vector2 pos = sprites_[kPlayerTop].begin()->get()->sprite_->GetSize();
 	ImGui::DragFloat2("SpriteSize", &pos.x, 0.1f);
 	ImGui::DragFloat2("CanonPosition", &canonPosition_.x, 0.1f);
 	ImGui::DragFloat("CanonRotate", &canonRotate_, 0.1f);
+	ImGui::DragFloat("kOffsetOption", &kOffsetOption_, 0.1f);
 	ImGui::SliderInt("isLockedCanon", reinterpret_cast<int*>(&isLockedCanon_), 0, 1);
 	ImGui::SliderInt("CanonType", reinterpret_cast<int*>(&canonType_), 0, kCountofCanonType - 1);
 	ImGui::SliderInt("isReloaded", reinterpret_cast<int*>(&isReloaded_), 0, 1);
 	ImGui::SliderInt("isMouse", reinterpret_cast<int*>(&isMouse_), 0, 1);
+
+	ImGui::Separator();
+	ImGui::Text("size:%d", playerDatas.size());
+
+	for (size_t i = 0; i < playerDatas.size(); i++) {
+		if (!playerDatas[i]->isUse_)
+			continue;
+		std::string str = std::to_string(i) + ": rotate";
+		ImGui::DragFloat(str.c_str(), &playerDatas[i]->transform_.rotate_, 0.02f);
+		str = std::to_string(i) + "position";
+		ImGui::DragFloat2(str.c_str(), &playerDatas[i]->transform_.position_.x, 0.02f);
+	}
 
 	if (ImGui::Button("AddlyConfig")) {
 		AddlyAllGlobalConfigs();
@@ -158,6 +184,16 @@ void Player::Draw() {
 }
 
 const Transform2D& Player::GetTransform2D() { return sprites_[kPlayerTop][0]->transform_; }
+const std::vector<Transform2D> Player::GetTransform2Ds() {
+	std::vector<Transform2D> data;
+	data.push_back(sprites_[kPlayerTop][0]->transform_);
+	for (auto& body : sprites_[kPlayerBody]) {
+		if (body->isUse_) {
+			data.push_back(body->transform_);
+		}
+	}
+	return data;
+}
 
 void Player::OnCollision() {}
 
@@ -171,6 +207,7 @@ void Player::AddlyGlobalConfigs() {
 	kCanonPower_ = configs->GetFloatValue(groupName, "kCanonPower");
 	kCanonRotateLimit_ = configs->GetFloatValue(groupName, "kCanonRotateLimit");
 	kNonCollisionFrame_ = configs->GetIntValue(groupName, "kNonCollisionFrame");
+	kOffsetOption_ = configs->GetFloatValue(groupName, "kOffsetOption");
 }
 
 void Player::ControlCanonMouse() {
@@ -363,20 +400,42 @@ void Player::CanonShot() {
 	// 当たらないフレームを設定
 	nonCollisionFrame_ = kNonCollisionFrame_;
 	isReloaded_ = false;
-	/*
+	auto& playerTopData = sprites_[kPlayerTop][0];
+	playerTopData->transform_.rotate_ = canonRotate_;
+	Vector2 direction{0, 0};
+	// ソーセージを増やす
 	auto& playerData = sprites_[kPlayerBody];
 	switch (canonType_) {
-	case kCanonLow:
-	    playerData[0]->isUse_ = true;
-	case kCanonNormal:
-	    playerData[1]->isUse_ = true;
 	case kCanonHigh:
-	    playerData[2]->isUse_ = true;
-	    break;
+		playerData[0]->isUse_ = true;
+		playerData[0]->transform_.rotate_ = playerTopData->transform_.rotate_ - 0.3f;
+		// 角度で取得
+		direction = {
+		    std::cosf(playerData[0]->transform_.rotate_),
+		    std::sinf(playerData[0]->transform_.rotate_)};
+		direction *= kOffsetOption_;
+		playerData[0]->transform_.position_ = playerTopData->transform_.position_ + direction;
+	case kCanonNormal:
+		playerData[1]->isUse_ = true;
+		playerData[1]->transform_.rotate_ = playerTopData->transform_.rotate_;
+		// 角度で取得
+		direction = {
+		    std::cosf(playerData[1]->transform_.rotate_),
+		    std::sinf(playerData[1]->transform_.rotate_)};
+		direction *= kOffsetOption_;
+		playerData[1]->transform_.position_ = playerTopData->transform_.position_ + direction;
+	case kCanonLow:
+		playerData[2]->isUse_ = true;
+		playerData[2]->transform_.rotate_ = playerTopData->transform_.rotate_ + 0.3f;
+		// 角度で取得
+		direction = {
+		    std::cosf(playerData[2]->transform_.rotate_),
+		    std::sinf(playerData[2]->transform_.rotate_)};
+		direction *= kOffsetOption_;
+		playerData[2]->transform_.position_ = playerTopData->transform_.position_ + direction;
+		break;
 	case kCountofCanonType:
 	default:
-	    break;
+		break;
 	}
-	*/
-	sprites_[kPlayerTop][0]->transform_.rotate_ = canonRotate_;
 }

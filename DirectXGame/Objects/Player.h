@@ -66,6 +66,7 @@ public:
 	void SetCanonMovePosition(const Vector2& position) { canonMoveLimitPosition_ = position; }
 
 	const Transform2D& GetTransform2D();
+	const std::vector<Transform2D> GetTransform2Ds();
 
 	void SetIsMouse(bool num) { isMouse_ = num; }
 	bool GetIsMouse() const { return isMouse_; }
@@ -104,6 +105,9 @@ private:
 	Vector2 canonMoveLimitSize_ = {1280, 420};
 	Vector2 canonMoveLimitPosition_ = {0, 300};
 
+	// 追加ソーセージ
+	float kOffsetOption_ = -120.0f;
+
 	// プレイヤーにかかる重力
 	// float kGravity_ = 0.98f;
 
@@ -126,7 +130,7 @@ private:
 	Vector2 movementVelocity_ = {0, 0};
 
 	// 大砲のタイプを決める
-	CanonType canonType_ = kCanonNormal;
+	CanonType canonType_ = kCanonLow;
 
 	// 大砲で撃った時の速度
 	float kCanonPower_ = 5.0f;
