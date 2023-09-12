@@ -55,15 +55,20 @@ public:
 	/// </summary>
 	void AddlyGlobalConfigs() override;
 
-
 	// ステージのサイズを設定する
 	void SetStageSize(const Vector2& size) { stageSize_ = size; }
 	void SetStagePosition(const Vector2& position) { stagePosition_ = position; }
 
+	// ステージでの大砲の移動制限を設定する
+	void SetCanonMoveSize(const Vector2& size) { canonMoveLimitSize_ = size; }
+	void SetCanonMovePosition(const Vector2& position) { canonMoveLimitPosition_ = position; }
+
 	const Transform2D& GetTransform2D();
 
-private:
+	void SetIsMouse(bool num) { isMouse_ = num; }
+	bool GetIsMouse() const { return isMouse_; }
 
+private:
 	// 大砲の操作
 	// マウス
 	void ControlCanonMouse();
@@ -93,8 +98,11 @@ private:
 	float kPlayerSize_ = 64;
 	float kCanonSize_ = 64;
 
+	Vector2 canonMoveLimitSize_ = {1280, 420};
+	Vector2 canonMoveLimitPosition_ = {0, 300};
+
 	// プレイヤーにかかる重力
-	//float kGravity_ = 0.98f;
+	// float kGravity_ = 0.98f;
 
 	// 大砲に入っているか
 	bool isReloaded_ = false;
@@ -106,6 +114,8 @@ private:
 	// ステージのサイズを外部から設定
 	Vector2 stageSize_;
 	Vector2 stagePosition_;
+
+	bool isMouse_ = false;
 
 #pragma region 大砲で撃つ
 
@@ -141,5 +151,4 @@ private:
 	float kCanonRotateLimit_ = static_cast<float>(std::numbers::pi) / 3.0f;
 
 #pragma endregion
-
 };

@@ -5,6 +5,7 @@
 #include "./Config/GlobalConfigs.h"
 
 #include "./Scenes/SceneTitle.h"
+#include "./Scenes/SceneSelect.h"
 #include "Scenes/ScenePlay.h"
 
 GameScene* GameScene::GetInstance() {
@@ -22,12 +23,15 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	configs_ = GlobalConfigs::GetInstance();
+	configs_->LoadFiles();
 
 	// 一度すべてのシーンを取得する
 	sceneList_.clear();
 
 	// タイトル
 	sceneList_.emplace_back(new SceneTitle());
+	// セレクト
+	sceneList_.emplace_back(new SceneSelect());
 	// プレイ
 	sceneList_.emplace_back(new ScenePlay());
 	// エンド

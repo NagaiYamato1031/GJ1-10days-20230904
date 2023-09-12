@@ -34,7 +34,6 @@ void ScenePlay::Initialize(GameScene* gameScene) {
 
 	/*std::vector<std::unique_ptr<Block>> blocks;
 	blocks.clear();*/
-}
 
 void ScenePlay::Update() {
   

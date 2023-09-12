@@ -54,8 +54,7 @@ void Block::Draw() {
 
 void Block::OnCollision() {
 	isDead_ = true;
-	blockEffect_->ChangeState(BlockState::kBreak);
-	//worldTransformBase_.translation_ = {640, 400, 0};
+　blockEffect_->ChangeState(BlockState::kBreak);
 }
 
 void Block::AddlyGlobalConfigs() {

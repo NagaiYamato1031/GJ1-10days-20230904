@@ -1,0 +1,29 @@
+{
+    "SceneSelect": {
+        "CanonLimitPosition": [
+            0.0,
+            300.0,
+            0.0
+        ],
+        "CanonLimitSize": [
+            1280.0,
+            400.0,
+            0.0
+        ],
+        "StageOnePosition": [
+            320.0,
+            100.0,
+            0.0
+        ],
+        "StageThreePosition": [
+            960.0,
+            100.0,
+            0.0
+        ],
+        "StageTwoPosition": [
+            640.0,
+            100.0,
+            0.0
+        ]
+    }
+}
