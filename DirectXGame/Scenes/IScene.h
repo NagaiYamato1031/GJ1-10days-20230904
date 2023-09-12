@@ -7,6 +7,12 @@
 
 class GameScene;
 
+#ifdef _DEBUG
+
+#include "ImGuiManager.h"
+
+#endif // _DEBUG
+
 class IScene {
 public:
 	// 仮想関数

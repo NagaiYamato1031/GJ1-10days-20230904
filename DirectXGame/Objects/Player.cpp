@@ -59,12 +59,9 @@ void Player::Initialize() {
 	configs->AddItem(groupName, "kPlayerSize", kPlayerSize_);
 	configs->AddItem(groupName, "kCanonSize", kCanonSize_);
 	configs->AddItem(groupName, "kCanonMoveSpeed", kCanonMoveSpeed_);
-	configs->AddItem(groupName, "kCanonMoveLimitY", kCanonMoveLimitY_);
-	// configs->AddItem(groupName, "kGravity", kGravity_);
 	configs->AddItem(groupName, "kCanonPower", kCanonPower_);
 	configs->AddItem(groupName, "kCanonRotateLimit", kCanonRotateLimit_);
 	configs->AddItem(groupName, "kNonCollisionFrame", kNonCollisionFrame_);
-	// configs->AddItem(groupName, "kUseSpriteMax", kUseSpriteMax_);
 
 	AddlyAllGlobalConfigs();
 
@@ -168,12 +165,9 @@ void Player::AddlyGlobalConfigs() {
 	kPlayerSize_ = configs->GetFloatValue(groupName, "kPlayerSize") * kAllScale_;
 	kCanonSize_ = configs->GetFloatValue(groupName, "kCanonSize") * kAllScale_;
 	kCanonMoveSpeed_ = configs->GetFloatValue(groupName, "kCanonMoveSpeed");
-	kCanonMoveLimitY_ = configs->GetFloatValue(groupName, "kCanonMoveLimitY");
-	// kGravity_ = configs->GetFloatValue(groupName, "kGravity");
 	kCanonPower_ = configs->GetFloatValue(groupName, "kCanonPower");
 	kCanonRotateLimit_ = configs->GetFloatValue(groupName, "kCanonRotateLimit");
 	kNonCollisionFrame_ = configs->GetIntValue(groupName, "kNonCollisionFrame");
-	// kUseSpriteMax_ = configs->GetIntValue(groupName, "kUseSpriteMax");
 }
 
 void Player::ControlCanonMouse() {
@@ -181,15 +175,15 @@ void Player::ControlCanonMouse() {
 	mousePosition_ = input_->GetMousePosition();
 	// マウス座標をゲームの範囲内に収める
 	float canonSize = sprites_[kPlayerCanon][0]->sprite_->GetSize().x / 2.0f;
-	if (mousePosition_.x < stagePosition_.x + canonSize) {
-		mousePosition_.x = stagePosition_.x + canonSize;
-	} else if (stagePosition_.x + stageSize_.x - canonSize < mousePosition_.x) {
-		mousePosition_.x = stagePosition_.x + stageSize_.x - canonSize;
+	if (mousePosition_.x < canonMoveLimitPosition_.x + canonSize) {
+		mousePosition_.x = canonMoveLimitPosition_.x + canonSize;
+	} else if (canonMoveLimitPosition_.x + canonMoveLimitSize_.x - canonSize < mousePosition_.x) {
+		mousePosition_.x = canonMoveLimitPosition_.x + canonMoveLimitSize_.x - canonSize;
 	}
-	if (mousePosition_.y < kCanonMoveLimitY_ + canonSize) {
-		mousePosition_.y = kCanonMoveLimitY_ + canonSize;
-	} else if (stagePosition_.y + stageSize_.y - canonSize < mousePosition_.y) {
-		mousePosition_.y = stagePosition_.y + stageSize_.y - canonSize;
+	if (mousePosition_.y < canonMoveLimitPosition_.y + canonSize) {
+		mousePosition_.y = canonMoveLimitPosition_.y + canonSize;
+	} else if (canonMoveLimitPosition_.y + canonMoveLimitSize_.y - canonSize < mousePosition_.y) {
+		mousePosition_.y = canonMoveLimitPosition_.y + canonMoveLimitSize_.y - canonSize;
 	}
 
 	// 大砲がロックされている時
@@ -255,15 +249,15 @@ void Player::ControlCanonKeyBoard() {
 	}
 	// 範囲制限
 	float canonSize = sprites_[kPlayerCanon][0]->sprite_->GetSize().x / 2.0f;
-	if (canonPosition_.x < stagePosition_.x + canonSize) {
-		canonPosition_.x = stagePosition_.x + canonSize;
-	} else if (stagePosition_.x + stageSize_.x - canonSize < canonPosition_.x) {
-		canonPosition_.x = stagePosition_.x + stageSize_.x - canonSize;
+	if (canonPosition_.x < canonMoveLimitPosition_.x + canonSize) {
+		canonPosition_.x = canonMoveLimitPosition_.x + canonSize;
+	} else if (canonMoveLimitPosition_.x + canonMoveLimitSize_.x - canonSize < canonPosition_.x) {
+		canonPosition_.x = canonMoveLimitPosition_.x + canonMoveLimitSize_.x - canonSize;
 	}
-	if (canonPosition_.y < kCanonMoveLimitY_ + canonSize) {
-		canonPosition_.y = kCanonMoveLimitY_ + canonSize;
-	} else if (stagePosition_.y + stageSize_.y - canonSize < canonPosition_.y) {
-		canonPosition_.y = stagePosition_.y + stageSize_.y - canonSize;
+	if (canonPosition_.y < canonMoveLimitPosition_.y + canonSize) {
+		canonPosition_.y = canonMoveLimitPosition_.y + canonSize;
+	} else if (canonMoveLimitPosition_.y + canonMoveLimitSize_.y - canonSize < canonPosition_.y) {
+		canonPosition_.y = canonMoveLimitPosition_.y + canonMoveLimitSize_.y - canonSize;
 	}
 
 	sprites_[kPlayerCanon][0]->transform_.position_ = canonPosition_;

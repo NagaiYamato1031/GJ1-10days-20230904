@@ -5,6 +5,7 @@
 #include "./Config/GlobalConfigs.h"
 
 #include "./Scenes/SceneTitle.h"
+#include "./Scenes/SceneSelect.h"
 #include "Scenes/ScenePlay.h"
 
 GameScene* GameScene::GetInstance() {
@@ -29,6 +30,8 @@ void GameScene::Initialize() {
 
 	// タイトル
 	sceneList_.emplace_back(new SceneTitle());
+	// セレクト
+	sceneList_.emplace_back(new SceneSelect());
 	// プレイ
 	sceneList_.emplace_back(new ScenePlay());
 	// エンド
