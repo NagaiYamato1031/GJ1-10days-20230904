@@ -17,8 +17,7 @@ void BlockEffect::Initialize() {
 	SetSprite(kNormal, 1, "block.png");
 	SetSprite(kPixel, 6, "blockpix.png");
 
-	//sprites_[kNormal][0]->isUse_ = false;
-
+	sprites_[kNormal][0]->isUse_ = true;
 	
 
 	GlobalConfigs* configs = GlobalConfigs::GetInstance();
@@ -102,7 +101,6 @@ void BlockEffect::SpawnEffectInitialize() {
 	degree_ = 0.0f;
 	effectSize_ = 0.0f;
 	sprites_[kNormal][0]->isUse_ = true;
-	isActive_ = true;
 }
 
 void BlockEffect::SpawnEffect() { 

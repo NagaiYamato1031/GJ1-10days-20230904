@@ -24,7 +24,7 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 
 void SceneTitle::Update() {
 	if (input_->PushKey(DIK_SPACE)) {
-		gameScene_->SetScene(Scene::kSelect);
+		gameScene_->SetScene(Scene::kPlay);
 	}
 }
 

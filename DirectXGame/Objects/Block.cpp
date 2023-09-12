@@ -54,7 +54,7 @@ void Block::Draw() {
 
 void Block::OnCollision() {
 	isDead_ = true;
-　blockEffect_->ChangeState(BlockState::kBreak);
+	blockEffect_->ChangeState(BlockState::kBreak);
 }
 
 void Block::AddlyGlobalConfigs() {

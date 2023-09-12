@@ -101,6 +101,7 @@ void ScenePlay::CheckAllCollision() {
 			float distance = Mymath::Length(playerData.position_ - blockData);
 			if (distance <= playerData.size_.x * playerData.scale_.x / 2.5f + blockSize) {
 				block->OnCollision();
+				score_->AddScore();
 			}
 		}
 	}
