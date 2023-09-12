@@ -20,6 +20,8 @@ Player::~Player() {}
 void Player::Initialize() {
 	input_ = Input::GetInstance();
 
+	score_ = Score::GetInstance();
+
 	worldTransformBase_.Initialize();
 	sprites_.clear();
 
@@ -103,6 +105,7 @@ void Player::Update() {
 	} else if (stagePosition_.y + stageSize_.y - playerSIze < position.y) {
 		position.y = stagePosition_.y + stageSize_.y - playerSIze;
 		movementVelocity_.y *= -1;
+		score_->SubtractScore();
 	}
 	sprites_[kPlayerTop][0]->transform_.position_ = position;
 

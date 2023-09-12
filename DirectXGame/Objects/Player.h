@@ -6,6 +6,8 @@
 #include <numbers>
 #include <vector>
 
+#include "Objects/Score.h"
+
 #pragma region 読み込んだテクスチャ
 
 enum PlayerTexture {
@@ -90,6 +92,7 @@ private:
 private:
 	// シングルトン
 	Input* input_ = nullptr;
+	Score* score_ = nullptr;
 
 	// 全体的なスケール
 	float kAllScale_ = 1.0f;
