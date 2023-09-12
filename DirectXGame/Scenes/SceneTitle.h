@@ -22,6 +22,8 @@ public:
 	// 衝突判定
 	void CheckAllCollision() override;
 
+	void AddlyConfigs() override;
+
 private:
 	
 

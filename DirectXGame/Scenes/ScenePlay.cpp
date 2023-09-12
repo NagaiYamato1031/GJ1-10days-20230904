@@ -13,14 +13,22 @@ void ScenePlay::Initialize(GameScene* gameScene) {
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 
+	blocks_.clear();
+	stageDatas_.clear();
+
+	timeFrame = 0;
+	nextLoadData_ = 0;
+
 	int32_t handle = TextureManager::Load("Sausage/wallPaper.png");
 	backGround_.reset(Sprite::Create(handle, {640, 360}, {1, 1, 1, 1}, {0.5f, 0.5f}));
 
 	BlockSqawn();
-
-
 	
-	
+
+	GlobalConfigs* configs_ = GlobalConfigs::GetInstance();
+	const char* groupName = "ScenePlay";
+	configs_->CreateGroup(groupName);
+
 
 	player_.reset(new Player);
 	player_->Initialize();
@@ -120,4 +128,9 @@ void ScenePlay::BlockSqawn() {
 			blocks_.emplace_back(block);
 		}
 	}
+}
+
+void ScenePlay::AddlyConfigs() {
+	//GlobalConfigs* configs = GlobalConfigs::GetInstance();
+	//const char* groupName = "ScenePlay";
 }
