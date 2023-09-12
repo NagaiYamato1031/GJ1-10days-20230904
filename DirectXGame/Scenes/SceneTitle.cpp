@@ -9,7 +9,7 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	input_ = Input::GetInstance();
 
 	timeFrame = 0;
-	nextLoadData_ = 0;
+	currentLoadData_ = 0;
 
 	GlobalConfigs* configs_ = GlobalConfigs::GetInstance();
 	const char* groupName = "SceneTitle";
@@ -31,7 +31,7 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 
 void SceneTitle::Update() {
 	if (input_->PushKey(DIK_SPACE)) {
-		gameScene_->SetScene(Scene::kPlay);
+		gameScene_->SetScene(Scene::kSelect);
 	}
 }
 
