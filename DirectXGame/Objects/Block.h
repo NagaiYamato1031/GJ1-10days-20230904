@@ -49,7 +49,7 @@ public:
 	void Collider();
 
 private:
-	BlockEffect* blockEffect_ = nullptr;
+	std::unique_ptr<BlockEffect> blockEffect_;
 	//BlockEffect* blockEffect_;
 	Input* input_ = nullptr;
 	bool isDead_ = false;
