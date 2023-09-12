@@ -116,6 +116,7 @@
     <ClCompile Include="Objects\BlockEffect.cpp" />
     <ClCompile Include="Objects\IObject.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
+    <ClCompile Include="Objects\Score.cpp" />
     <ClCompile Include="Scenes\IScene.cpp" />
     <ClCompile Include="Scenes\ScenePlay.cpp" />
     <ClCompile Include="Scenes\SceneResult.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Objects\BlockEffect.h" />
     <ClInclude Include="Objects\IObject.h" />
     <ClInclude Include="Objects\Player.h" />
+    <ClInclude Include="Objects\Score.h" />
     <ClInclude Include="Scenes\IScene.h" />
     <ClInclude Include="Scenes\ScenePlay.h" />
     <ClInclude Include="Scenes\SceneResult.h" />
