@@ -34,7 +34,6 @@ void BlockEffect::Initialize() {
 }
 
 void BlockEffect::Update() {
-	spawnFlage_ = false;
 	if (blockEffectBehaviorRequest_) {
 		// 振る舞いを変更する
 		blockEffectBehavior_ = blockEffectBehaviorRequest_.value();
@@ -95,7 +94,6 @@ void BlockEffect::AddlyGlobalConfigs() {
 void BlockEffect::SetPosition(const Vector2 pos) { 
 	worldTransformBase_.translation_.x = pos.x;
 	worldTransformBase_.translation_.y = pos.y;
-	sprites_[kNormal][0]->transform_.position_ = {worldTransformBase_.translation_.x, worldTransformBase_.translation_.y};
 }
 
 void BlockEffect::SpawnEffectInitialize() { 
@@ -116,9 +114,7 @@ void BlockEffect::SpawnEffect() {
 	} 
 	else {
 		sprites_[kNormal][0]->transform_.rotate_ = 0.0f;
-		spawnFlage_ = true;
 		blockEffectBehaviorRequest_ = BlockState::kNone;
-		sprites_[kNormal][0]->isUse_ = false;
 	}
 }
 
@@ -135,6 +131,7 @@ void BlockEffect::BreakEffectInitialize() {
 		sprites_[kPixel][i]->isUse_ = true;
 	}
 	effectSize_ = 4.0f;
+	sprites_[kNormal][0]->isUse_ = false;
 
 }
 
@@ -145,7 +142,7 @@ void BlockEffect::BreakEffect() {
 			pixel_[i].position.x += pixel_[i].velocity.x;
 			pixel_[i].position.y += pixel_[i].velocity.y;
 			sprites_[kPixel][i]->transform_.position_ = pixel_[i].position;
-			sprites_[kPixel][0]->transform_.size_ = {effectSize_, effectSize_};
+			sprites_[kPixel][i]->transform_.size_ = {effectSize_, effectSize_};
 		}
 		effectSize_ -= 0.2f;
 	} else {
@@ -161,9 +158,6 @@ void BlockEffect::VanishEffectInitialize() {
 	sprites_[kNormal][0]->transform_.size_ = {0.0f, 0.0f};
 	degree_ = 0.0f;
 	effectSize_ = 32.0f;
-	if (isActive_) {
-		sprites_[kNormal][0]->isUse_ = true;
-	}
 	for (int i = 0; i < 6; i++) {
 		sprites_[kPixel][i]->isUse_ = false;
 	}
@@ -188,4 +182,12 @@ void BlockEffect::VanishEffect() {
 
 void BlockEffect::ChangeState(BlockState behavior) { 
 	blockEffectBehaviorRequest_ = behavior; 
+}
+
+void BlockEffect::SetSpritePosition(const Vector2& position) { 
+	sprites_[kNormal][0]->transform_.position_ = position;
+	for (int i = 0; i < 6; i++) {
+		sprites_[kPixel][i]->transform_.position_ = position;
+	}
+	SetPosition(position);
 }
