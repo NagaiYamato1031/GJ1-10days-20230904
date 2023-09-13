@@ -159,6 +159,12 @@ void Player::Draw() {
 
 const Transform2D& Player::GetTransform2D() { return sprites_[kPlayerTop][0]->transform_; }
 
+void Player::SetPosition(const Vector2& position) { 
+	sprites_[kPlayerTop][0]->transform_.position_ = position;
+}
+
+void Player::SetCanonPosition(const Vector2& position) { canonPosition_ = position; }
+
 void Player::OnCollision() {}
 
 void Player::AddlyGlobalConfigs() {

@@ -70,6 +70,11 @@ public:
 	void SetIsMouse(bool num) { isMouse_ = num; }
 	bool GetIsMouse() const { return isMouse_; }
 
+	void SetPosition(const Vector2& position);
+	void SetCanonPosition(const Vector2& position);
+	void SetCanonMoveLimitSize(const Vector2& size) { canonMoveLimitSize_ = size; }
+	void SetCanonMoveLimitPosition(const Vector2& position) { canonMoveLimitPosition_ = position; }
+
 private:
 	// 大砲の操作
 	// マウス

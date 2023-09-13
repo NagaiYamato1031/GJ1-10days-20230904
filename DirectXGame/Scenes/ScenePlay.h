@@ -57,6 +57,7 @@ private:
 	Score* score_;
 
 	std::unique_ptr<Result> result_;
+	std::unique_ptr<Block> resultBlock_;
 
 	// 振る舞い
 	ScenePlayState ScenePlayBehavior_ = ScenePlayState::kPlay;

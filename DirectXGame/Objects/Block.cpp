@@ -80,3 +80,5 @@ void Block::Collider() {
 		isDead_ = true;
 	}
 }
+
+bool Block::GetCom() { return blockEffect_->GetCom(); }

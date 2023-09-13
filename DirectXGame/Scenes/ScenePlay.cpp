@@ -60,6 +60,19 @@ void ScenePlay::Update() {
 	  case ScenePlayState::kResult:
 		  result_.reset(new Result);
 		  result_->Initialize();
+		  player_->Initialize();
+
+		 player_->SetStagePosition({0, 0});
+		  player_->SetStageSize({1280, 720});
+		  player_->SetPosition({630.0f, 650.0f});
+		  player_->SetCanonPosition({630.0f, 650.0f});
+		  player_->SetCanonMoveLimitPosition({580.0f, 620.0f});
+		  player_->SetCanonMoveLimitSize({130.0f, 130.0f});
+
+		  resultBlock_.reset(new Block);
+		  resultBlock_->Initialize();
+		  resultBlock_->SetPosition({640.0f, 530.0f});
+
 		  break;
 	  }
 	  // 振る舞いリクエストをリセット
@@ -85,7 +98,13 @@ void ScenePlay::Update() {
 	  }
 	  break;
   case ScenePlayState::kResult:
+	  player_->Update();
 	  result_->Update();
+	  resultBlock_->Update();
+	  CheckAllCollision();
+	  if (resultBlock_->GetCom()) {
+		  gameScene_->SetScene(Scene::kTitle);
+	  }
 	  break;
   }
 
@@ -107,14 +126,14 @@ void ScenePlay::DrawBackdrop() {
 	  break;
   case ScenePlayState::kResult:
 	  backGround_->Draw();
-
+	  //result_->Draw();
 	  for (auto& block : blocks_) {
 		  block->Draw();
 	  }
-	  player_->Draw();
-
-	  score_->Draw();
 	  result_->Draw();
+	  resultBlock_->Draw();
+	  player_->Draw();
+	  score_->Draw();
 	  break;
   }
 }
@@ -153,6 +172,13 @@ void ScenePlay::CheckAllCollision() {
 		}
 	}
 
+	if (ScenePlayBehavior_ == ScenePlayState::kResult) {
+		float distance = Mymath::Length(playerData.position_ - resultBlock_->GetPosition());
+		if (distance <= playerData.size_.x * playerData.scale_.x / 2.5f + 32.0f) {
+			resultBlock_->OnCollision();
+		}
+	
+	}
 
 }
 

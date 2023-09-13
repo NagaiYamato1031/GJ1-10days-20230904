@@ -48,6 +48,8 @@ public:
 	// 当たり判定
 	void Collider();
 
+	bool GetCom();
+
 private:
 	std::unique_ptr<BlockEffect> blockEffect_;
 	//BlockEffect* blockEffect_;
