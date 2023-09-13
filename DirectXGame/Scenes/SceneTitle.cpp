@@ -10,7 +10,7 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 
 	audio_ = Audio::GetInstance();
 
-	soundHandle_ = audio_->LoadWave("BGM.wav");
+	soundHandle_ = audio_->LoadWave("sound/BGM.wav");
 	
 	
 	timeFrame = 0;
@@ -36,7 +36,7 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 
 void SceneTitle::Update() {
 	if (!audio_->IsPlaying(soundHandle_)) {
- 		audio_->PlayWave(soundHandle_, true, 0.5f);
+ 		audio_->PlayWave(soundHandle_, true, 0.3f);
 	
 	}
 	
