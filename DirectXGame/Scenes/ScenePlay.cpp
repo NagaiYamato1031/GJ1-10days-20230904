@@ -97,12 +97,12 @@ void ScenePlay::Update() {
 			result_->Initialize();
 			player_->Initialize();
 
-			player_->SetStagePosition({0, 0});
-			player_->SetStageSize({1280, 720});
+			player_->SetStagePosition({320, 64});
+			player_->SetStageSize({640, 600});
 			player_->SetPosition({630.0f, 650.0f});
 			player_->SetCanonPosition({630.0f, 650.0f});
-			player_->SetCanonMoveLimitPosition({0.0f, 620.0f});
-			player_->SetCanonMoveLimitSize({1280.0f, 130.0f});
+			player_->SetCanonMoveLimitPosition({320.0f, 500.0f});
+			player_->SetCanonMoveLimitSize({640.0f, 200.0f});
 
 			resultBlock_.reset(new Block);
 			resultBlock_->Initialize();
@@ -144,22 +144,17 @@ void ScenePlay::Update() {
 
 		score_->Update();
 		/*if (input_->PushKey(DIK_B)) {
-			ScenePlayBehaviorRequest_ = ScenePlayState::kResult;
+		    ScenePlayBehaviorRequest_ = ScenePlayState::kResult;
 		}*/
 		break;
 	case ScenePlayState::kResult:
 		player_->Update();
 		result_->Update();
-		if (resultBlock_->IsDead()) {
+		resultBlock_->Update();
+		if (!resultBlock_->IsDead()) {
 
-			resultBlock_->Update();
 			auto& playerDatas = player_->GetTransform2Ds();
 			Transform2D playerData = playerDatas[0];
-
-			if (720.0f - playerData.size_.x * playerData.scale_.x / 2.0f <=
-			    playerData.position_.y) {
-				score_->SubtractScore();
-			}
 
 			// プレイヤーの先頭に合わせる配慮
 			// 距離
@@ -169,11 +164,9 @@ void ScenePlay::Update() {
 			direction.x *= offset;
 
 			playerData.position_ += direction;
-			if (ScenePlayBehavior_ == ScenePlayState::kResult) {
-				float distance = Mymath::Length(playerData.position_ - resultBlock_->GetPosition());
-				if (distance <= playerData.size_.x * playerData.scale_.x / 2.5f + 32.0f) {
-					resultBlock_->OnCollision();
-				}
+			float distance = Mymath::Length(playerData.position_ - resultBlock_->GetPosition());
+			if (distance <= playerData.size_.x * playerData.scale_.x / 2.5f + 32.0f) {
+				resultBlock_->OnCollision();
 			}
 		}
 		if (resultBlock_->GetCom()) {

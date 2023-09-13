@@ -91,6 +91,10 @@ void Player::Initialize() {
 void Player::Update() {
 	// ControlLineUpdate();
 
+	if (input_->IsTriggerMouse(2)) {
+		isMouse_ = !isMouse_;
+	}
+
 	if (isMouse_) {
 		ControlCanonMouse();
 	}
