@@ -249,6 +249,12 @@ void ScenePlay::CheckAllCollision() {
 			}
 		}
 	}
+	if (ScenePlayBehavior_ == ScenePlayState::kResult) {
+		float distance = Mymath::Length(playerData.position_ - resultBlock_->GetPosition());
+		if (distance <= playerData.size_.x * playerData.scale_.x / 2.5f + 32.0f) {
+			resultBlock_->OnCollision();
+		}
+	}
 }
 
 void ScenePlay::BlockSqawn() {
