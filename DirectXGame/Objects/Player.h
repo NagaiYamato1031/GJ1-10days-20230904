@@ -8,6 +8,8 @@
 
 #include "Objects/Score.h"
 
+#include "Audio.h"
+
 #pragma region 読み込んだテクスチャ
 
 enum PlayerTexture {
@@ -163,4 +165,10 @@ private:
 	float kCanonRotateLimit_ = static_cast<float>(std::numbers::pi) / 3.0f;
 
 #pragma endregion
+
+	Audio* audio_;
+
+	int32_t shootSoundHandle_;
+	int32_t boundSoundHandle_;
+	int32_t boundFloorSoundHandle_;
 };

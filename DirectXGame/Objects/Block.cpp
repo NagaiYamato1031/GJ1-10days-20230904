@@ -29,6 +29,10 @@ void Block::Initialize() {
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
 
+	audio_ = Audio::GetInstance();
+
+	itemGetSoundHandle_ = audio_->LoadWave("sound/itemGet.wav");
+
 	// for (auto& wt : worldTransforms_) {
 	//	wt->UpdateMatrix();
 	// }
@@ -54,6 +58,7 @@ void Block::Draw() {
 void Block::OnCollision() {
 	isDead_ = true;
 	blockEffect_->ChangeState(BlockState::kBreak);
+	audio_->PlayWave(itemGetSoundHandle_, false, 0.4f);
 }
 
 void Block::AddlyGlobalConfigs() {

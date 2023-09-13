@@ -20,6 +20,8 @@ Player::~Player() {}
 void Player::Initialize() {
 	input_ = Input::GetInstance();
 
+	audio_ = Audio::GetInstance();
+
 	score_ = Score::GetInstance();
 
 	worldTransformBase_.Initialize();
@@ -77,6 +79,10 @@ void Player::Initialize() {
 
 	// 一度更新する
 	worldTransformBase_.UpdateMatrix();
+
+	shootSoundHandle_ = audio_->LoadWave("sound/shoot.wav");
+	boundSoundHandle_ = audio_->LoadWave("sound/bound.wav");
+	boundFloorSoundHandle_ = audio_->LoadWave("sound/boundFloor.wav");
 }
 
 void Player::Update() {
@@ -96,17 +102,21 @@ void Player::Update() {
 	if (position.x < stagePosition_.x + playerSIze) {
 		position.x = stagePosition_.x + playerSIze;
 		movementVelocity_.x *= -1;
+		audio_->PlayWave(boundSoundHandle_, false, 0.4f);
 	} else if (stagePosition_.x + stageSize_.x - playerSIze < position.x) {
 		position.x = stagePosition_.x + stageSize_.x - playerSIze;
 		movementVelocity_.x *= -1;
+		audio_->PlayWave(boundSoundHandle_, false, 0.4f);
 	}
 	if (position.y < stagePosition_.y + playerSIze) {
 		position.y = stagePosition_.y + playerSIze;
 		movementVelocity_.y *= -1;
+		audio_->PlayWave(boundSoundHandle_, false, 0.4f);
 	} else if (stagePosition_.y + stageSize_.y - playerSIze < position.y) {
 		position.y = stagePosition_.y + stageSize_.y - playerSIze;
 		movementVelocity_.y *= -1;
 		score_->SubtractScore();
+		audio_->PlayWave(boundFloorSoundHandle_, false, 0.4f);
 	}
 	sprites_[kPlayerTop][0]->transform_.position_ = position;
 
@@ -337,6 +347,7 @@ void Player::ControlCanonKeyBoard() {
 	sprites_[kPlayerCanon][0]->transform_.rotate_ = canonRotate_;
 	// 射出の挙動
 	if (input_->TriggerKey(DIK_Q)) {
+		audio_->PlayWave(shootSoundHandle_, false, 0.4f);
 		CanonShot();
 	}
 	// タイプ変更の挙動

@@ -5,6 +5,8 @@
 
 #include "Input.h"
 
+#include "Audio.h"
+
 class BlockEffect;
 
 #pragma region 読み込んだテクスチャ
@@ -55,4 +57,7 @@ private:
 	//BlockEffect* blockEffect_;
 	Input* input_ = nullptr;
 	bool isDead_ = false;
+
+	Audio* audio_;
+	int32_t itemGetSoundHandle_;
 };
