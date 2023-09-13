@@ -15,7 +15,10 @@ void IScene::LoadStageFile(const std::string& name) {
 	// ファイルを開く
 	std::ifstream file;
 	file.open("Resources/Sausage/" + name + ".csv");
+#ifdef _DEBUG
 	assert(file.is_open());
+#endif // _DEBUG
+
 
 	// ファイルの内容を文字列ストリームにコピー
 	std::stringstream ss;

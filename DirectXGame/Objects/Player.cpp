@@ -7,6 +7,8 @@
 #include "MyConst.h"
 #include "Mymath.h"
 
+#include "Audio.h"
+
 #ifdef _DEBUG
 
 #include <imgui.h>
@@ -33,6 +35,7 @@ void Player::Initialize() {
 	SetSprite(kPlayerCanon, 1, "Sausage/canon.png");
 
 	FetchSpriteData();
+	typeChangeAudioHandle_ = Audio::GetInstance()->LoadWave("sound/growUp.mp3");
 
 	sprites_[kPlayerLine][0]->isUse_ = true;
 	sprites_[kPlayerTop][0]->isUse_ = true;
@@ -346,7 +349,7 @@ void Player::ControlCanonKeyBoard() {
 	canonRotate_ = std::fmodf(canonRotate_, static_cast<float>(std::numbers::pi) * 2);
 	sprites_[kPlayerCanon][0]->transform_.rotate_ = canonRotate_;
 	// 射出の挙動
-	if (input_->TriggerKey(DIK_Q)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		audio_->PlayWave(shootSoundHandle_, false, 0.4f);
 		CanonShot();
 	}
@@ -359,6 +362,7 @@ void Player::ControlCanonKeyBoard() {
 }
 
 void Player::ChangeCanonType(bool isUp) {
+	Audio::GetInstance()->PlayWave(typeChangeAudioHandle_, false, 0.2f);
 	if (isUp) {
 		canonType_ = static_cast<CanonType>(canonType_ + 1);
 		if (canonType_ == kCountofCanonType) {
