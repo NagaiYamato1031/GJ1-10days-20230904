@@ -45,13 +45,13 @@ public:
 	virtual void LoadStageFile(const std::string& name);
 
 	// 読み込んだデータによってブロックを追加する
-	virtual void CreateBlocks();
+	virtual void CreateBlocks(const Vector2& position);
 
 	virtual void AddlyConfigs();
 
 protected:
-	static const uint32_t kStageHeight = 20;
-	static const uint32_t kStageWidth = 22;
+	static const uint32_t kStageHeight = 22;
+	static const uint32_t kStageWidth = 20;
 
 	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
@@ -65,9 +65,10 @@ protected:
 	// 現在のステージのブロック配置
 	std::vector<std::array<std::array<bool, kStageWidth>, kStageHeight>> stageDatas_;
 
-	// 次に使うステージの添え字
-	uint16_t nextLoadData_ = 0;
+	// 今使っているステージの添え字
+	uint16_t currentLoadData_ = 0;
 
 	// ブロックのデータ
-	std::vector<std::unique_ptr<Block>> blocks_;
+	std::vector<std::vector<std::unique_ptr<Block>>> blockDatas_;
+	std::vector<std::unique_ptr<Block>>* blocks_ = nullptr;
 };

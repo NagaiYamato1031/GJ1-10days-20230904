@@ -5,16 +5,17 @@
 
 #include "Mymath.h"
 
-SceneSelect::~SceneSelect() {}
+SceneSelect::~SceneSelect() { delete blocks_; }
 
 void SceneSelect::Initialize(GameScene* gameScene) {
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 
-	blocks_.clear();
+	blockDatas_.clear();
+	blocks_ = new std::vector<std::unique_ptr<Block>>();
 	timeFrame = 0;
 	stageDatas_.clear();
-	nextLoadData_ = 0;
+	currentLoadData_ = 0;
 
 	player_.reset(new Player());
 	player_->Initialize();
@@ -35,9 +36,9 @@ void SceneSelect::Initialize(GameScene* gameScene) {
 	blockStageThree_ = new Block();
 	blockStageThree_->Initialize();
 
-	blocks_.emplace_back(blockStageOne_);
-	blocks_.emplace_back(blockStageTwo_);
-	blocks_.emplace_back(blockStageThree_);
+	blocks_->emplace_back(blockStageOne_);
+	blocks_->emplace_back(blockStageTwo_);
+	blocks_->emplace_back(blockStageThree_);
 
 	GlobalConfigs* configs_ = GlobalConfigs::GetInstance();
 	const char* groupName = "SceneSelect";
@@ -58,20 +59,24 @@ void SceneSelect::Initialize(GameScene* gameScene) {
 }
 
 void SceneSelect::Update() {
+	//blocks_ = &blockDatas_[currentLoadData_];
 
-	if (blocks_[0]->IsDead()) {
+	if (blocks_[0][0]->IsDead()) {
 		gameScene_->SetScene(Scene::kPlay);
-	} else if (blocks_[1]->IsDead()) {
+	} else if (blocks_[0][1]->IsDead()) {
 		gameScene_->SetScene(Scene::kPlay);
-	} else if (blocks_[2]->IsDead()) {
+	} else if (blocks_[0][2]->IsDead()) {
 		gameScene_->SetScene(Scene::kPlay);
 	}
 
-	for (auto& block : blocks_) {
+	for (auto& block : blocks_[0]) {
 		block->Update();
 	}
 
 	player_->Update();
+
+
+	CheckAllCollision();
 
 #ifdef _DEBUG
 
@@ -80,6 +85,10 @@ void SceneSelect::Update() {
 	if (ImGui::Button("Addly")) {
 		AddlyConfigs();
 	}
+	ImGui::Text("%.2f:%.2f", blocks_[0][0]->GetPosition().x, blocks_[0][0]->GetPosition().y);
+	ImGui::Text("%.2f:%.2f", blocks_[0][1]->GetPosition().x, blocks_[0][1]->GetPosition().y);
+	ImGui::Text("%.2f:%.2f", blocks_[0][2]->GetPosition().x, blocks_[0][2]->GetPosition().y);
+	ImGui::Text("%d", blocks_->size());
 
 	ImGui::End();
 
@@ -89,7 +98,7 @@ void SceneSelect::Update() {
 void SceneSelect::DrawBackdrop() {
 	backGround_->Draw();
 
-	for (auto& block : blocks_) {
+	for (auto& block : blocks_[0]) {
 		block->Draw();
 	}
 
@@ -109,7 +118,7 @@ void SceneSelect::CheckAllCollision() {
 
 	playerData.position_ += direction;
 
-	for (auto& block : blocks_) {
+	for (auto& block : blocks_[0]) {
 		Vector2 blockData = block->GetPosition();
 
 		float blockSize = 32.0f;
@@ -134,14 +143,14 @@ void SceneSelect::AddlyConfigs() {
 
 	// ブロックの位置
 	bufferVec3 = configs->GetVector3Value(groupName, "StageOnePosition");
-	bufferVec2 = {bufferVec2.x, bufferVec2.y};
-	blocks_[0]->SetPosition(bufferVec2);
+	bufferVec2 = {bufferVec3.x, bufferVec3.y};
+	blocks_[0][0]->SetPosition(bufferVec2);
 
 	bufferVec3 = configs->GetVector3Value(groupName, "StageTwoPosition");
-	bufferVec2 = {bufferVec2.x, bufferVec2.y};
-	blocks_[1]->SetPosition(bufferVec2);
+	bufferVec2 = {bufferVec3.x, bufferVec3.y};
+	blocks_[0][1]->SetPosition(bufferVec2);
 
 	bufferVec3 = configs->GetVector3Value(groupName, "StageThreePosition");
-	bufferVec2 = {bufferVec2.x, bufferVec2.y};
-	blocks_[2]->SetPosition(bufferVec2);
+	bufferVec2 = {bufferVec3.x, bufferVec3.y};
+	blocks_[0][2]->SetPosition(bufferVec2);
 }

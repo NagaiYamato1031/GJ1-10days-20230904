@@ -50,11 +50,14 @@ public:
 
 	void AddlyConfigs() override;
 
+	void SetLoadFileName(const std::string& name) { fileName_ = name; }
+
 private:
 	std::unique_ptr<Sprite> backGround_;
 	std::unique_ptr<Player> player_;
 	std::vector<std::unique_ptr<BlockEffect>> blockEffects_;
 	Score* score_;
+
 
 	std::unique_ptr<Result> result_;
 	std::unique_ptr<Block> resultBlock_;
@@ -63,5 +66,5 @@ private:
 	ScenePlayState ScenePlayBehavior_ = ScenePlayState::kPlay;
 	// 振る舞いリクエスト
 	std::optional<ScenePlayState> ScenePlayBehaviorRequest_ = std::nullopt;
-
+	std::string fileName_;
 };
