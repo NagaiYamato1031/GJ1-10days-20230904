@@ -65,6 +65,7 @@ public: // メンバ関数
 	void Draw();
 
 	void SetScene(Scene nextScene);
+	void SetScene(Scene nextScene,const std::string& fileName);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

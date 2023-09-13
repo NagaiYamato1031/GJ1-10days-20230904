@@ -59,14 +59,14 @@ void SceneSelect::Initialize(GameScene* gameScene) {
 }
 
 void SceneSelect::Update() {
-	//blocks_ = &blockDatas_[currentLoadData_];
+	// blocks_ = &blockDatas_[currentLoadData_];
 
 	if (blocks_[0][0]->IsDead()) {
-		gameScene_->SetScene(Scene::kPlay);
+		gameScene_->SetScene(Scene::kPlay, "sausageStageMap1");
 	} else if (blocks_[0][1]->IsDead()) {
-		gameScene_->SetScene(Scene::kPlay);
+		gameScene_->SetScene(Scene::kPlay, "sausageStageMap2");
 	} else if (blocks_[0][2]->IsDead()) {
-		gameScene_->SetScene(Scene::kPlay);
+		gameScene_->SetScene(Scene::kPlay, "sausageStageMap3");
 	}
 
 	for (auto& block : blocks_[0]) {
@@ -74,7 +74,6 @@ void SceneSelect::Update() {
 	}
 
 	player_->Update();
-
 
 	CheckAllCollision();
 

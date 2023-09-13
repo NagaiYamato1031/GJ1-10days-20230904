@@ -58,7 +58,7 @@ void Block::Draw() {
 void Block::OnCollision() {
 	isDead_ = true;
 	blockEffect_->ChangeState(BlockState::kBreak);
-	audio_->PlayWave(itemGetSoundHandle_, false, 0.4f);
+	audio_->PlayWave(itemGetSoundHandle_, false, 0.2f);
 }
 
 void Block::AddlyGlobalConfigs() {

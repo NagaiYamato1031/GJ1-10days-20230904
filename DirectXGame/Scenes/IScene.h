@@ -49,6 +49,8 @@ public:
 
 	virtual void AddlyConfigs();
 
+	void SetLoadFileName(const std::string& name) { fileName_ = name; }
+
 protected:
 	static const uint32_t kStageHeight = 22;
 	static const uint32_t kStageWidth = 20;
@@ -64,6 +66,9 @@ protected:
 
 	// 現在のステージのブロック配置
 	std::vector<std::array<std::array<bool, kStageWidth>, kStageHeight>> stageDatas_;
+
+	// ファイルを既に読み込んでいるかどうか
+	std::string fileName_;
 
 	// 今使っているステージの添え字
 	uint16_t currentLoadData_ = 0;

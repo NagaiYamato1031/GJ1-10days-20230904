@@ -115,6 +115,9 @@ private:
 	// 追加ソーセージ
 	float kOffsetOption_ = -120.0f;
 
+	// タイプ変更
+	int32_t typeChangeAudioHandle_ = 0;
+
 	// プレイヤーにかかる重力
 	// float kGravity_ = 0.98f;
 

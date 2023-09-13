@@ -102,4 +102,11 @@ void GameScene::SetScene(Scene nextScene) {
 	
 }
 
+void GameScene::SetScene(Scene nextScene,const std::string& fileName) { 
+	currentScene_ = sceneList_[nextScene].get();
+	currentScene_->SetLoadFileName(fileName);
+	currentScene_->Initialize(this);
+	
+}
+
 

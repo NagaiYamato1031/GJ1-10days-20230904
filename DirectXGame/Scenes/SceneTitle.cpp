@@ -36,11 +36,11 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 
 void SceneTitle::Update() {
 	if (!audio_->IsPlaying(soundHandle_)) {
- 		audio_->PlayWave(soundHandle_, true, 0.3f);
+ 		audio_->PlayWave(soundHandle_, true, 0.2f);
 	
 	}
 	
-	if (input_->PushKey(DIK_SPACE)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		gameScene_->SetScene(Scene::kSelect);
 	}
 }
