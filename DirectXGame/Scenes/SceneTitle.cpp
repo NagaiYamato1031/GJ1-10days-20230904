@@ -8,6 +8,11 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 	gameScene_ = gameScene;
 	input_ = Input::GetInstance();
 
+	audio_ = Audio::GetInstance();
+
+	soundHandle_ = audio_->LoadWave("BGM.wav");
+	
+	
 	timeFrame = 0;
 	currentLoadData_ = 0;
 
@@ -30,6 +35,11 @@ void SceneTitle::Initialize(GameScene* gameScene) {
 }
 
 void SceneTitle::Update() {
+	if (!audio_->IsPlaying(soundHandle_)) {
+ 		audio_->PlayWave(soundHandle_, true, 0.5f);
+	
+	}
+	
 	if (input_->PushKey(DIK_SPACE)) {
 		gameScene_->SetScene(Scene::kSelect);
 	}

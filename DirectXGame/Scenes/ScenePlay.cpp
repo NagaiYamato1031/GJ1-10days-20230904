@@ -64,12 +64,46 @@ void ScenePlay::Initialize(GameScene* gameScene) {
 	/*std::vector<std::unique_ptr<Block>> blocks;
 	blocks.clear();*/
 
-	score_ = Score::GetInstance();
-	score_->Initialize();
+
+  score_ = Score::GetInstance();
+  score_->Initialize();
+
+  ScenePlayBehavior_ = ScenePlayState::kPlay;
 }
 
 void ScenePlay::Update() {
-	blocks_ = &blockDatas_[currentLoadData_];
+  if (ScenePlayBehaviorRequest_) {
+	  // 振る舞いを変更する
+	  ScenePlayBehavior_ = ScenePlayBehaviorRequest_.value();
+	  // 各振る舞いごとの初期化を実行
+	  switch (ScenePlayBehavior_) {
+	  case ScenePlayState::kPlay:
+		  break;
+	  case ScenePlayState::kResult:
+		  result_.reset(new Result);
+		  result_->Initialize();
+		  player_->Initialize();
+
+		 player_->SetStagePosition({0, 0});
+		  player_->SetStageSize({1280, 720});
+		  player_->SetPosition({630.0f, 650.0f});
+		  player_->SetCanonPosition({630.0f, 650.0f});
+		  player_->SetCanonMoveLimitPosition({580.0f, 620.0f});
+		  player_->SetCanonMoveLimitSize({130.0f, 130.0f});
+
+		  resultBlock_.reset(new Block);
+		  resultBlock_->Initialize();
+		  resultBlock_->SetPosition({640.0f, 530.0f});
+
+		  break;
+	  }
+	  // 振る舞いリクエストをリセット
+	  ScenePlayBehaviorRequest_ = std::nullopt;
+  }
+
+  switch (ScenePlayBehavior_) {
+  case ScenePlayState::kPlay:
+	 blocks_ = &blockDatas_[currentLoadData_];
 
 	player_->Update();
 
@@ -83,6 +117,21 @@ void ScenePlay::Update() {
 	CheckAllCollision();
 
 	score_->Update();
+	  if (input_->PushKey(DIK_B)) {
+		  ScenePlayBehaviorRequest_ = ScenePlayState::kResult;
+	  }
+	  break;
+  case ScenePlayState::kResult:
+	  player_->Update();
+	  result_->Update();
+	  resultBlock_->Update();
+	  CheckAllCollision();
+	  if (resultBlock_->GetCom()) {
+		  gameScene_->SetScene(Scene::kTitle);
+	  }
+	  break;
+  }
+	
 
 #ifdef _DEBUG
 
@@ -116,6 +165,9 @@ void ScenePlay::Update() {
 }
 
 void ScenePlay::DrawBackdrop() {
+
+  switch (ScenePlayBehavior_) {
+  case ScenePlayState::kPlay:
 	blocks_ = &blockDatas_[currentLoadData_];
 	backGround_->Draw();
 
@@ -125,6 +177,20 @@ void ScenePlay::DrawBackdrop() {
 	player_->Draw();
 
 	score_->Draw();
+	  break;
+  case ScenePlayState::kResult:
+	  backGround_->Draw();
+    blocks_ = &blockDatas_[currentLoadData_];
+	  for (auto& block : *blocks_) {
+		block->Draw();
+	}
+	  result_->Draw();
+	  resultBlock_->Draw();
+	  player_->Draw();
+	  score_->Draw();
+	  break;
+  }
+
 }
 
 void ScenePlay::Draw3D() {}
@@ -167,7 +233,7 @@ void ScenePlay::CheckAllCollision() {
 		// 角度で取得
 		direction = {std::cosf(playerDatas[i].rotate_), std::sinf(playerDatas[i].rotate_)};
 		direction.x *= offset;
-
+    
 		playerData.position_ = playerDatas[i].position_ + direction;
 		for (auto& block : *blocks_) {
 			if (!block->IsDead()) {

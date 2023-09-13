@@ -16,7 +16,7 @@ void Score::Initialize() {
 	sprites_.clear();
 
 	SetSprite(kScoreBar, 1, "blockpix.png");
-	SetSprite(kScoreBase, 1, "scorebase.png");
+	SetSprite(kScoreBase, 1, "Sausage/scorebase.png");
 
 	sprites_[kScoreBar][0]->isUse_ = true;
 	sprites_[kScoreBase][0]->isUse_ = true;

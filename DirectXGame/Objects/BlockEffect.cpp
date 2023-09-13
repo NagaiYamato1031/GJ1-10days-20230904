@@ -148,6 +148,7 @@ void BlockEffect::BreakEffect() {
 		blockEffectBehaviorRequest_ = BlockState::kNone;
 		for (int i = 0; i < 6; i++) {
 			sprites_[kPixel][i]->isUse_ = false;
+			com_ = true;
 		}
 	}
 }

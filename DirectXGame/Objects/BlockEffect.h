@@ -62,6 +62,8 @@ public:
 
 	void SetSpritePosition(const Vector2& position);
 
+	bool GetCom() { return com_; }
+
 private:
 	struct BlockPixel {
 		Vector2 position;
@@ -78,4 +80,5 @@ private:
 	float effectSize_ = 0.0f;
 	float degree_ = 0.0f;
 	const float rotateSpeed_ = 2.25f;
+	bool com_ = false;
 };
