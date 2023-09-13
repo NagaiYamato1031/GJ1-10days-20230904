@@ -23,6 +23,9 @@ void SceneSelect::Initialize(GameScene* gameScene) {
 	player_->SetStagePosition({0, 0});
 	player_->SetStageSize({1280, 720});
 
+	player_->SetCanonMoveLimitPosition({0.0f, 500.0f});
+	player_->SetCanonMoveLimitSize({1280.0f, 200.0f});
+
 	// ステージ選択用のブロック
 	Block* blockStageOne_;
 	Block* blockStageTwo_;

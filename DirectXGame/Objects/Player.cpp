@@ -46,6 +46,7 @@ void Player::Initialize() {
 	kCanonSize_ = 64;
 	// kGravity_ = 0.98f;
 	isLockedCanon_ = false;
+	isMouse_ = true;
 	// kUseSpriteMax_ = kCountofPlayerTexture;
 
 	worldTransformBase_.translation_ = {640, 500, 0};
@@ -91,15 +92,15 @@ void Player::Initialize() {
 void Player::Update() {
 	// ControlLineUpdate();
 
-	if (input_->IsTriggerMouse(2)) {
-		isMouse_ = !isMouse_;
-	}
+	// if (input_->IsTriggerMouse(2)) {
+	//	isMouse_ = !isMouse_;
+	// }
 
 	if (isMouse_) {
 		ControlCanonMouse();
+	} else {
+		ControlCanonKeyBoard();
 	}
-	ControlCanonKeyBoard();
-
 	// worldTransformBase_.translation_ += Vector3(movementVelocity_.x, movementVelocity_.y, 0.0f);
 	// 範囲外に出ないようにする処理
 
