@@ -88,8 +88,8 @@ void ScenePlay::Update() {
 		  player_->SetStageSize({1280, 720});
 		  player_->SetPosition({630.0f, 650.0f});
 		  player_->SetCanonPosition({630.0f, 650.0f});
-		  player_->SetCanonMoveLimitPosition({580.0f, 620.0f});
-		  player_->SetCanonMoveLimitSize({130.0f, 130.0f});
+		  player_->SetCanonMoveLimitPosition({0.0f, 620.0f});
+		  player_->SetCanonMoveLimitSize({1280.0f, 130.0f});
 
 		  resultBlock_.reset(new Block);
 		  resultBlock_->Initialize();
