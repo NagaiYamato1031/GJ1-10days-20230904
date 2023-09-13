@@ -212,7 +212,7 @@ const std::vector<Transform2D> Player::GetTransform2Ds() {
 	return data;
 }
 
-void Player::SetPosition(const Vector2& position) { 
+void Player::SetPosition(const Vector2& position) {
 	sprites_[kPlayerTop][0]->transform_.position_ = position;
 }
 
@@ -441,15 +441,6 @@ void Player::CanonShot() {
 		direction *= kOffsetOption_;
 		playerData[0]->transform_.position_ = playerTopData->transform_.position_ + direction;
 	case kCanonNormal:
-		playerData[1]->isUse_ = true;
-		playerData[1]->transform_.rotate_ = playerTopData->transform_.rotate_;
-		// 角度で取得
-		direction = {
-		    std::cosf(playerData[1]->transform_.rotate_),
-		    std::sinf(playerData[1]->transform_.rotate_)};
-		direction *= kOffsetOption_;
-		playerData[1]->transform_.position_ = playerTopData->transform_.position_ + direction;
-	case kCanonLow:
 		playerData[2]->isUse_ = true;
 		playerData[2]->transform_.rotate_ = playerTopData->transform_.rotate_ + 0.3f;
 		// 角度で取得
@@ -458,6 +449,15 @@ void Player::CanonShot() {
 		    std::sinf(playerData[2]->transform_.rotate_)};
 		direction *= kOffsetOption_;
 		playerData[2]->transform_.position_ = playerTopData->transform_.position_ + direction;
+	case kCanonLow:
+		playerData[1]->isUse_ = true;
+		playerData[1]->transform_.rotate_ = playerTopData->transform_.rotate_;
+		// 角度で取得
+		direction = {
+		    std::cosf(playerData[1]->transform_.rotate_),
+		    std::sinf(playerData[1]->transform_.rotate_)};
+		direction *= kOffsetOption_;
+		playerData[1]->transform_.position_ = playerTopData->transform_.position_ + direction;
 		break;
 	case kCountofCanonType:
 	default:
